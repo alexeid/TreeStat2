@@ -6,3 +6,5 @@ The scope of TreeStat2 is the processing into statistics of:
   (1) Time-trees 
   (2) Sampled-ancestor trees and 
   (3) Structured (multi-type) time-trees.
+  
+This package depends on BEAST2 (https://code.google.com/p/beast2/)
