@@ -45,7 +45,7 @@ import beast.evolution.tree.TreeUtils;
         allowsUnrootedTrees = false)
 public class FuLiD extends AbstractTreeSummaryStatistic<Double> {
 
-	private FuLiD() { }
+	public FuLiD() { }
 
 	public Double[] getSummaryStatistic(Tree tree) {
 

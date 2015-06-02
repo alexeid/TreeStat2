@@ -25,7 +25,7 @@
 
 package beast.app.treestat;
 
-import beast.app.beastapp.BeastVersion;
+import beast.app.BEASTVersion;
 import beast.app.util.Version;
 import beast.util.NexusParser;
 import jam.framework.SingleDocApplication;
@@ -37,7 +37,7 @@ import java.util.Locale;
 
 public class TreeStatApp extends SingleDocApplication {
 
-    private final static Version version = new BeastVersion();
+    private final static Version version = new BEASTVersion();
 
     public TreeStatApp(String nameString, String aboutString, Icon icon, String websiteURLString, String helpURLString) {
         super(nameString, aboutString, icon, websiteURLString, helpURLString);

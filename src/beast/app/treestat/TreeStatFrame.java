@@ -178,7 +178,7 @@ public class TreeStatFrame extends DocumentFrame {
             NexusParser parser = new NexusParser();
             reader.close();
             parser.parseFile(file);
-            tree = parser.m_trees.get(0);
+            tree = parser.trees.get(0);
         } else {
             StringBuilder builder = new StringBuilder();
             builder.append(line);
@@ -336,9 +336,9 @@ public class TreeStatFrame extends DocumentFrame {
 
         in.getProgressMonitor().setNote("Writing out statistics...");
 
-        writeBigMap(writer, nexusParser.m_trees.size());
+        writeBigMap(writer, nexusParser.trees.size());
 
-        progressLabel.setText("" + nexusParser.m_trees.size() + " trees processed.");
+        progressLabel.setText("" + nexusParser.trees.size() + " trees processed.");
         processTreeFileAction.setEnabled(true);
 
         writer.flush();
