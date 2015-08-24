@@ -100,7 +100,7 @@ public class TableSorter extends AbstractTableModel {
 
     private static Directive EMPTY_DIRECTIVE = new Directive(-1, NOT_SORTED);
 
-    public static final Comparator COMPARABLE_COMAPRATOR = new Comparator() {
+    public static final Comparator COMPARABLE_COMPARATOR = new Comparator() {
         public int compare(Object o1, Object o2) {
             return ((Comparable) o1).compareTo(o2);
         }
@@ -118,7 +118,7 @@ public class TableSorter extends AbstractTableModel {
     private MouseListener mouseListener;
     private TableModelListener tableModelListener;
     private Map columnComparators = new HashMap();
-    private List sortingColumns = new ArrayList();
+    private List<Directive> sortingColumns = new ArrayList<Directive>();
 
     public TableSorter() {
         this.mouseListener = new MouseHandler();
@@ -184,8 +184,7 @@ public class TableSorter extends AbstractTableModel {
     }
 
     private Directive getDirective(int column) {
-        for (int i = 0; i < sortingColumns.size(); i++) {
-            Directive directive = (Directive)sortingColumns.get(i);
+        for (Directive directive : sortingColumns) {
             if (directive.column == column) {
                 return directive;
             }
@@ -244,7 +243,7 @@ public class TableSorter extends AbstractTableModel {
             return comparator;
         }
         if (Comparable.class.isAssignableFrom(columnType)) {
-            return COMPARABLE_COMAPRATOR;
+            return COMPARABLE_COMPARATOR;
         }
         return LEXICAL_COMPARATOR;
     }
@@ -398,7 +397,6 @@ public class TableSorter extends AbstractTableModel {
             // Something has happened to the data that may have invalidated the row order.
             clearSortingState();
             fireTableDataChanged();
-            return;
         }
     }
 

@@ -25,7 +25,6 @@
 
 package beast.app.treestat;
 
-import beast.app.treestat.statistics.SummaryStatisticDescription;
 import beast.app.treestat.statistics.TreeSummaryStatistic;
 
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ import java.util.List;
 import java.util.Set;
 
 public class TreeStatData {
-	public static final String version = "1.0";
+	public static final String version = "2.0alpha";
 
 	public TreeStatData() {
 	}

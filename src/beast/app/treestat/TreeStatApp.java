@@ -1,13 +1,13 @@
 /*
  * TreeStatApp.java
  *
- * Copyright (C) 2002-2006 Alexei Drummond and Andrew Rambaut
+ * Copyright (C) 2002-2013 Alexei Drummond and Andrew Rambaut
  *
- * This file is part of BEAST.
+ * This file is part of BEAST2.
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership and licensing.
  *
- * BEAST is free software; you can redistribute it and/or modify
+ * BEAST2 is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
@@ -25,9 +25,8 @@
 
 package beast.app.treestat;
 
-import beast.app.beastapp.BeastVersion;
+import beast.app.BEASTVersion;
 import beast.app.util.Version;
-import beast.util.NexusParser;
 import jam.framework.SingleDocApplication;
 import jam.mac.Utils;
 
@@ -37,7 +36,7 @@ import java.util.Locale;
 
 public class TreeStatApp extends SingleDocApplication {
 
-    private final static Version version = new BeastVersion();
+    private final static Version version = new BEASTVersion();
 
     public TreeStatApp(String nameString, String aboutString, Icon icon, String websiteURLString, String helpURLString) {
         super(nameString, aboutString, icon, websiteURLString, helpURLString);
@@ -86,8 +85,8 @@ public class TreeStatApp extends SingleDocApplication {
                     "<a href=\"http://beast.bio.ed.ac.uk/\">http://beast.bio.ed.ac.uk/</a></p>" +
                     "</center></html>";
 
-            String websiteURLString = "http://beast.bio.ed.ac.uk/";
-            String helpURLString = "http://beast.bio.ed.ac.uk/TreeStat/";
+            String websiteURLString = "https://github.com/alexeid/TreeStat2/";
+            String helpURLString = "https://github.com/alexeid/TreeStat2/";
 
             TreeStatApp app = new TreeStatApp(nameString, aboutString, icon,
                     websiteURLString, helpURLString);

@@ -36,13 +36,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
-
 public class TaxonSetsPanel extends JPanel implements Exportable {
 
-
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -9013475414423166476L;
 	TreeStatFrame frame = null;
 	TreeStatData treeStatData = null;

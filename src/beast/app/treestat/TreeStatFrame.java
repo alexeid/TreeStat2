@@ -172,13 +172,13 @@ public class TreeStatFrame extends DocumentFrame {
         BufferedReader reader = new BufferedReader(new FileReader(file));
 
         String line = reader.readLine();
-        Tree tree = null;
+        Tree tree;
 
         if (line.toUpperCase().startsWith("#NEXUS")) {
             NexusParser parser = new NexusParser();
             reader.close();
             parser.parseFile(file);
-            tree = parser.m_trees.get(0);
+            tree = parser.trees.get(0);
         } else {
             StringBuilder builder = new StringBuilder();
             builder.append(line);
@@ -252,7 +252,6 @@ public class TreeStatFrame extends DocumentFrame {
         in.getProgressMonitor().setMillisToDecideToPopup(0);
         in.getProgressMonitor().setMillisToPopup(0);
 
-        final Reader reader = new InputStreamReader(new BufferedInputStream(in));
         final PrintWriter writer = new PrintWriter(new FileWriter(outFile));
 
         final NexusParser nexusParser = new NexusParser();
@@ -314,7 +313,7 @@ public class TreeStatFrame extends DocumentFrame {
                     TreeSummaryStatistic tss = treeStatData.statistics.get(i);
                     Map<String,Object> stats = tss.getStatistics(tree);
                     for (String key : stats.keySet()) {
-                        putInBigMap(key, treeIndex, stats.get(key));
+                        putInBigMap(treeIndex, key, stats.get(key));
                     }
                 }
                 //writer.println();
@@ -325,9 +324,19 @@ public class TreeStatFrame extends DocumentFrame {
 
         if (line.toUpperCase().startsWith("#NEXUS")) {
             try {
-                System.out.println("trying to parse " + inFile);
                 nexusParser.parseFile(inFile);
+            } catch (FileNotFoundException fnfe) {
+                JOptionPane.showMessageDialog(this, "File not found '" + inFile +"'",
+                        "Unable to open file",
+                        JOptionPane.ERROR_MESSAGE);
+            } catch (IOException ioe) {
+                JOptionPane.showMessageDialog(this, "Unable to read file: '" + inFile + "' " + ioe,
+                        "Unable to read file",
+                        JOptionPane.ERROR_MESSAGE);
             } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error: " + e,
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         } else {
             //reader.close();
@@ -336,9 +345,9 @@ public class TreeStatFrame extends DocumentFrame {
 
         in.getProgressMonitor().setNote("Writing out statistics...");
 
-        writeBigMap(writer, nexusParser.m_trees.size());
+        writeBigMap(writer, nexusParser.trees.size());
 
-        progressLabel.setText("" + nexusParser.m_trees.size() + " trees processed.");
+        progressLabel.setText("" + nexusParser.trees.size() + " trees processed.");
         processTreeFileAction.setEnabled(true);
 
         writer.flush();
@@ -370,24 +379,23 @@ public class TreeStatFrame extends DocumentFrame {
 
     }
 
-    private int state = 0;
-
-    public void doCopy() {
-//		statisticsPanel.doCopy();
-    }
-
     public JComponent getExportableComponent() {
-
         return statisticsPanel.getExportableComponent();
     }
 
-    public void putInBigMap(String key, int state, Object value) {
+    /**
+     * Store the value of the named statistic from the given state
+     * @param index the index of the tree (first tree is index 0)
+     * @param key the name of the statistic
+     * @param value the value of the statistic for the given index
+     */
+    public void putInBigMap(int index, String key, Object value) {
         SortedMap<Integer,Object> innerMap = bigMap.get(key);
         if (innerMap == null) {
             innerMap = new TreeMap<Integer, Object>();
             bigMap.put(key, innerMap);
         }
-        innerMap.put(state, value);
+        innerMap.put(index, value);
     }
 
     protected AbstractAction importTaxaAction = new AbstractAction("Import Taxa...") {
