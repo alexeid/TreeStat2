@@ -76,6 +76,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
 
         // add generic tree statistics here
         availableStatistics.add(TreeLength.class);
+        availableStatistics.add(RelativeTrunkLength.class);
         availableStatistics.add(TreeHeight.class);
         availableStatistics.add(NodeHeights.class);
         availableStatistics.add(InternalBranchLengths.class);
@@ -92,6 +93,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         availableStatistics.add(CollessIndex.class);
         availableStatistics.add(CherryStatistic.class);
         availableStatistics.add(SingleChildCountStatistic.class);
+        availableStatistics.add(SAStatistic.class);
         availableStatistics.add(SingleChildTransitionCounts.class);
         availableStatistics.add(Nbar.class);
         availableStatistics.add(TreenessStatistic.class);
