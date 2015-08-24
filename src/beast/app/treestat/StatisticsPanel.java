@@ -105,6 +105,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         availableStatistics.add(IntervalKStatistic.class);
         availableStatistics.add(LineageCountStatistic.class);
         availableStatistics.add(MRCAOlderThanStatistic.class);
+        availableStatistics.add(LongestBranchLength.class);
 
         setOpaque(false);
 
