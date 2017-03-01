@@ -276,7 +276,7 @@ public class TreeStatFrame extends DocumentFrame {
 
                         SummaryStatisticDescription ssd = TreeSummaryStatistic.Utils.getDescription(tss);
 
-                        String label = ssd.name();
+                        String label = tss.getName();
 
                         if (!isUltrametric && !ssd.allowsNonultrametricTrees()) {
                             if (JOptionPane.showConfirmDialog(

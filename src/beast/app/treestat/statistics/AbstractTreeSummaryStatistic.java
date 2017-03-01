@@ -44,9 +44,7 @@ public abstract  class AbstractTreeSummaryStatistic<T> implements TreeSummarySta
 
     public String getStatisticLabel(Tree tree, int i) {
 
-        SummaryStatisticDescription ssd = getDescription();
-        if (ssd != null) return ssd.name();
-        return getClass().getSimpleName();
+        return getName();
     }
 
     public Map<String,T> getStatistics(Tree tree) {

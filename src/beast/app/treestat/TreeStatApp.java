@@ -25,8 +25,6 @@
 
 package beast.app.treestat;
 
-import beast.app.BEASTVersion;
-import beast.app.util.Version;
 import jam.framework.SingleDocApplication;
 import jam.mac.Utils;
 
@@ -35,8 +33,6 @@ import java.awt.*;
 import java.util.Locale;
 
 public class TreeStatApp extends SingleDocApplication {
-
-    private final static Version version = new BEASTVersion();
 
     public TreeStatApp(String nameString, String aboutString, Icon icon, String websiteURLString, String helpURLString) {
         super(nameString, aboutString, icon, websiteURLString, helpURLString);
@@ -70,11 +66,8 @@ public class TreeStatApp extends SingleDocApplication {
                 icon = new ImageIcon(url);
             }
 
-            final String versionString = version.getVersionString();
-            String nameString = "TreeStat " + versionString;
+            String nameString = "TreeStat2";
             String aboutString = "<html><center><p>Tree Statistic Calculation Tool<br>" +
-                    versionString + ", " + version.getDateString() + "</p>" +
-//                    "Version 1.2, 2005-2010</p>" +
                     "<p>by<br>" +
                     "Andrew Rambaut and Alexei J. Drummond</p>" +
                     "<p>Institute of Evolutionary Biology, University of Edinburgh<br>" +

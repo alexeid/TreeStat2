@@ -67,13 +67,13 @@ public class TMRCASummaryStatistic extends AbstractTreeSummaryStatistic<Double> 
         //}
     }
 
-    public String getSummaryStatisticName() {
+    public String getName() {
         if (characterState != null) {
-            return "tMRCA(" + characterState + ")";
+            return super.getName() + characterState + ")";
         } else if (taxonList != null) {
-            return "tMRCA(" + taxonListName + ")";
+            return super.getName() + "(" + taxonList + ")";
         } else {
-            return "tMRCA";
+            return super.getName();
         }
     }
 
