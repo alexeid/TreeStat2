@@ -55,11 +55,14 @@ public class TMRCASummaryStatistic extends AbstractTreeSummaryStatistic<Double> 
     }
 
     public Double[] getSummaryStatistic(Tree tree) {
+
         if (taxonList == null) {
             return new Double[]{tree.getRoot().getHeight()};
         }
         //try {
+
         Node node = TreeUtils.getCommonAncestorNode(tree, taxonList);
+
         if (node == null) throw new RuntimeException("No node found that is MRCA of " + taxonList);
         return new Double[]{node.getHeight()};
         //} catch (Tree.MissingTaxonException e) {
@@ -71,7 +74,7 @@ public class TMRCASummaryStatistic extends AbstractTreeSummaryStatistic<Double> 
         if (characterState != null) {
             return super.getName() + characterState + ")";
         } else if (taxonList != null) {
-            return super.getName() + "(" + taxonList + ")";
+            return super.getName() + "(" + taxonListName + ")";
         } else {
             return super.getName();
         }
