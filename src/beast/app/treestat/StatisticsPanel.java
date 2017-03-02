@@ -88,6 +88,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         availableStatistics.add(CladeMRCAAttributeStatistic.class);
         availableStatistics.add(CladeMeanAttributeStatistic.class);
         availableStatistics.add(BetaTreeDiversityStatistic.class);
+        availableStatistics.add(TopologyStringStatistic.class);
 
         availableStatistics.add(B1Statistic.class);
         availableStatistics.add(CollessIndex.class);
