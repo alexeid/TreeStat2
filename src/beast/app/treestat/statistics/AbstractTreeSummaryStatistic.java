@@ -25,6 +25,7 @@
 
 package beast.app.treestat.statistics;
 
+import beast.core.BEASTObject;
 import beast.evolution.tree.Tree;
 
 import java.util.Map;
@@ -36,7 +37,7 @@ import java.util.TreeMap;
  * @author Alexei Drummond
  * @version $Id: AbstractTreeSummaryStatistic.java,v 1.1 2005/09/28 13:50:55 rambaut Exp $
  */
-public abstract  class AbstractTreeSummaryStatistic<T> implements TreeSummaryStatistic<T> {
+public abstract  class AbstractTreeSummaryStatistic<T> extends BEASTObject implements TreeSummaryStatistic<T> {
 
     //public int getStatisticDimensions(Tree tree) {
     //    return 1;
@@ -96,7 +97,7 @@ public abstract  class AbstractTreeSummaryStatistic<T> implements TreeSummarySta
         this.taxonListName = name;
     }
 
-    public SummaryStatisticDescription getDescription() {
+    public SummaryStatisticDescription getStatisticDescription() {
         return this.getClass().getAnnotation(SummaryStatisticDescription.class);
     }
 
@@ -112,6 +113,11 @@ public abstract  class AbstractTreeSummaryStatistic<T> implements TreeSummarySta
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
+    @Override
+    public void initAndValidate() {
+    	// nothing to do
+    }
+    
     Set<String> taxonList = null;
     String taxonListName = null;
 }
