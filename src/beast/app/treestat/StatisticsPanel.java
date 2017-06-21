@@ -290,7 +290,9 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
                     treeStatData.statistics.add(tss);
                 }
             }
-            frame.fireDataChanged();
+            if (frame != null) {
+            	frame.fireDataChanged();
+            }
             dataChanged();
         }
     };
@@ -307,7 +309,9 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
                 treeStatData.statistics.remove(indices[i]);
             }
 
-            frame.fireDataChanged();
+            if (frame != null) {
+            	frame.fireDataChanged();
+            }
             dataChanged();
         }
     };

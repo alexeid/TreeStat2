@@ -43,7 +43,7 @@ public class InternalNodeAttribute extends AbstractTreeSummaryStatistic<String> 
 
     String attributeName;
 
-    private InternalNodeAttribute() {
+    public InternalNodeAttribute() {
         this.attributeName = "";
     }
 

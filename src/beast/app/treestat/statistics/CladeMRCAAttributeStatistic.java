@@ -45,7 +45,7 @@ import java.util.Set;
         allowsString = true)
 public class CladeMRCAAttributeStatistic extends AbstractTreeSummaryStatistic<Double> {
 
-    private CladeMRCAAttributeStatistic() {
+	public CladeMRCAAttributeStatistic() {
         this.attributeName = "";
     }
 

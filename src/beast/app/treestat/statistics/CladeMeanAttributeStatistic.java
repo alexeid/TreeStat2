@@ -44,7 +44,7 @@ import beast.evolution.tree.TreeUtils;
         allowsString = true)
 public class CladeMeanAttributeStatistic extends AbstractTreeSummaryStatistic<Double> {
 
-    private CladeMeanAttributeStatistic() {
+	public CladeMeanAttributeStatistic() {
         this.attributeName = "";
     }
 

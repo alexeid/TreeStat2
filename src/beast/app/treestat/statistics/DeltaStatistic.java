@@ -49,7 +49,7 @@ import beast.math.Binomial;
 
 public class DeltaStatistic extends AbstractTreeSummaryStatistic<Double> {
 
-    private DeltaStatistic() { }
+	public DeltaStatistic() { }
 
     public Double[] getSummaryStatistic(Tree tree) {
 

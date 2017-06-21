@@ -43,7 +43,7 @@ import java.util.Set;
         allowsUnrootedTrees = false)
 public class NodeHeights extends AbstractTreeSummaryStatistic<Double> {
 
-    private NodeHeights() { }
+    public NodeHeights() { }
 
     public int getStatisticDimensions(Tree tree) {
         return tree.getInternalNodeCount();
