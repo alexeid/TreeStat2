@@ -91,6 +91,8 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         availableStatistics.add(TopologyStringStatistic.class);
         availableStatistics.add(TimeMaximumLineages.class);
         availableStatistics.add(SamplingTimesInterval.class);
+        availableStatistics.add(LttSlopeRatio.class);
+        availableStatistics.add(NumberOfTips.class);
 
         availableStatistics.add(B1Statistic.class);
         availableStatistics.add(CollessIndex.class);
