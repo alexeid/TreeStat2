@@ -1,0 +1,10 @@
+<addon name='TreeStat2' version='0.0.1'>
+	<depends on='beast2' atleast='2.4.6'/>
+	
+	    <addonapp description="TreeStat2"
+              class="beast.app.treestat.TreeStatApp"
+              args=""
+              icon="beast/app/treestat/images/TreeStat.png"
+            />
+
+</addon>
