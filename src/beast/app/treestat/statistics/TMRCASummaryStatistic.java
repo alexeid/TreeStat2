@@ -45,10 +45,6 @@ import java.util.*;
         allowsWholeTree = true)
 public class TMRCASummaryStatistic extends AbstractTreeSummaryStatistic<Double> {
 
-    public TMRCASummaryStatistic() {
-        this.taxonList = null;
-    }
-
     public void setTaxonList(String name, Set<String> taxonList) {
         this.taxonListName = name;
         this.taxonList = taxonList;

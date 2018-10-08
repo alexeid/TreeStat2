@@ -43,8 +43,6 @@ import beast.evolution.tree.TreeUtils;
         allowsUnrootedTrees = true)
 public class TreenessStatistic extends AbstractTreeSummaryStatistic<Double> {
 
-	public TreenessStatistic() { }
-
 	public Double[] getSummaryStatistic(Tree tree) {
 
 		double externalLength = TreeUtils.getExternalLength(tree);

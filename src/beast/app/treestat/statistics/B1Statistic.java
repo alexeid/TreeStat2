@@ -46,8 +46,6 @@ import beast.evolution.tree.Tree;
 )
 public class B1Statistic extends AbstractTreeSummaryStatistic<Double> {
 
-	public B1Statistic() { }
-
 	public Double[] getSummaryStatistic(Tree tree) {
 		double B1 = 0.0;
 		for (Node node : tree.getInternalNodes()) {

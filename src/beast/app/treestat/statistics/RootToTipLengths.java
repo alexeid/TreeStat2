@@ -42,8 +42,6 @@ import java.util.Set;
         allowsUnrootedTrees = false)
 public class RootToTipLengths extends AbstractTreeSummaryStatistic<Double> {
 
-	public RootToTipLengths() { }
-
     public int getStatisticDimensions(Tree tree) {
         return tree.getLeafNodeCount();
     }

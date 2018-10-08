@@ -19,10 +19,6 @@ import beast.evolution.tree.coalescent.TreeIntervals;
         allowsDouble = true)
 public class MRCAOlderThanStatistic extends AbstractTreeSummaryStatistic<Boolean> {
 
-    public MRCAOlderThanStatistic() {
-        this.t = 1.0;
-    }
-
     public void setDouble(double value) {
         this.t = value;
     }

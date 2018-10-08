@@ -42,9 +42,6 @@ import java.util.Set;
         allowsUnrootedTrees = false)
 public class ExternalBranchRates extends AbstractTreeSummaryStatistic<Double> {
 
-	public ExternalBranchRates() {
-    }
-
     public int getStatisticDimensions(Tree tree) {
         return tree.getLeafNodeCount();
     }

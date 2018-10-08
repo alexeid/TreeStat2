@@ -45,10 +45,6 @@ import java.util.Set;
         allowsWholeTree = true)
 public class MonophylyStatistic extends AbstractTreeSummaryStatistic<Double> {
 
-    public MonophylyStatistic() {
-        this.taxonList = null;
-    }
-
     public void setTaxonList(String name, Set<String> taxonList) {
         this.taxonListName = name;
         this.taxonList = taxonList;

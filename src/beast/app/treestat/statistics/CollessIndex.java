@@ -43,8 +43,6 @@ import beast.evolution.tree.TreeUtils;
         allowsUnrootedTrees = false)
 public class CollessIndex extends AbstractTreeSummaryStatistic<Double> {
 
-	public CollessIndex() { }
-
 	/**
 	 * Assumes strictly bifurcating tree.
 	 */

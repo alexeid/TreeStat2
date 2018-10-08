@@ -19,10 +19,6 @@ import beast.evolution.tree.coalescent.TreeIntervals;
         allowsDouble = true)
 public class LineageCountStatistic extends AbstractTreeSummaryStatistic<Integer> {
 
-	public LineageCountStatistic() {
-		this.t = 1.0;
-	}
-
     public void setDouble(double value) {
         this.t = value;
     }

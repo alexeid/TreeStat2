@@ -13,8 +13,6 @@ import beast.evolution.tree.TreeUtils;
         allowsUnrootedTrees = false
 )
 public class RelativeTrunkLength extends AbstractTreeSummaryStatistic<Double> {
-    public RelativeTrunkLength() {
-    }
 
     public Double[] getSummaryStatistic(Tree tree) {
         double treeLength = TreeUtils.getTreeLength(tree, tree.getRoot());

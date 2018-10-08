@@ -16,8 +16,6 @@ import beast.evolution.tree.Tree;
         allowsUnrootedTrees = false
 )
 public class SAStatistic extends AbstractTreeSummaryStatistic<Integer> {
-    public SAStatistic() {
-    }
 
     public Integer[] getSummaryStatistic(Tree tree) {
         tree.getDirectAncestorNodeCount();

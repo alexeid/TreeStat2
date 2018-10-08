@@ -155,6 +155,7 @@ public class TreeStatFrame extends DocumentFrame {
                         "Unable to open file",
                         JOptionPane.ERROR_MESSAGE);
             } catch (IOException ioe) {
+                ioe.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Unable to read file: " + ioe,
                         "Unable to read file",
                         JOptionPane.ERROR_MESSAGE);
@@ -192,7 +193,11 @@ public class TreeStatFrame extends DocumentFrame {
         }
 
         treeStatData.allTaxa = TreeUtils.getDescendantLeaves(tree, tree.getRoot());
-        statusLabel.setText(Integer.toString(treeStatData.allTaxa.size()) + " taxa loaded.");
+
+        String message = Integer.toString(treeStatData.allTaxa.size()) + " taxa loaded.";
+
+        statusLabel.setText(message);
+        System.out.println(message);
         reader.close();
 
         fireDataChanged();

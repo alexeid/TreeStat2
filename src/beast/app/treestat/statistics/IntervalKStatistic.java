@@ -46,10 +46,6 @@ import beast.evolution.tree.coalescent.TreeIntervals;
         allowsDouble = false)
 public class IntervalKStatistic extends AbstractTreeSummaryStatistic<Double> {
 
-    public IntervalKStatistic() {
-        this.k = 2;
-    }
-
     public void setInteger(int value) {
         this.k = value;
     }
@@ -87,5 +83,5 @@ public class IntervalKStatistic extends AbstractTreeSummaryStatistic<Double> {
         }
     };
 
-    int k = 1;
+    int k = 2;
 }

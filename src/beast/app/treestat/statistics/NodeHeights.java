@@ -30,7 +30,6 @@ import beast.evolution.tree.Tree;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Alexei Drummond
@@ -43,12 +42,6 @@ import java.util.Set;
         allowsUnrootedTrees = false)
 public class NodeHeights extends AbstractTreeSummaryStatistic<Double> {
 
-    public NodeHeights() { }
-
-    public int getStatisticDimensions(Tree tree) {
-        return tree.getInternalNodeCount();
-    }
-
     public String getStatisticLabel(Tree tree, int i) {
         return "Age " + Integer.toString(i + 1);
     }
@@ -57,7 +50,7 @@ public class NodeHeights extends AbstractTreeSummaryStatistic<Double> {
 
         List<Node> internalNodes = tree.getInternalNodes();
         Double[] stats = new Double[internalNodes.size()];
-        for (int i = 1; i < internalNodes.size(); i++) {
+        for (int i = 0; i < internalNodes.size(); i++) {
             stats[i] = internalNodes.get(i).getHeight();
         }
         Arrays.sort(stats);
@@ -65,19 +58,19 @@ public class NodeHeights extends AbstractTreeSummaryStatistic<Double> {
         return stats;
     }
 
-    public void setTaxonList(String name, Set<String> taxonList) {
-        throw new UnsupportedOperationException("not implemented in this statistic");
-    }
-
-    public void setInteger(int value) {
-        throw new UnsupportedOperationException("not implemented in this statistic");
-    }
-
-    public void setDouble(double value) {
-        throw new UnsupportedOperationException("not implemented in this statistic");
-    }
-
-    public void setString(String value) {
-        throw new UnsupportedOperationException("not implemented in this statistic");
-    }
+//    public void setTaxonList(String name, Set<String> taxonList) {
+//        throw new UnsupportedOperationException("not implemented in this statistic");
+//    }
+//
+//    public void setInteger(int value) {
+//        throw new UnsupportedOperationException("not implemented in this statistic");
+//    }
+//
+//    public void setDouble(double value) {
+//        throw new UnsupportedOperationException("not implemented in this statistic");
+//    }
+//
+//    public void setString(String value) {
+//        throw new UnsupportedOperationException("not implemented in this statistic");
+//    }
 }

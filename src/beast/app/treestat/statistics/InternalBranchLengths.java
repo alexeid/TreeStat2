@@ -41,10 +41,6 @@ import java.util.Set;
         allowsUnrootedTrees = false)
 public class InternalBranchLengths extends AbstractTreeSummaryStatistic<Double> {
 
-    public int getStatisticDimensions(Tree tree) {
-        return tree.getInternalNodeCount() - 1;
-    }
-
     public String getStatisticLabel(Tree tree, int i) {
         return "Branch " + Integer.toString(i + 1);
     }

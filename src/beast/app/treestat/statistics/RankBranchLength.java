@@ -42,10 +42,6 @@ import beast.evolution.tree.TreeUtils;
         allowsInteger = true)
 public class RankBranchLength extends AbstractTreeSummaryStatistic<Double> {
 
-    private RankBranchLength() {
-        this.rank = 1;
-    }
-
     public void setInteger(int value) {
         this.rank = value;
     }
@@ -94,5 +90,5 @@ public class RankBranchLength extends AbstractTreeSummaryStatistic<Double> {
         }
     };
 
-    private int rank = 2;
+    private int rank = 1;
 }
