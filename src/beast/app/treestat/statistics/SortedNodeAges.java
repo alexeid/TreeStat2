@@ -35,24 +35,25 @@ import java.util.List;
  * @author Alexei Drummond
  */
 @SummaryStatisticDescription(
-        name = "Node Ages (by node number)",
+        name = "Sorted Node Ages",
         description = "The ages of each internal node in the tree.",
         allowsNonultrametricTrees = true,
         allowsPolytomies = true,
         allowsUnrootedTrees = false)
-public class NodeHeights extends AbstractTreeSummaryStatistic<Double> {
+public class SortedNodeAges extends AbstractTreeSummaryStatistic<Double> {
 
     public String getStatisticLabel(Tree tree, int i) {
-        return "Age " + Integer.toString(i + tree.getLeafNodeCount());
+        return "Age " + Integer.toString(i + 1);
     }
 
     public Double[] getSummaryStatistic(Tree tree) {
 
         List<Node> internalNodes = tree.getInternalNodes();
         Double[] stats = new Double[internalNodes.size()];
-        for (Node node : internalNodes) {
-            stats[node.getNr()-tree.getLeafNodeCount()] = node.getHeight();
+        for (int i = 0; i < internalNodes.size(); i++) {
+            stats[i] = internalNodes.get(i).getHeight();
         }
+        Arrays.sort(stats);
 
         return stats;
     }
