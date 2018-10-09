@@ -36,7 +36,7 @@ import java.util.Set;
  * @author Alexei Drummond
  */
 @SummaryStatisticDescription(
-        name = "monophyly",
+        name = "Monophyly",
         description = "1 if taxa are monophyletic.",
         allowsNonultrametricTrees = true,
         allowsPolytomies = true,
