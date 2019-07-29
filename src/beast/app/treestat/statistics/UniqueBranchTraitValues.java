@@ -25,6 +25,7 @@
 
 package beast.app.treestat.statistics;
 
+import beast.core.util.Log;
 import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
 
@@ -40,7 +41,7 @@ import java.util.*;
         allowsString = true,
         allowsPolytomies = true,
         allowsUnrootedTrees = false)
-public class UniqueBranchTraitValues extends AbstractTreeSummaryStatistic<Object> {
+public class UniqueBranchTraitValues extends AbstractTreeSummaryStatistic<Double> {
 
     String traitName = "rate";
 
@@ -54,18 +55,30 @@ public class UniqueBranchTraitValues extends AbstractTreeSummaryStatistic<Object
 
     public Double[] getSummaryStatistic(Tree tree) {
 
-        return (Double[]) uniqueTraits(tree).toArray();
+        Set<Double> uniqueValues = uniqueTraits(tree);
+        Double[] values = new Double[uniqueValues.size()];
+        return uniqueValues.toArray(values);
     }
 
     private SortedSet<Double> uniqueTraits(Tree tree) {
 
-        SortedSet traits = new TreeSet<>();
+        SortedSet<Double> traits = new TreeSet<>();
 
         Node[] nodes = tree.getNodesAsArray();
         for (Node node : nodes) {
-            Object traitValue =  node.getMetaData(traitName);
+            Object traitValue = node.getMetaData(traitName);
+            Double val = 0.0;
             if (traitValue != null) {
-                traits.add(traitValue);
+                if (traitValue instanceof Double) {
+                    val = (Double)traitValue;
+                } else if (traitValue instanceof String) {
+                    try {
+                        val = Double.parseDouble((String)traitValue);
+                    } catch (NumberFormatException e) {
+                        Log.warning("trait " + traitName + " on node " + node.getID() + "/" + node.getNr() + " could not be parsed to a double. Setting to zero.");
+                    }
+                }
+                traits.add(val);
             }
         }
 
