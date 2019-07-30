@@ -25,12 +25,9 @@
 
 package beast.app.treestat;
 
-import beast.app.treestat.statistics.SummaryStatisticDescription;
-import beast.app.treestat.statistics.TreeSummaryStatistic;
 import beast.evolution.tree.Tree;
 import beast.evolution.tree.TreeUtils;
 import beast.util.NexusParser;
-import beast.util.NexusParserListener;
 import beast.util.TreeParser;
 import jam.framework.Application;
 import jam.framework.DocumentFrame;
@@ -40,9 +37,6 @@ import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
 import java.awt.*;
 import java.io.*;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 public class TreeStatFrame extends DocumentFrame {
 
@@ -243,164 +237,60 @@ public class TreeStatFrame extends DocumentFrame {
         }
     }
 
-    protected void processTreeFile(File inFile, final File outFile) throws IOException {
+    protected void processTreeFile(final File inFile, final File outFile) throws IOException {
         processTreeFileAction.setEnabled(false);
 
-        BufferedReader r = new BufferedReader(new FileReader(inFile));
-        String line = r.readLine();
-        r.close();
+        ProcessTreeFileListener listener = new ProcessTreeFileListener() {
+            ProgressMonitorInputStream in;
 
-        final ProgressMonitorInputStream in = new ProgressMonitorInputStream(
-                this,
-                "Reading " + inFile.getName(),
-                new FileInputStream(inFile));
-        in.getProgressMonitor().setMillisToDecideToPopup(0);
-        in.getProgressMonitor().setMillisToPopup(0);
+            @Override
+            public void startProcessing() {
 
-        final PrintWriter writer = new PrintWriter(new FileWriter(outFile));
-
-        final NexusParser nexusParser = new NexusParser();
-        nexusParser.addListener(new NexusParserListener() {
-
-            Tree firstTree;
-            boolean isUltrametric;
-            boolean isBinary;
-
-
-            public void treeParsed(int treeIndex, Tree tree) {
-
-                if (treeIndex == 0) {
-                    firstTree = tree;
-                    isUltrametric = TreeUtils.isUltrametric(tree, 1e-8);
-                    isBinary = TreeUtils.isBinary(tree);
-                    boolean stop = false;
-
-                    // check that the trees conform with the requirements of the selected statistics
-                    for (int i = 0; i < treeStatData.statistics.size(); i++) {
-                        TreeSummaryStatistic tss = treeStatData.statistics.get(i);
-
-                        SummaryStatisticDescription ssd = TreeSummaryStatistic.Utils.getDescription(tss);
-
-                        String label = tss.getName();
-
-                        if (!isUltrametric && !ssd.allowsNonultrametricTrees()) {
-                            if (JOptionPane.showConfirmDialog(
-                                    TreeStatFrame.this, "Warning: These trees may not be ultrametric and this is\na requirement of the " +
-                                    label + " statistic. Do you wish to continue?", "Warning", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) {
-                                stop = true;
-                                break;
-                            }
-                            // don't ask the question again...
-                            isUltrametric = true;
-                        }
-
-                        if (!isBinary && !ssd.allowsPolytomies()) {
-                            if (JOptionPane.showConfirmDialog(
-                                    TreeStatFrame.this, "Warning: These trees may not be strictly bifurcating and this is\na requirement of the " +
-                                    label + " statistic. Do you wish to continue?", "Warning", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) {
-                                stop = true;
-                                break;
-                            }
-                            // don't ask the question again...
-                            isBinary = true;
-                        }
-                    }
-
-                    if (stop) {
-                        processTreeFileAction.setEnabled(true);
-                        return;
-                    }
+                try {
+                    in = new ProgressMonitorInputStream(
+                            TreeStatFrame.this,
+                            "Reading " + inFile.getName(),
+                            new FileInputStream(inFile));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 }
-
-                //writer.print(treeIndex);
-
-                for (int i = 0; i < treeStatData.statistics.size(); i++) {
-                    TreeSummaryStatistic tss = treeStatData.statistics.get(i);
-                    Map<String,Object> stats = tss.getStatistics(tree);
-                    for (String key : stats.keySet()) {
-                        putInBigMap(treeIndex, key, stats.get(key));
-                    }
-                }
-                //writer.println();
-
-                in.getProgressMonitor().setNote("Processing Tree " + treeIndex + "...");
+                in.getProgressMonitor().setMillisToDecideToPopup(0);
+                in.getProgressMonitor().setMillisToPopup(0);
             }
-        });
 
-        if (line.toUpperCase().startsWith("#NEXUS")) {
-            try {
-                nexusParser.parseFile(inFile);
-            } catch (FileNotFoundException fnfe) {
-                JOptionPane.showMessageDialog(this, "File not found '" + inFile +"'",
-                        "Unable to open file",
-                        JOptionPane.ERROR_MESSAGE);
-            } catch (IOException ioe) {
-                JOptionPane.showMessageDialog(this, "Unable to read file: '" + inFile + "' " + ioe,
-                        "Unable to read file",
-                        JOptionPane.ERROR_MESSAGE);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error: " + e,
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
+            @Override
+            public void processingHalted() {
+                processTreeFileAction.setEnabled(true);
             }
-        } else {
-            //reader.close();
-            //importer = new NewickImporter(reader);
-        }
 
-        in.getProgressMonitor().setNote("Writing out statistics...");
-
-        writeBigMap(writer, nexusParser.trees.size());
-
-        progressLabel.setText("" + nexusParser.trees.size() + " trees processed.");
-        processTreeFileAction.setEnabled(true);
-
-        writer.flush();
-        writer.close();
-    }
-
-    private void writeBigMap(PrintWriter writer, int numTrees) {
-
-        // Write out the first line of the statistics file
-        writer.print("state");
-        for (String key : bigMap.keySet()) {
-            writer.print("\t" + key);
-        }
-        writer.println();
-
-        for (int state = 0; state < numTrees; state++) {
-
-            writer.print(state);
-
-            for (String key : bigMap.keySet()) {
-                SortedMap<Integer,Object> innerMap = bigMap.get(key);
-                Object value = innerMap.get(state);
-                if (value == null) {
-                    writer.print("\t0");
-                } else writer.print("\t"+value);
+            public void processingComplete(int numTreesProcessed) {
+                in.getProgressMonitor().setNote("Writing out statistics...");
+                progressLabel.setText("" + numTreesProcessed + " trees processed.");
+                processTreeFileAction.setEnabled(true);
             }
-            writer.println();
-        }
 
+            @Override
+            public boolean warning(String message) {
+                return JOptionPane.showConfirmDialog(TreeStatFrame.this, message, "Warning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+            }
+
+            @Override
+            public void error(String errorTitle, String errorMessage) {
+                JOptionPane.showMessageDialog(TreeStatFrame.this, errorMessage, errorTitle, JOptionPane.ERROR_MESSAGE);
+            }
+
+            @Override
+            public void progress(String progress) {
+
+            }
+
+        };
+
+        TreeStatUtils.processTreeFile(inFile, outFile, listener, treeStatData.statistics);
     }
 
     public JComponent getExportableComponent() {
         return statisticsPanel.getExportableComponent();
-    }
-
-    /**
-     * Store the value of the named statistic from the given state
-     * @param index the index of the tree (first tree is index 0)
-     * @param key the name of the statistic
-     * @param value the value of the statistic for the given index
-     */
-    public void putInBigMap(int index, String key, Object value) {
-        SortedMap<Integer,Object> innerMap = bigMap.get(key);
-        if (innerMap == null) {
-            innerMap = new TreeMap<Integer, Object>();
-            bigMap.put(key, innerMap);
-        }
-        innerMap.put(index, value);
     }
 
     protected AbstractAction importTaxaAction = new AbstractAction("Import Taxa...") {
@@ -424,8 +314,4 @@ public class TreeStatFrame extends DocumentFrame {
             doExport();
         }
     };
-
-    SortedMap<String,SortedMap<Integer,Object>> bigMap = new TreeMap<String,SortedMap<Integer,Object>>();
-
-    //NexusParser nexusParser;
 }
