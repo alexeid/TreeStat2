@@ -74,5 +74,9 @@ public interface TreeSummaryStatistic<T> {
 		public String getValueName() { return ""; }
 
     }
+
+    static SummaryStatisticDescription getSummaryStatisticDescription(Class<? extends TreeSummaryStatistic> tssClass) {
+        return tssClass.getAnnotation(SummaryStatisticDescription.class);
+    }
 }
 

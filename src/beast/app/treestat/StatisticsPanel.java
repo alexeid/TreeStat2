@@ -322,13 +322,9 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         }
     };
 
-    static SummaryStatisticDescription getSummaryStatisticDescription(Class<? extends TreeSummaryStatistic> tssClass) {
-        return tssClass.getAnnotation(SummaryStatisticDescription.class);
-    }
-
     public TreeSummaryStatistic createStatistic(Class<? extends TreeSummaryStatistic> tssClass) throws IllegalAccessException, InstantiationException {
 
-        SummaryStatisticDescription ssd = getSummaryStatisticDescription(tssClass);
+        SummaryStatisticDescription ssd = TreeSummaryStatistic.getSummaryStatisticDescription(tssClass);
 
         if (!ssd.allowsTaxonList() &&
                 !ssd.allowsDouble() && !ssd.allowsInteger() && !ssd.allowsString()) {
@@ -481,8 +477,8 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         }
 
         public Object getValueAt(int row, int col) {
-            if (col == 0) return getSummaryStatisticDescription(availableStatistics.get(row)).name();
-            return getSummaryStatisticDescription(availableStatistics.get(row)).category().getPrettyName();
+            if (col == 0) return TreeSummaryStatistic.getSummaryStatisticDescription(availableStatistics.get(row)).name();
+            return TreeSummaryStatistic.getSummaryStatisticDescription(availableStatistics.get(row)).category().getPrettyName();
         }
 
         public boolean isCellEditable(int row, int col) {
