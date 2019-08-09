@@ -83,6 +83,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         availableStatistics.add(InternalBranchLengths.class);
         availableStatistics.add(InternalBranchRates.class);
         availableStatistics.add(ExternalBranchRates.class);
+        availableStatistics.add(RootBranchTrait.class);
         availableStatistics.add(UniqueBranchTraitValues.class);
         availableStatistics.add(InternalNodeAttribute.class);
         availableStatistics.add(RootToTipLengths.class);
@@ -348,11 +349,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
 
             ButtonGroup group = new ButtonGroup();
 
-            ItemListener listener = new ItemListener() {
-                public void itemStateChanged(ItemEvent e) {
-                    taxonSetCombo.setEnabled(taxonSetRadio.isSelected());
-                }
-            };
+            ItemListener listener = e -> taxonSetCombo.setEnabled(taxonSetRadio.isSelected());
 
             if (ssd.allowsWholeTree()) {
                 group.add(wholeTreeRadio);
