@@ -73,14 +73,15 @@ public class TreeStatUtils {
         final NexusParser nexusParser = new NexusParser();
         nexusParser.addListener(new NexusParserListener() {
 
-            Tree firstTree;
+            // Tree firstTree;
             boolean isUltrametric;
             boolean isBinary;
 
-            public void treeParsed(int treeIndex, Tree tree) {
+            @Override
+			public void treeParsed(int treeIndex, Tree tree) {
 
                 if (treeIndex == 0) {
-                    firstTree = tree;
+                    // firstTree = tree;
                     isUltrametric = TreeUtils.isUltrametric(tree, 1e-8);
                     isBinary = TreeUtils.isBinary(tree);
                     boolean stop = false;

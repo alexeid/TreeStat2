@@ -41,6 +41,7 @@ import beast.evolution.tree.Tree;
         allowsUnrootedTrees = false)
 public class SingleChildCountStatistic extends AbstractTreeSummaryStatistic<Integer> {
 
+	@Override
 	public Integer[] getSummaryStatistic(Tree tree) {
 
 		int singleChildCount = 0;

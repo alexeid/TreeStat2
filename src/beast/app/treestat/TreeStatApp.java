@@ -100,18 +100,21 @@ public class TreeStatApp extends SingleDocApplication {
 
                 ProcessTreeFileListener listener = new ProcessTreeFileListener() {
 
-                    public void startProcessing() {}
+                    @Override
+					public void startProcessing() {}
 
                     @Override
                     public void processingHalted() {
                         System.out.println("  Processing halted!");
                     }
 
-                    public void processingComplete(int numTreesProcessed) {
+                    @Override
+					public void processingComplete(int numTreesProcessed) {
                         System.out.println("  Processed " + numTreesProcessed + " trees.");
                     }
 
-                    public boolean warning(String message) { Log.warning(message); return true; }
+                    @Override
+					public boolean warning(String message) { Log.warning(message); return true; }
 
                     @Override
                     public void error(String errorTitle, String errorMessage) { Log.err(errorTitle+": "+errorMessage); }

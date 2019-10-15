@@ -45,12 +45,14 @@ import java.util.*;
         allowsWholeTree = true)
 public class TMRCASummaryStatistic extends AbstractTreeSummaryStatistic<Double> {
 
-    public void setTaxonList(String name, Set<String> taxonList) {
+    @Override
+	public void setTaxonList(String name, Set<String> taxonList) {
         this.taxonListName = name;
         this.taxonList = taxonList;
     }
 
-    public Double[] getSummaryStatistic(Tree tree) {
+    @Override
+	public Double[] getSummaryStatistic(Tree tree) {
 
         if (taxonList == null) {
             return new Double[]{tree.getRoot().getHeight()};
@@ -66,7 +68,8 @@ public class TMRCASummaryStatistic extends AbstractTreeSummaryStatistic<Double> 
         //}
     }
 
-    public String getName() {
+    @Override
+	public String getName() {
         if (characterState != null) {
             return super.getName() + characterState + ")";
         } else if (taxonList != null) {

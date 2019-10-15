@@ -28,7 +28,6 @@ package beast.app.treestat.statistics;
 import beast.core.Citation;
 import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
-import beast.evolution.tree.TreeUtils;
 
 /**
  * @author Alexei Drummond
@@ -46,6 +45,7 @@ public class CollessIndex extends AbstractTreeSummaryStatistic<Double> {
 	/**
 	 * Assumes strictly bifurcating tree.
 	 */
+	@Override
 	public Double[] getSummaryStatistic(Tree tree) {
 
 		double C = 0.0;

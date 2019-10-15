@@ -41,12 +41,14 @@ import java.util.Set;
         allowsUnrootedTrees = false)
 public class TopologyStringStatistic extends AbstractTreeSummaryStatistic<String> {
 
-    public String[] getSummaryStatistic(Tree tree) {
+    @Override
+	public String[] getSummaryStatistic(Tree tree) {
 
         return new String[] {TreeUtils.sortedNewickTopology(tree.getRoot(), true)};
     }
 
-    public void setTaxonList(String name, Set<String> taxonList) {
+    @Override
+	public void setTaxonList(String name, Set<String> taxonList) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 }

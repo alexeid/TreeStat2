@@ -25,14 +25,10 @@
 
 package beast.app.treestat.statistics;
 
+
 import beast.core.Citation;
-import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
 import beast.evolution.tree.TreeUtils;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author Alexei Drummond
@@ -54,7 +50,8 @@ import java.util.List;
 )
 public class GammaStatistic extends AbstractTreeSummaryStatistic<Double> {
 
-    public Double[] getSummaryStatistic(Tree tree) {
+    @Override
+	public Double[] getSummaryStatistic(Tree tree) {
 
         int n = tree.getLeafNodeCount();
         double[] g = TreeUtils.getIntervals(tree);

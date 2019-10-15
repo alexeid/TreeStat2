@@ -21,6 +21,7 @@ import beast.evolution.tree.coalescent.TreeIntervals;
 //        allowsDouble = true)
 public class TimeMaximumLineages extends AbstractTreeSummaryStatistic<Double> {
 	
+	@Override
 	public Double[] getSummaryStatistic(Tree tree) {
 
         try {

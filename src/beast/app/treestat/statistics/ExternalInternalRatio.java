@@ -42,7 +42,8 @@ import beast.evolution.tree.TreeUtils;
         allowsUnrootedTrees = false)
 public class ExternalInternalRatio extends AbstractTreeSummaryStatistic<Double> {
 
-    public Double[] getSummaryStatistic(Tree tree) {
+    @Override
+	public Double[] getSummaryStatistic(Tree tree) {
         return new Double[]{TreeUtils.getExternalLength(tree) / TreeUtils.getInternalLength(tree)};
     }
 }

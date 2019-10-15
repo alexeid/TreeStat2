@@ -28,7 +28,6 @@ package beast.app.treestat.statistics;
 import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -42,11 +41,13 @@ import java.util.List;
         allowsUnrootedTrees = false)
 public class NodeHeights extends AbstractTreeSummaryStatistic<Double> {
 
-    public String getStatisticLabel(Tree tree, int i) {
+    @Override
+	public String getStatisticLabel(Tree tree, int i) {
         return "Age " + Integer.toString(i + tree.getLeafNodeCount());
     }
 
-    public Double[] getSummaryStatistic(Tree tree) {
+    @Override
+	public Double[] getSummaryStatistic(Tree tree) {
 
         List<Node> internalNodes = tree.getInternalNodes();
         Double[] stats = new Double[internalNodes.size()];

@@ -49,7 +49,8 @@ import beast.math.Binomial;
 
 public class DeltaStatistic extends AbstractTreeSummaryStatistic<Double> {
 
-    public Double[] getSummaryStatistic(Tree tree) {
+    @Override
+	public Double[] getSummaryStatistic(Tree tree) {
 
         int n = tree.getLeafNodeCount();
         double[] g = TreeUtils.getIntervals(tree);

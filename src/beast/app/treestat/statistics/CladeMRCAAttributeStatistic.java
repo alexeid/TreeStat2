@@ -29,8 +29,6 @@ import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
 import beast.evolution.tree.TreeUtils;
 
-import java.util.Set;
-
 /**
  * @author Alexei Drummond
  */
@@ -49,12 +47,14 @@ public class CladeMRCAAttributeStatistic extends AbstractTreeSummaryStatistic<Do
         this.attributeName = "";
     }
 
-    public void setString(String value) {
+    @Override
+	public void setString(String value) {
         this.attributeName = value;
     }
 
 
-    public Double[] getSummaryStatistic(Tree tree) {
+    @Override
+	public Double[] getSummaryStatistic(Tree tree) {
         Node node;
         if (taxonList == null) {
             node = tree.getRoot();
@@ -102,7 +102,8 @@ public class CladeMRCAAttributeStatistic extends AbstractTreeSummaryStatistic<Do
 
     public static final Factory FACTORY = new Factory() {
 
-        public TreeSummaryStatistic createStatistic() {
+        @Override
+		public TreeSummaryStatistic<?> createStatistic() {
             return new CladeMRCAAttributeStatistic();
         }
 
@@ -118,7 +119,8 @@ public class CladeMRCAAttributeStatistic extends AbstractTreeSummaryStatistic<Do
             return "-";
         }
 
-        public String getValueName() {
+        @Override
+		public String getValueName() {
             return "The attribute name:";
         }
     };

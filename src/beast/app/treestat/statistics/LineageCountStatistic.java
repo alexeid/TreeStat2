@@ -19,10 +19,12 @@ import beast.evolution.tree.coalescent.TreeIntervals;
         allowsDouble = true)
 public class LineageCountStatistic extends AbstractTreeSummaryStatistic<Integer> {
 
-    public void setDouble(double value) {
+    @Override
+	public void setDouble(double value) {
         this.t = value;
     }
 
+	@Override
 	public Integer[] getSummaryStatistic(Tree tree) {
 
         try {
@@ -51,6 +53,7 @@ public class LineageCountStatistic extends AbstractTreeSummaryStatistic<Integer>
 
 	public static final Factory FACTORY = new Factory() {
 
+		@Override
 		public String getValueName() { return "The time (t):"; }
     };
 

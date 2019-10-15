@@ -39,7 +39,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Set;
@@ -131,14 +130,15 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
                 new TableRenderer(SwingConstants.LEFT, new Insets(0, 4, 0, 4)));
 
         availableStatisticsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent evt) {
+            @Override
+			public void valueChanged(ListSelectionEvent evt) {
                 statisticsTableSelectionChanged(false);
             }
         });
 
         scrollPane1 = new JScrollPane(availableStatisticsTable,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         JPanel buttonPanel1 = createAddRemoveButtonPanel(
                 includeStatisticAction, includeIcon, null,
@@ -154,14 +154,15 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
                 new TableRenderer(SwingConstants.LEFT, new Insets(0, 4, 0, 4)));
 
         includedStatisticsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent evt) {
+            @Override
+			public void valueChanged(ListSelectionEvent evt) {
                 statisticsTableSelectionChanged(true);
             }
         });
 
         scrollPane2 = new JScrollPane(includedStatisticsTable,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
 
         setLayout(new GridBagLayout());
@@ -240,7 +241,8 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         return buttonPanel;
     }
 
-    public JComponent getExportableComponent() {
+    @Override
+	public JComponent getExportableComponent() {
         return this;
     }
 
@@ -281,7 +283,8 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
          */
         private static final long serialVersionUID = -7179224487959650620L;
 
-        public void actionPerformed(ActionEvent ae) {
+        @Override
+		public void actionPerformed(ActionEvent ae) {
             int[] indices = availableStatisticsTable.getSelectedRows();
             for (int i = indices.length - 1; i >= 0; i--) {
                 Class<? extends TreeSummaryStatistic> ssd = availableStatistics.get(indices[i]);
@@ -310,7 +313,8 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
          */
         private static final long serialVersionUID = -3904236403703620633L;
 
-        public void actionPerformed(ActionEvent ae) {
+        @Override
+		public void actionPerformed(ActionEvent ae) {
             int[] indices = includedStatisticsTable.getSelectedRows();
             for (int i = indices.length - 1; i >= 0; i--) {
                 treeStatData.statistics.remove(indices[i]);
@@ -323,7 +327,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         }
     };
 
-    public TreeSummaryStatistic createStatistic(Class<? extends TreeSummaryStatistic> tssClass) throws IllegalAccessException, InstantiationException {
+    public TreeSummaryStatistic<?> createStatistic(Class<? extends TreeSummaryStatistic> tssClass) throws IllegalAccessException, InstantiationException {
 
         SummaryStatisticDescription ssd = TreeSummaryStatistic.getSummaryStatisticDescription(tssClass);
 
@@ -338,7 +342,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
 
         final JRadioButton wholeTreeRadio = new JRadioButton("For the whole tree", false);
         final JRadioButton taxonSetRadio = new JRadioButton("Using a given taxon set", false);
-        final JComboBox taxonSetCombo = new JComboBox();
+        final JComboBox<Object> taxonSetCombo = new JComboBox<>();
         final JTextField valueField;
 
         if (ssd.allowsTaxonList()) {
@@ -419,7 +423,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
             return null;
         }
 
-        TreeSummaryStatistic statistic = tssClass.newInstance();
+        TreeSummaryStatistic<?> statistic = tssClass.newInstance();
 
         if (wholeTreeRadio.isSelected()) {
             statistic = tssClass.newInstance();
@@ -464,30 +468,36 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         public AvailableStatisticsTableModel() {
         }
 
-        public int getColumnCount() {
+        @Override
+		public int getColumnCount() {
             return 2;
         }
 
-        public int getRowCount() {
+        @Override
+		public int getRowCount() {
 
             return availableStatistics.size();
         }
 
-        public Object getValueAt(int row, int col) {
+        @Override
+		public Object getValueAt(int row, int col) {
             if (col == 0) return TreeSummaryStatistic.getSummaryStatisticDescription(availableStatistics.get(row)).name();
             return TreeSummaryStatistic.getSummaryStatisticDescription(availableStatistics.get(row)).category().getPrettyName();
         }
 
-        public boolean isCellEditable(int row, int col) {
+        @Override
+		public boolean isCellEditable(int row, int col) {
             return false;
         }
 
-        public String getColumnName(int column) {
+        @Override
+		public String getColumnName(int column) {
             if (column == 0) return "Statistic Name";
             return "Category";
         }
 
-        public Class getColumnClass(int c) {
+        @Override
+		public Class<?> getColumnClass(int c) {
             return getValueAt(0, c).getClass();
         }
     }
@@ -502,33 +512,39 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         public IncludedStatisticsTableModel() {
         }
 
-        public int getColumnCount() {
+        @Override
+		public int getColumnCount() {
             return 1;
         }
 
-        public int getRowCount() {
+        @Override
+		public int getRowCount() {
             if (treeStatData == null || treeStatData.statistics == null) return 0;
 
             return treeStatData.statistics.size();
         }
 
-        public Object getValueAt(int row, int col) {
+        @Override
+		public Object getValueAt(int row, int col) {
             if (treeStatData == null || treeStatData.statistics == null) return null;
             if (col == 0)
                 return treeStatData.statistics.get(row).getName();
             return TreeSummaryStatistic.Utils.getDescription(treeStatData.statistics.get(row)).name();
         }
 
-        public boolean isCellEditable(int row, int col) {
+        @Override
+		public boolean isCellEditable(int row, int col) {
             return false;
         }
 
-        public String getColumnName(int column) {
+        @Override
+		public String getColumnName(int column) {
             if (column == 0) return "Statistic Name";
             return "Description";
         }
 
-        public Class getColumnClass(int c) {
+        @Override
+		public Class<?> getColumnClass(int c) {
             return getValueAt(0, c).getClass();
         }
     }
@@ -542,8 +558,8 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
 
         public TreeSummaryStatisticLabel(SummaryStatisticDescription statistic) {
             setSummaryStatisticDescription(statistic);
-            setVerticalAlignment(JLabel.TOP);
-            setHorizontalAlignment(JLabel.LEFT);
+            setVerticalAlignment(SwingConstants.TOP);
+            setHorizontalAlignment(SwingConstants.LEFT);
         }
 
         public void setSummaryStatisticDescription(SummaryStatisticDescription statistic) {

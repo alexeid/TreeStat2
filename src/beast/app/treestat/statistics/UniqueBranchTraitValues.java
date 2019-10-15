@@ -49,11 +49,13 @@ public class UniqueBranchTraitValues extends AbstractTreeSummaryStatistic<Double
         return uniqueTraits(tree).size();
     }
 
-    public String getStatisticLabel(Tree tree, int i) {
+    @Override
+	public String getStatisticLabel(Tree tree, int i) {
         return traitName + " " + Integer.toString(i + 1);
     }
 
-    public Double[] getSummaryStatistic(Tree tree) {
+    @Override
+	public Double[] getSummaryStatistic(Tree tree) {
 
         Set<Double> uniqueValues = uniqueTraits(tree);
         Double[] values = new Double[uniqueValues.size()];
@@ -85,25 +87,30 @@ public class UniqueBranchTraitValues extends AbstractTreeSummaryStatistic<Double
         return traits;
     }
 
-    public void setTaxonList(String name, Set<String> taxonList) {
+    @Override
+	public void setTaxonList(String name, Set<String> taxonList) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
-    public void setInteger(int value) {
+    @Override
+	public void setInteger(int value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
-    public void setDouble(double value) {
+    @Override
+	public void setDouble(double value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
-    public void setString(String value) {
+    @Override
+	public void setString(String value) {
         traitName = value;
     }
 
     public static final Factory FACTORY = new Factory() {
 
-        public TreeSummaryStatistic createStatistic() {
+        @Override
+		public TreeSummaryStatistic<?> createStatistic() {
             return new UniqueBranchTraitValues();
         }
 

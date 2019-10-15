@@ -39,20 +39,22 @@ public class TreeStatData {
 	}
 
 	// Data options
-	public Set<String> allTaxa = new HashSet<String>();
-	public List<TaxonSet> taxonSets = new ArrayList<TaxonSet>();
-	public List<Character> characters = new ArrayList<Character>();
-	public List<TreeSummaryStatistic> statistics = new ArrayList<TreeSummaryStatistic>();
+	public Set<String> allTaxa = new HashSet<>();
+	public List<TaxonSet> taxonSets = new ArrayList<>();
+	public List<Character> characters = new ArrayList<>();
+	public List<TreeSummaryStatistic> statistics = new ArrayList<>();
 
 	public static class TaxonSet {
 		String name;
-		List taxa;
+		List<Object> taxa;
+		@Override
 		public String toString() { return name; }
 	}
 
 	public static class Character {
 		String name;
 		List<TreeStatData.State> states;
+		@Override
 		public String toString() { return name; }
 	}
 
@@ -60,6 +62,7 @@ public class TreeStatData {
 		String name;
 		String description;
 		List<String> taxa;
+		@Override
 		public String toString() { return name; }
 	}
 }

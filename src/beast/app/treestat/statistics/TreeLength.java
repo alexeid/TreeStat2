@@ -38,6 +38,7 @@ import beast.evolution.tree.TreeUtils;
         allowsPolytomies = true,
         allowsUnrootedTrees = true)
 public class TreeLength extends AbstractTreeSummaryStatistic<Double> {
+	@Override
 	public Double[] getSummaryStatistic(Tree tree) {
 		return new Double[] {TreeUtils.getTreeLength(tree,tree.getRoot())};
 	}

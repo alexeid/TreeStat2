@@ -46,11 +46,13 @@ import beast.evolution.tree.coalescent.TreeIntervals;
         allowsDouble = false)
 public class IntervalKStatistic extends AbstractTreeSummaryStatistic<Double> {
 
-    public void setInteger(int value) {
+    @Override
+	public void setInteger(int value) {
         this.k = value;
     }
 
-    public Double[] getSummaryStatistic(Tree tree) {
+    @Override
+	public Double[] getSummaryStatistic(Tree tree) {
 
         double totalTime = 0.0;
         try {
@@ -78,7 +80,8 @@ public class IntervalKStatistic extends AbstractTreeSummaryStatistic<Double> {
 
     public static final TreeSummaryStatistic.Factory FACTORY = new TreeSummaryStatistic.Factory() {
 
-        public String getValueName() {
+        @Override
+		public String getValueName() {
             return "The number of lineages (k):";
         }
     };

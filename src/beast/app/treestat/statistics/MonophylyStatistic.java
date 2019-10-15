@@ -45,12 +45,14 @@ import java.util.Set;
         allowsWholeTree = true)
 public class MonophylyStatistic extends AbstractTreeSummaryStatistic<Double> {
 
-    public void setTaxonList(String name, Set<String> taxonList) {
+    @Override
+	public void setTaxonList(String name, Set<String> taxonList) {
         this.taxonListName = name;
         this.taxonList = taxonList;
     }
 
-    public Double[] getSummaryStatistic(Tree tree) {
+    @Override
+	public Double[] getSummaryStatistic(Tree tree) {
 
         if (taxonList == null) {
             return new Double[]{1.0};
@@ -63,7 +65,8 @@ public class MonophylyStatistic extends AbstractTreeSummaryStatistic<Double> {
         return new Double[]{TreeUtils.getDescendantLeaves(tree, node).size() == taxonList.size()? 1.0 : 0.0};
     }
 
-    public String getName() {
+    @Override
+	public String getName() {
         if (characterState != null) {
             return super.getName() + characterState + ")";
         } else if (taxonList != null) {

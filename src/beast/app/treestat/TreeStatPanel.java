@@ -69,7 +69,8 @@ public class TreeStatPanel extends javax.swing.JPanel implements Exportable {
 		statisticsPanel.dataChanged();
 	}
 
-    public JComponent getExportableComponent() {
+    @Override
+	public JComponent getExportableComponent() {
 
 		JComponent exportable = null;
 		Component comp = tabbedPane.getSelectedComponent();

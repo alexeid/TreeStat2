@@ -47,7 +47,8 @@ public class InternalNodeAttribute extends AbstractTreeSummaryStatistic<String> 
         this.attributeName = "";
     }
 
-    public void setString(String value) {
+    @Override
+	public void setString(String value) {
         this.attributeName = value;
     }
 
@@ -55,11 +56,13 @@ public class InternalNodeAttribute extends AbstractTreeSummaryStatistic<String> 
         return tree.getInternalNodeCount() - 1;
     }
 
-    public String getStatisticLabel(Tree tree, int i) {
+    @Override
+	public String getStatisticLabel(Tree tree, int i) {
         return attributeName + " " + Integer.toString(i + 1);
     }
 
-    public String[] getSummaryStatistic(Tree tree) {
+    @Override
+	public String[] getSummaryStatistic(Tree tree) {
 
         int internalNodeCount = tree.getInternalNodeCount();
         String[] stats = new String[internalNodeCount - 1];
@@ -73,33 +76,40 @@ public class InternalNodeAttribute extends AbstractTreeSummaryStatistic<String> 
         return stats;
     }
 
-    public void setTaxonList(String name, Set<String> taxonList) {
+    @Override
+	public void setTaxonList(String name, Set<String> taxonList) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
-    public void setInteger(int value) {
+    @Override
+	public void setInteger(int value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
-    public void setDouble(double value) {
+    @Override
+	public void setDouble(double value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     public static final Factory FACTORY = new Factory() {
 
-        public String getValueName() {
+        @Override
+		public String getValueName() {
             return "The attribute name:";
         }
 
-        public boolean allowsWholeTree() {
+        @Override
+		public boolean allowsWholeTree() {
             return true;
         }
 
-        public boolean allowsTaxonList() {
+        @Override
+		public boolean allowsTaxonList() {
             return true;
         }
 
-        public boolean allowsString() {
+        @Override
+		public boolean allowsString() {
             return true;
         }
     };

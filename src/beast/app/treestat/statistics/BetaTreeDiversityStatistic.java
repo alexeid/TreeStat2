@@ -25,7 +25,6 @@
 
 package beast.app.treestat.statistics;
 
-import beast.core.Citation;
 import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
 import beast.evolution.tree.TreeUtils;
@@ -49,7 +48,8 @@ import java.util.TreeSet;
         allowsTaxonList = true)
 public class BetaTreeDiversityStatistic extends AbstractTreeSummaryStatistic<Double> {
 
-    public Double[] getSummaryStatistic(Tree tree) {
+    @Override
+	public Double[] getSummaryStatistic(Tree tree) {
         if (taxonList == null) {
             return new Double[]{1.0};
         }

@@ -28,10 +28,7 @@ package beast.app.treestat.statistics;
 import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
 
-import javax.swing.plaf.basic.BasicTreeUI;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -55,7 +52,8 @@ public class SingleChildTransitionCounts extends AbstractTreeSummaryStatistic<In
      * @param tree the tree to summarize
      * @return a map of statistic names and values
      */
-    public Map<String, Integer> getStatistics(Tree tree) {
+    @Override
+	public Map<String, Integer> getStatistics(Tree tree) {
 
         Map<String, Integer> statistics = new TreeMap<String, Integer>();
 
@@ -81,16 +79,19 @@ public class SingleChildTransitionCounts extends AbstractTreeSummaryStatistic<In
 //        return gs;
     }
 
-    public String getName() {
+    @Override
+	public String getName() {
         return super.getName() + "(" + attributeName + ")";
     }
 
 
-    Integer[] getSummaryStatistic(Tree tree) {
+    @Override
+	Integer[] getSummaryStatistic(Tree tree) {
         throw new RuntimeException("Should not be used. getStatistics() does job in this class.");
     }
 
-    public void setString(String name) {
+    @Override
+	public void setString(String name) {
         this.attributeName = name;
     }
 }

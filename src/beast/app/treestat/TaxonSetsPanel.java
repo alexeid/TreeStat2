@@ -91,12 +91,13 @@ public class TaxonSetsPanel extends JPanel implements Exportable {
 			new TableRenderer(SwingConstants.LEFT, new Insets(0, 4, 0, 4)));
 
 		taxonSetsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
 			public void valueChanged(ListSelectionEvent evt) { taxonSetsTableSelectionChanged(); }
 		});
 
    		scrollPane1 = new JScrollPane(taxonSetsTable,
-										JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-										JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+										ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+										ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
  		JPanel buttonPanel1 = createAddRemoveButtonPanel(addTaxonSetAction, addIcon, "Create a new taxon set",
  															removeTaxonSetAction, removeIcon, "Remove a taxon set",
@@ -112,12 +113,13 @@ public class TaxonSetsPanel extends JPanel implements Exportable {
 			new TableRenderer(SwingConstants.LEFT, new Insets(0, 4, 0, 4)));
 
 		excludedTaxaTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
 			public void valueChanged(ListSelectionEvent evt) { excludedTaxaTableSelectionChanged(); }
 		});
 
    		scrollPane2 = new JScrollPane(excludedTaxaTable,
-										JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-										JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+										ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+										ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
  		JPanel buttonPanel2 = createAddRemoveButtonPanel(includeTaxonAction, includeIcon, "Include selected taxa in the taxon set",
  															excludeTaxonAction, excludeIcon, "Exclude selected taxa from the taxon set",
@@ -133,12 +135,13 @@ public class TaxonSetsPanel extends JPanel implements Exportable {
 			new TableRenderer(SwingConstants.LEFT, new Insets(0, 4, 0, 4)));
 
 		includedTaxaTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
 			public void valueChanged(ListSelectionEvent evt) { includedTaxaTableSelectionChanged(); }
 		});
 
    		scrollPane3 = new JScrollPane(includedTaxaTable,
-										JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-										JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+										ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+										ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         JPanel panel = new JPanel();
         panel.setOpaque(false);
@@ -265,7 +268,8 @@ public class TaxonSetsPanel extends JPanel implements Exportable {
 		}
 	}
 
-    public JComponent getExportableComponent() {
+    @Override
+	public JComponent getExportableComponent() {
 		return this;
 	}
 
@@ -276,10 +280,11 @@ public class TaxonSetsPanel extends JPanel implements Exportable {
 		 */
 		private static final long serialVersionUID = 1831933175582860833L;
 
+		@Override
 		public void actionPerformed(ActionEvent ae) {
 			TreeStatData.TaxonSet taxonSet = new TreeStatData.TaxonSet();
 			taxonSet.name = "untitled";
-			taxonSet.taxa = new ArrayList();
+			taxonSet.taxa = new ArrayList<>();
 			treeStatData.taxonSets.add(taxonSet);
 			dataChanged();
 
@@ -295,6 +300,7 @@ public class TaxonSetsPanel extends JPanel implements Exportable {
 		 */
 		private static final long serialVersionUID = -8662527333546044639L;
 
+		@Override
 		public void actionPerformed(ActionEvent ae) {
 			int saved = taxonSetsTable.getSelectedRow();
 			int row = taxonSetsTable.getSelectedRow();
@@ -313,6 +319,7 @@ public class TaxonSetsPanel extends JPanel implements Exportable {
 		 */
 		private static final long serialVersionUID = -1875904513948242608L;
 
+		@Override
 		public void actionPerformed(ActionEvent ae) {
 			int saved = taxonSetsTable.getSelectedRow();
 			int[] rows = excludedTaxaTable.getSelectedRows();
@@ -333,6 +340,7 @@ public class TaxonSetsPanel extends JPanel implements Exportable {
 		 */
 		private static final long serialVersionUID = 4523480086490780822L;
 
+		@Override
 		public void actionPerformed(ActionEvent ae) {
 			int saved = taxonSetsTable.getSelectedRow();
 			int[] rows = includedTaxaTable.getSelectedRows();
@@ -354,31 +362,38 @@ public class TaxonSetsPanel extends JPanel implements Exportable {
 		public TaxonSetsTableModel() {
 		}
 
+		@Override
 		public int getColumnCount() {
 			return 1;
 		}
 
+		@Override
 		public int getRowCount() {
 			return treeStatData.taxonSets.size();
 		}
 
+		@Override
 		public Object getValueAt(int row, int col) {
 			return (treeStatData.taxonSets.get(row)).name;
 		}
 
+		@Override
 		public void setValueAt(Object value, int row, int col) {
 			(treeStatData.taxonSets.get(row)).name = (String)value;
 		}
 
-        public boolean isCellEditable(int row, int col) {
+        @Override
+		public boolean isCellEditable(int row, int col) {
  			return true;
         }
 
+		@Override
 		public String getColumnName(int column) {
 			return "Taxon Sets";
 		}
 
-		public Class getColumnClass(int c) {return getValueAt(0, c).getClass();}
+		@Override
+		public Class<?> getColumnClass(int c) {return getValueAt(0, c).getClass();}
 	}
 
     class TaxaTableModel extends AbstractTableModel {
@@ -393,10 +408,12 @@ public class TaxonSetsPanel extends JPanel implements Exportable {
 			this.included = included;
 		}
 
+		@Override
 		public int getColumnCount() {
 			return 1;
 		}
 
+		@Override
 		public int getRowCount() {
 			if (selectedTaxonSet == null) return 0;
 
@@ -407,6 +424,7 @@ public class TaxonSetsPanel extends JPanel implements Exportable {
 			}
 		}
 
+		@Override
 		public Object getValueAt(int row, int col) {
 
 			if (included) {
@@ -418,15 +436,18 @@ public class TaxonSetsPanel extends JPanel implements Exportable {
 			}
 		}
 
-        public boolean isCellEditable(int row, int col) {
+        @Override
+		public boolean isCellEditable(int row, int col) {
  			return false;
         }
 
+		@Override
 		public String getColumnName(int column) {
 			if (included) return "Included Taxa";
 			else return "Excluded Taxa";
 		}
 
-		public Class getColumnClass(int c) {return getValueAt(0, c).getClass();}
+		@Override
+		public Class<?> getColumnClass(int c) {return getValueAt(0, c).getClass();}
 	}
 }

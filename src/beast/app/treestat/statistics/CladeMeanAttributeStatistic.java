@@ -48,12 +48,14 @@ public class CladeMeanAttributeStatistic extends AbstractTreeSummaryStatistic<Do
         this.attributeName = "";
     }
 
-    public void setString(String value) {
+    @Override
+	public void setString(String value) {
         this.attributeName = value;
     }
 
 
-    public Double[] getSummaryStatistic(Tree tree) {
+    @Override
+	public Double[] getSummaryStatistic(Tree tree) {
         Node node;
         if (taxonList == null) {
             node = tree.getRoot();
@@ -107,23 +109,28 @@ public class CladeMeanAttributeStatistic extends AbstractTreeSummaryStatistic<Do
 
     public static final Factory FACTORY = new Factory() {
 
-        public TreeSummaryStatistic createStatistic() {
+        @Override
+		public TreeSummaryStatistic<?> createStatistic() {
             return new CladeMeanAttributeStatistic();
         }
 
-        public String getValueName() {
+        @Override
+		public String getValueName() {
             return "The attribute name:";
         }
 
-        public boolean allowsWholeTree() {
+        @Override
+		public boolean allowsWholeTree() {
             return true;
         }
 
-        public boolean allowsTaxonList() {
+        @Override
+		public boolean allowsTaxonList() {
             return true;
         }
 
-        public boolean allowsString() {
+        @Override
+		public boolean allowsString() {
             return true;
         }
     };

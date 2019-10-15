@@ -28,8 +28,6 @@ package beast.app.treestat.statistics;
 import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
 
-import java.util.Set;
-
 /**
  * @author Alexei Drummond
  */
@@ -41,9 +39,10 @@ import java.util.Set;
         allowsUnrootedTrees = false)
 public class LongestBranchLength extends AbstractTreeSummaryStatistic<Double> {
 
-    public Double[] getSummaryStatistic(Tree tree) {
+    @Override
+	public Double[] getSummaryStatistic(Tree tree) {
 
-        int nodeCount = tree.getNodeCount();
+        // int nodeCount = tree.getNodeCount();
         double longestBranch = 0.0;
         for (Node node : tree.getNodesAsArray()) {
             if (!node.isRoot()) {

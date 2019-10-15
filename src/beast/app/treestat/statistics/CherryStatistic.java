@@ -46,6 +46,7 @@ import beast.evolution.tree.Tree;
         allowsUnrootedTrees = false)
 public class CherryStatistic extends AbstractTreeSummaryStatistic<Integer> {
 
+	@Override
 	public Integer[] getSummaryStatistic(Tree tree) {
 		int cherryCount = 0;
 		for (Node node : tree.getInternalNodes()) {

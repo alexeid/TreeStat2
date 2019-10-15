@@ -42,6 +42,7 @@ import beast.evolution.tree.Tree;
         allowsUnrootedTrees = false)
 public class Nbar extends AbstractTreeSummaryStatistic<Double> {
 
+	@Override
 	public Double[] getSummaryStatistic(Tree tree) {
 		double NBar = 0.0;
 		for (Node node : tree.getExternalNodes()) {

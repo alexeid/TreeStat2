@@ -42,11 +42,13 @@ import beast.evolution.tree.TreeUtils;
         allowsInteger = true)
 public class RankBranchLength extends AbstractTreeSummaryStatistic<Double> {
 
-    public void setInteger(int value) {
+    @Override
+	public void setInteger(int value) {
         this.rank = value;
     }
 
-    public Double[] getSummaryStatistic(Tree tree) {
+    @Override
+	public Double[] getSummaryStatistic(Tree tree) {
 
         double externalLength = TreeUtils.getExternalLength(tree);
         if (rank == 1) {
@@ -85,7 +87,8 @@ public class RankBranchLength extends AbstractTreeSummaryStatistic<Double> {
 
     public static final TreeSummaryStatistic.Factory FACTORY = new TreeSummaryStatistic.Factory() {
 
-        public String getValueName() {
+        @Override
+		public String getValueName() {
             return "The rank (k):";
         }
     };

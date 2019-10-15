@@ -25,7 +25,6 @@
 
 package beast.app.treestat.statistics;
 
-import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
 
 import java.util.Set;
@@ -44,28 +43,34 @@ public class RootBranchTrait extends AbstractTreeSummaryStatistic<Double> {
 
     String traitName = "rate";
 
-    public String getStatisticLabel(Tree tree, int i) {
+    @Override
+	public String getStatisticLabel(Tree tree, int i) {
         return "Root Branch " + traitName;
     }
 
-    public Double[] getSummaryStatistic(Tree tree) {
+    @Override
+	public Double[] getSummaryStatistic(Tree tree) {
 
         return new Double[] {(Double) tree.getRoot().getMetaData(traitName)};
     }
 
-    public void setTaxonList(String name, Set<String> taxonList) {
+    @Override
+	public void setTaxonList(String name, Set<String> taxonList) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
-    public void setInteger(int value) {
+    @Override
+	public void setInteger(int value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
-    public void setDouble(double value) {
+    @Override
+	public void setDouble(double value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
-    public void setString(String value) {
+    @Override
+	public void setString(String value) {
         traitName = value;
     }
 }

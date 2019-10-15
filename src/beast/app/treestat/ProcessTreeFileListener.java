@@ -1,7 +1,5 @@
 package beast.app.treestat;
 
-import java.awt.*;
-
 /**
  * Created by adru001 on 30/07/19.
  */

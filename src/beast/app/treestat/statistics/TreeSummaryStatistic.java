@@ -55,13 +55,13 @@ public interface TreeSummaryStatistic<T> {
     public Map<String,T> getStatistics(Tree tree);
 
     public class Utils {
-        public static SummaryStatisticDescription getDescription(TreeSummaryStatistic tss) {
+        public static SummaryStatisticDescription getDescription(TreeSummaryStatistic<?> tss) {
             return tss.getClass().getAnnotation(SummaryStatisticDescription.class);
         }
     }
 
     public abstract class Factory {
-		public TreeSummaryStatistic createStatistic() {
+		public TreeSummaryStatistic<?> createStatistic() {
 			throw new RuntimeException("This factory method is not implemented");
 		}
 

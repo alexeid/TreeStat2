@@ -41,11 +41,13 @@ import java.util.Set;
         allowsUnrootedTrees = false)
 public class InternalBranchLengths extends AbstractTreeSummaryStatistic<Double> {
 
-    public String getStatisticLabel(Tree tree, int i) {
+    @Override
+	public String getStatisticLabel(Tree tree, int i) {
         return "Branch " + Integer.toString(i + 1);
     }
 
-    public Double[] getSummaryStatistic(Tree tree) {
+    @Override
+	public Double[] getSummaryStatistic(Tree tree) {
 
         int internalNodeCount = tree.getInternalNodeCount();
         Double[] stats = new Double[internalNodeCount - 1];
@@ -58,19 +60,23 @@ public class InternalBranchLengths extends AbstractTreeSummaryStatistic<Double> 
         return stats;
     }
 
-    public void setTaxonList(String name, Set<String> taxonList) {
+    @Override
+	public void setTaxonList(String name, Set<String> taxonList) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
-    public void setInteger(int value) {
+    @Override
+	public void setInteger(int value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
-    public void setDouble(double value) {
+    @Override
+	public void setDouble(double value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
-    public void setString(String value) {
+    @Override
+	public void setString(String value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 }

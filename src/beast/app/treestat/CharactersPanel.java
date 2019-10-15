@@ -93,12 +93,13 @@ public class CharactersPanel extends JPanel implements Exportable {
             new TableRenderer(SwingConstants.LEFT, new Insets(0, 4, 0, 4)));
 
         charactersTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent evt) { charactersTableSelectionChanged(); }
+            @Override
+			public void valueChanged(ListSelectionEvent evt) { charactersTableSelectionChanged(); }
         });
 
            scrollPane1 = new JScrollPane(charactersTable,
-                                        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                                        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                                        ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                                        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
          JPanel buttonPanel1 = createAddRemoveButtonPanel(addCharacterAction, addIcon, "Create a new character",
                                                              removeCharacterAction, removeIcon, "Remove a character",
@@ -114,12 +115,13 @@ public class CharactersPanel extends JPanel implements Exportable {
             new TableRenderer(SwingConstants.LEFT, new Insets(0, 4, 0, 4)));
 
         statesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent evt) { statesTableSelectionChanged(); }
+            @Override
+			public void valueChanged(ListSelectionEvent evt) { statesTableSelectionChanged(); }
         });
 
            scrollPane2 = new JScrollPane(statesTable,
-                                        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                                        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                                        ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                                        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
          JPanel buttonPanel2 = createAddRemoveButtonPanel(addStateAction, addIcon, "Create a new state",
                                                              removeStateAction, removeIcon, "Remove a state",
@@ -135,12 +137,13 @@ public class CharactersPanel extends JPanel implements Exportable {
             new TableRenderer(SwingConstants.LEFT, new Insets(0, 4, 0, 4)));
 
         excludedTaxaTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent evt) { excludedTaxaTableSelectionChanged(); }
+            @Override
+			public void valueChanged(ListSelectionEvent evt) { excludedTaxaTableSelectionChanged(); }
         });
 
            scrollPane3 = new JScrollPane(excludedTaxaTable,
-                                        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                                        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                                        ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                                        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
          JPanel buttonPanel3 = createAddRemoveButtonPanel(includeTaxonAction, includeIcon, "Include selected taxa in the taxon set",
                                                              excludeTaxonAction, excludeIcon, "Exclude selected taxa from the taxon set",
@@ -156,12 +159,13 @@ public class CharactersPanel extends JPanel implements Exportable {
             new TableRenderer(SwingConstants.LEFT, new Insets(0, 4, 0, 4)));
 
         includedTaxaTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent evt) { includedTaxaTableSelectionChanged(); }
+            @Override
+			public void valueChanged(ListSelectionEvent evt) { includedTaxaTableSelectionChanged(); }
         });
 
            scrollPane4 = new JScrollPane(includedTaxaTable,
-                                        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                                        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                                        ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                                        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
 
         setLayout(new GridBagLayout());
@@ -332,7 +336,8 @@ public class CharactersPanel extends JPanel implements Exportable {
         }
     }
 
-    public JComponent getExportableComponent() {
+    @Override
+	public JComponent getExportableComponent() {
         return this;
     }
 
@@ -343,6 +348,7 @@ public class CharactersPanel extends JPanel implements Exportable {
 		 */
 		private static final long serialVersionUID = -2222139644754040949L;
 
+		@Override
 		public void actionPerformed(ActionEvent ae) {
             TreeStatData.Character character = new TreeStatData.Character();
             character.name = "untitled";
@@ -362,6 +368,7 @@ public class CharactersPanel extends JPanel implements Exportable {
 		 */
 		private static final long serialVersionUID = -6836455052115579291L;
 
+		@Override
 		public void actionPerformed(ActionEvent ae) {
             int saved = charactersTable.getSelectedRow();
             int row = charactersTable.getSelectedRow();
@@ -381,6 +388,7 @@ public class CharactersPanel extends JPanel implements Exportable {
 		 */
 		private static final long serialVersionUID = -2304872597649350237L;
 
+		@Override
 		public void actionPerformed(ActionEvent ae) {
           }
       };
@@ -392,6 +400,7 @@ public class CharactersPanel extends JPanel implements Exportable {
 		 */
 		private static final long serialVersionUID = -6390058458520173491L;
 
+		@Override
 		public void actionPerformed(ActionEvent ae) {
           }
       };
@@ -403,6 +412,7 @@ public class CharactersPanel extends JPanel implements Exportable {
 		 */
 		private static final long serialVersionUID = 4577920870740752531L;
 
+		@Override
 		public void actionPerformed(ActionEvent ae) {
             int saved1 = charactersTable.getSelectedRow();
             int saved2 = statesTable.getSelectedRow();
@@ -425,6 +435,7 @@ public class CharactersPanel extends JPanel implements Exportable {
 		 */
 		private static final long serialVersionUID = 7911132810956409390L;
 
+		@Override
 		public void actionPerformed(ActionEvent ae) {
             int saved1 = charactersTable.getSelectedRow();
             int saved2 = statesTable.getSelectedRow();
@@ -448,31 +459,38 @@ public class CharactersPanel extends JPanel implements Exportable {
 		public CharactersTableModel() {
         }
 
-        public int getColumnCount() {
+        @Override
+		public int getColumnCount() {
             return 1;
         }
 
-        public int getRowCount() {
+        @Override
+		public int getRowCount() {
             return treeStatData.characters.size();
         }
 
-        public Object getValueAt(int row, int col) {
+        @Override
+		public Object getValueAt(int row, int col) {
             return treeStatData.characters.get(row).name;
         }
 
-        public void setValueAt(Object value, int row, int col) {
+        @Override
+		public void setValueAt(Object value, int row, int col) {
             treeStatData.characters.get(row).name = (String)value;
         }
 
-        public boolean isCellEditable(int row, int col) {
+        @Override
+		public boolean isCellEditable(int row, int col) {
              return true;
         }
 
-        public String getColumnName(int column) {
+        @Override
+		public String getColumnName(int column) {
             return "Characters";
         }
 
-        public Class getColumnClass(int c) {return getValueAt(0, c).getClass();}
+        @Override
+		public Class<?> getColumnClass(int c) {return getValueAt(0, c).getClass();}
     }
 
     class StatesTableModel extends AbstractTableModel {
@@ -486,16 +504,19 @@ public class CharactersPanel extends JPanel implements Exportable {
         public StatesTableModel() {
         }
 
-        public int getColumnCount() {
+        @Override
+		public int getColumnCount() {
             return 2;
         }
 
-        public int getRowCount() {
+        @Override
+		public int getRowCount() {
             if (selectedCharacter == null) return 0;
             return selectedCharacter.states.size();
         }
 
-        public Object getValueAt(int row, int col) {
+        @Override
+		public Object getValueAt(int row, int col) {
             final TreeStatData.State state = selectedCharacter.states.get(row);
             if (col == 0) {
                 return state.name;
@@ -504,7 +525,8 @@ public class CharactersPanel extends JPanel implements Exportable {
             }
         }
 
-        public void setValueAt(Object value, int row, int col) {
+        @Override
+		public void setValueAt(Object value, int row, int col) {
             final TreeStatData.State state = selectedCharacter.states.get(row);
             if (col == 0) {
                 state.name = (String)value;
@@ -513,15 +535,18 @@ public class CharactersPanel extends JPanel implements Exportable {
             }
         }
 
-        public boolean isCellEditable(int row, int col) {
+        @Override
+		public boolean isCellEditable(int row, int col) {
              return true;
         }
 
-        public String getColumnName(int col) {
+        @Override
+		public String getColumnName(int col) {
             return columnNames[col];
         }
 
-        public Class getColumnClass(int c) {return getValueAt(0, c).getClass();}
+        @Override
+		public Class<?> getColumnClass(int c) {return getValueAt(0, c).getClass();}
     }
 
     class TaxaTableModel extends AbstractTableModel {
@@ -536,11 +561,13 @@ public class CharactersPanel extends JPanel implements Exportable {
             this.included = included;
         }
 
-        public int getColumnCount() {
+        @Override
+		public int getColumnCount() {
             return 1;
         }
 
-        public int getRowCount() {
+        @Override
+		public int getRowCount() {
             if (selectedState == null || treeStatData.allTaxa == null) return 0;
 
             if (included) {
@@ -550,7 +577,8 @@ public class CharactersPanel extends JPanel implements Exportable {
             }
         }
 
-        public Object getValueAt(int row, int col) {
+        @Override
+		public Object getValueAt(int row, int col) {
 
             if (included) {
                 return selectedState.taxa.get(row);
@@ -561,15 +589,18 @@ public class CharactersPanel extends JPanel implements Exportable {
             }
         }
 
-        public boolean isCellEditable(int row, int col) {
+        @Override
+		public boolean isCellEditable(int row, int col) {
              return false;
         }
 
-        public String getColumnName(int column) {
+        @Override
+		public String getColumnName(int column) {
             if (included) return "Included Taxa";
             else return "Excluded Taxa";
         }
 
-        public Class getColumnClass(int c) {return getValueAt(0, c).getClass();}
+        @Override
+		public Class<?> getColumnClass(int c) {return getValueAt(0, c).getClass();}
     }
 }

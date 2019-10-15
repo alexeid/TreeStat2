@@ -2,7 +2,6 @@ package beast.app.treestat.statistics;
 
 import beast.core.Citation;
 import beast.evolution.tree.Tree;
-import beast.evolution.tree.coalescent.TreeIntervals;
 
 /**
  * Calculates the two slopes for the tree taking the lineages-through time plot.
@@ -27,6 +26,7 @@ import beast.evolution.tree.coalescent.TreeIntervals;
         )
 public class LttSlopeRatio extends AbstractTreeSummaryStatistic<Double>{
 		
+	@Override
 	public Double[] getSummaryStatistic(Tree tree) {
 		LineageCountStatistic lineageCountStat = new LineageCountStatistic();
 		TimeMaximumLineages timeMaxLineagesStat = new TimeMaximumLineages();
