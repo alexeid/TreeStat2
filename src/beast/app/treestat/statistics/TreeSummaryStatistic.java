@@ -54,6 +54,15 @@ public interface TreeSummaryStatistic<T> {
      */
     public Map<String,T> getStatistics(Tree tree);
 
+    /**
+     * Return the dimension of this statistic for the given tree
+     * @param tree
+     * @return
+     */
+    default int getDimension(Tree tree) {
+        return getStatistics(tree).keySet().size();
+    }
+
     public class Utils {
         public static SummaryStatisticDescription getDescription(TreeSummaryStatistic<?> tss) {
             return tss.getClass().getAnnotation(SummaryStatisticDescription.class);

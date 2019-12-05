@@ -8,10 +8,7 @@ import beast.util.NexusParser;
 import beast.util.NexusParserListener;
 
 import java.io.*;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * @author Alexei Drummond
@@ -24,22 +21,27 @@ public class TreeStatUtils {
      * @param key the name of the statistic
      * @param value the value of the statistic for the given index
      */
-    static void putInBigMap(int index, String key, Object value, SortedMap<String,SortedMap<Integer,Object>> bigMap) {
+    static void putInBigMap(int index, String key, Object value, SortedMap<Integer, SortedMap<Integer,Object>> bigMap, List<String> statisticsNames) {
 
-        SortedMap<Integer,Object> innerMap = bigMap.get(key);
+        int statIndex = statisticsNames.indexOf(key);
+        if (statIndex == -1) {
+            throw new RuntimeException("Statistic '" + key + "' not found in:" + Arrays.toString(statisticsNames.toArray()));
+        }
+
+        SortedMap<Integer,Object> innerMap = bigMap.get(statIndex);
         if (innerMap == null) {
             innerMap = new TreeMap<>();
-            bigMap.put(key, innerMap);
+            bigMap.put(statIndex, innerMap);
         }
         innerMap.put(index, value);
     }
 
-    static void writeBigMap(PrintWriter writer, int numTrees, SortedMap<String,SortedMap<Integer,Object>> bigMap) {
+    static void writeBigMap(PrintWriter writer, int numTrees, SortedMap<Integer, SortedMap<Integer,Object>> bigMap, List<String> statisticsNames) {
 
         // Write out the first line of the statistics file
         writer.print("state");
-        for (String key : bigMap.keySet()) {
-            writer.print("\t" + key);
+        for (Integer key : bigMap.keySet()) {
+            writer.print("\t" + statisticsNames.get(key));
         }
         writer.println();
 
@@ -47,7 +49,7 @@ public class TreeStatUtils {
 
             writer.print(state);
 
-            for (String key : bigMap.keySet()) {
+            for (Integer key : bigMap.keySet()) {
                 SortedMap<Integer,Object> innerMap = bigMap.get(key);
                 Object value = innerMap.get(state);
                 if (value == null) {
@@ -60,7 +62,8 @@ public class TreeStatUtils {
 
     static void processTreeFile(File inFile, final File outFile, ProcessTreeFileListener listener, List<TreeSummaryStatistic> statistics) throws IOException {
 
-        SortedMap<String,SortedMap<Integer,Object>> bigMap = new TreeMap<>();
+        SortedMap<Integer, SortedMap<Integer,Object>> allStats = new TreeMap<>();
+        List<String> statisticsNames = new ArrayList<>();
 
         BufferedReader r = new BufferedReader(new FileReader(inFile));
         String line = r.readLine();
@@ -113,6 +116,11 @@ public class TreeStatUtils {
                             // don't ask the question again...
                             isBinary = true;
                         }
+
+                        for (int j = 0; j < tss.getDimension(tree); j++) {
+                            String l = tss.getStatisticLabel(tree, j);
+                            statisticsNames.add(l);
+                        }
                     }
 
                     if (stop) {
@@ -123,7 +131,7 @@ public class TreeStatUtils {
                 for (TreeSummaryStatistic tss : statistics) {
                     Map<String, Object> stats = tss.getStatistics(tree);
                     for (String key : stats.keySet()) {
-                        TreeStatUtils.putInBigMap(treeIndex, key, stats.get(key), bigMap);
+                        TreeStatUtils.putInBigMap(treeIndex, key, stats.get(key), allStats, statisticsNames);
                     }
                 }
 
@@ -143,7 +151,7 @@ public class TreeStatUtils {
             }
         }
 
-        TreeStatUtils.writeBigMap(writer, nexusParser.trees.size(), bigMap);
+        TreeStatUtils.writeBigMap(writer, nexusParser.trees.size(), allStats, statisticsNames);
 
         writer.flush();
         writer.close();
