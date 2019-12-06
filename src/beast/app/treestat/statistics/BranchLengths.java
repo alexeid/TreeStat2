@@ -29,60 +29,82 @@ import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
 import beast.evolution.tree.TreeUtils;
 
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Alexei Drummond
  */
 @SummaryStatisticDescription(
-        name="Branch Lengths",
+        name = "Branch Lengths",
         description = "The branch lengths of all the edges in the tree, once tree has been rotated alphabetically",
         allowsNonultrametricTrees = true,
         allowsPolytomies = false,
         allowsUnrootedTrees = false)
 public class BranchLengths extends AbstractTreeSummaryStatistic<Double> {
 
-    @Override
-	public String getStatisticLabel(Tree tree, int i) {
-        TreeUtils.rotateTreeAlphabetically(tree.getRoot());
-        Node[] nodes = tree.listNodesPostOrder(null, null);
+    String[] statsNames;
+    String[] cladeStrings;
 
-        if (nodes[i].isLeaf()) return nodes[i].getID();
-        else return "Node " + nodes[i].getNr();
+    @Override
+    public String getStatisticLabel(Tree tree, int i) {
+        if (statsNames == null) initStatsNames(tree);
+        return statsNames[i];
     }
 
     @Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    public Double[] getSummaryStatistic(Tree tree) {
 
-        TreeUtils.rotateTreeAlphabetically(tree.getRoot());
-        Node[] nodes = tree.listNodesPostOrder(null, null);
+        if (statsNames == null) initStatsNames(tree);
+        Double[] stats = new Double[tree.getNodeCount() - 1];
 
-        Double[] stats = new Double[nodes.length-1];
-        for (int i = 0; i < stats.length; i++) {
-            stats[i] = nodes[i].getParent().getHeight() - nodes[i].getHeight();
+        for (Node node : tree.getNodesAsArray()) {
+
+            if (!node.isRoot()) {
+                List<String> leafSet = TreeUtils.getDescendantLeavesSortedList(tree, node);
+                String key = Arrays.toString(leafSet.toArray());
+
+                for (int j = 0; j < cladeStrings.length; j++) {
+                    if (key.equals(cladeStrings[j])) {
+                        stats[j] = node.getParent().getHeight() - node.getHeight();
+                    }
+                }
+            }
         }
         return stats;
     }
 
+    void initStatsNames(Tree tree) {
+        TreeUtils.rotateTreeAlphabetically(tree.getRoot());
+        Node[] nodes = tree.listNodesPostOrder(null, null);
 
+        statsNames = new String[nodes.length - 1];
+        cladeStrings = new String[nodes.length - 1];
+
+        for (int j = 0; j < statsNames.length; j++) {
+            if (nodes[j].isLeaf()) statsNames[j] = nodes[j].getID();
+            else statsNames[j] = "Node " + nodes[j].getNr();
+            List<String> leafSet = TreeUtils.getDescendantLeavesSortedList(tree, nodes[j]);
+            cladeStrings[j] = Arrays.toString(leafSet.toArray());
+        }
+    }
 
     @Override
-	public void setTaxonList(String name, Set<String> taxonList) {
+    public void setTaxonList(String name, Set<String> taxonList) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setInteger(int value) {
+    public void setInteger(int value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setDouble(double value) {
+    public void setDouble(double value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setString(String value) {
+    public void setString(String value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 }
