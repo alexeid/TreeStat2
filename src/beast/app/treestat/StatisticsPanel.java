@@ -83,7 +83,9 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         availableStatistics.add(BranchRates.class);
         availableStatistics.add(InternalBranchLengths.class);
         availableStatistics.add(InternalBranchRates.class);
+        availableStatistics.add(ExternalBranchLengths.class);
         availableStatistics.add(ExternalBranchRates.class);
+        
         availableStatistics.add(RootBranchTrait.class);
         availableStatistics.add(UniqueBranchTraitValues.class);
         availableStatistics.add(InternalNodeAttribute.class);
