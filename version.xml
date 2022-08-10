@@ -1,10 +1,56 @@
-<addon name='TreeStat2' version='0.0.1'>
-	<depends on='beast2' atleast='2.4.6'/>
+<package name='TreeStat2' version='0.1.0'>
+	<depends on='BEAST.base' atleast='2.7.0'/>
 	
-	    <addonapp description="TreeStat2"
-              class="beast.app.treestat.TreeStatApp"
+    <packageapp description="TreeStat2"
+              class="treestat2.TreeStatApp"
               args=""
-              icon="beast/app/treestat/images/TreeStat.png"
+              icon="treestat2/images/TreeStat.png"
             />
 
-</addon>
+    <service type="beast.base.core.BEASTInterface">
+        <provider classname="treestat2.statistics.B1Statistic"/>
+        <provider classname="treestat2.statistics.BetaTreeDiversityStatistic"/>
+        <provider classname="treestat2.statistics.BranchLengths"/>
+        <provider classname="treestat2.statistics.BranchRates"/>
+        <provider classname="treestat2.statistics.CherryStatistic"/>
+        <provider classname="treestat2.statistics.CladeMeanAttributeStatistic"/>
+        <provider classname="treestat2.statistics.CladeMRCAAttributeStatistic"/>
+        <provider classname="treestat2.statistics.CollessIndex"/>
+        <provider classname="treestat2.statistics.DeltaStatistic"/>
+        <provider classname="treestat2.statistics.ExternalBranchLengths"/>
+        <provider classname="treestat2.statistics.ExternalBranchRates"/>
+        <provider classname="treestat2.statistics.ExternalInternalRatio"/>
+        <provider classname="treestat2.statistics.FuLiD"/>
+        <provider classname="treestat2.statistics.GammaStatistic"/>
+        <provider classname="treestat2.statistics.InternalBranchLengths"/>
+        <provider classname="treestat2.statistics.InternalBranchRates"/>
+        <provider classname="treestat2.statistics.InternalNodeAttribute"/>
+        <provider classname="treestat2.statistics.IntervalKStatistic"/>
+        <provider classname="treestat2.statistics.LineageCountStatistic"/>
+        <provider classname="treestat2.statistics.LongestBranchLength"/>
+        <provider classname="treestat2.statistics.LttSlopeRatio"/>
+        <provider classname="treestat2.statistics.MonophylyStatistic"/>
+        <provider classname="treestat2.statistics.MRCAOlderThanStatistic"/>
+        <provider classname="treestat2.statistics.Nbar"/>
+        <provider classname="treestat2.statistics.NodeHeights"/>
+        <provider classname="treestat2.statistics.NumberOfTips"/>
+        <provider classname="treestat2.statistics.RankBranchLength"/>
+        <provider classname="treestat2.statistics.RelativeTrunkLength"/>
+        <provider classname="treestat2.statistics.RootBranchTrait"/>
+        <provider classname="treestat2.statistics.RootToTipLengths"/>
+        <provider classname="treestat2.statistics.SamplingTimesInterval"/>
+        <provider classname="treestat2.statistics.SAStatistic"/>
+        <provider classname="treestat2.statistics.SingleChildCountStatistic"/>
+        <provider classname="treestat2.statistics.SingleChildTransitionCounts"/>
+        <provider classname="treestat2.statistics.SortedNodeAges"/>
+        <provider classname="treestat2.statistics.TimeMaximumLineages"/>
+        <provider classname="treestat2.statistics.TMRCASummaryStatistic"/>
+        <provider classname="treestat2.statistics.TopologyStringStatistic"/>
+        <provider classname="treestat2.statistics.TreeHeight"/>
+        <provider classname="treestat2.statistics.TreeLength"/>
+        <provider classname="treestat2.statistics.TreenessStatistic"/>
+        <provider classname="treestat2.statistics.UniqueBranchTraitValues"/>
+        <provider classname="treestat2.TreeStat"/>
+    </service>
+
+</package>
