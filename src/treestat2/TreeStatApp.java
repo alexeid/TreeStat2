@@ -131,15 +131,15 @@ public class TreeStatApp extends SingleDocApplication {
             // To ensure compatibility between programs in the package, enforce the US locale.
             Locale.setDefault(Locale.US);
 
-            //if (OSType.isMac()) {
-            if (Utils.getMacOSXVersion().startsWith("10.5")) {
-                System.setProperty("apple.awt.brushMetalLook", "true");
-            }
+            if (Utils.isMacOSX()) {
+                if (Utils.getMacOSXVersion().startsWith("10.5")) {
+                    System.setProperty("apple.awt.brushMetalLook", "true");
+                }
             System.setProperty("apple.laf.useScreenMenuBar", "true");
             System.setProperty("apple.awt.showGrowBox", "true");
             UIManager.put("SystemFont", new Font("Lucida Grande", Font.PLAIN, 13));
             UIManager.put("SmallSystemFont", new Font("Lucida Grande", Font.PLAIN, 11));
-            //}
+            }
 
             try {
 
