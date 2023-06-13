@@ -51,6 +51,9 @@
         <provider classname="treestat2.statistics.TreenessStatistic"/>
         <provider classname="treestat2.statistics.UniqueBranchTraitValues"/>
         <provider classname="treestat2.TreeStat"/>
+        <provider classname="treestat2.statistics.SecondInternalNodeHeight"/>
+        <provider classname="treestat2.statistics.GetTypeChanges"/>
+        <provider classname="treestat2.TreeStat2Logger"/>
     </service>
 
 </package>
