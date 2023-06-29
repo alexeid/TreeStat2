@@ -42,10 +42,8 @@ import beast.base.evolution.tree.Tree;
 public class GetTypeChanges extends AbstractTreeSummaryStatistic<String> {
 
     String attributeName = "";
-    int treenum = 1;
     @Override
     public String[] getSummaryStatistic(Tree tree) {
-
 
         int typecount = Integer.parseInt(attributeName);
 
@@ -56,24 +54,20 @@ public class GetTypeChanges extends AbstractTreeSummaryStatistic<String> {
             }
         }
 
-
         for (Node node : tree.getInternalNodes()) {
-            for (int child = 0 ; child < node.getChildCount() ; child++) {
-                Object fromType = node.getMetaData("type");
-                Object toType = node.getChild(child).getMetaData("type");
-                String fromTypeString = fromType.toString();
-                String toTypeString = toType.toString();
-                if (!(fromTypeString).equals(toTypeString)) {
-                    countmatrix[Integer.parseInt(fromTypeString.substring(fromTypeString.length() - 1))][Integer.parseInt(toTypeString.substring(toTypeString.length() - 1))]  ++;
+            for (int child_index = 0 ; child_index < node.getChildCount() ; child_index++) {
+                String parent = node.toNewick();
+                String child = node.getChild(child_index).toNewick();
+                String fromType = parent.substring(parent.lastIndexOf("type"),parent.lastIndexOf("type")+5);
+                String toType = child.substring(child.lastIndexOf("type"),child.lastIndexOf("type")+5);
+
+                if (!fromType.equals(toType)) {
+                    countmatrix[Integer.parseInt(String.valueOf(fromType.charAt(4)))][Integer.parseInt(String.valueOf(toType.charAt(4)))]  ++;
                 }
             }
         }
 
         String countstring = convertArrayToString(countmatrix);
-        /*
-        System.out.println("Tree"+treenum);
-        System.out.println(countstring);
-        treenum++;*/
         return new String[] { countstring };
     }
 
