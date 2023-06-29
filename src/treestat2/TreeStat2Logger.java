@@ -20,13 +20,11 @@ public class TreeStat2Logger extends CalculationNode implements Loggable, Functi
     final public Input<Tree> treeInput = new Input<>("tree", "tree to report statistic for.", Validate.REQUIRED);
     final public Input<Boolean> TreeHeightInput = new Input<>("TreeHeight", "If true, tree height will be logged.", false);
     final public Input<Boolean> SecondInternalNodeHeightInput = new Input<>("SecondInternalNodeHeight", "If true, second internal node height will be logged.", false);
-    final public Input<Integer> GetTypeChangesInput = new Input<>("GetTypeChanges", "Number of types for type changes logging.",0, Validate.REQUIRED);
-    final public Input<Boolean> ExternalInternalRatioInput = new Input<>("ExternalInternalRatio", "If true, xxternal to internal branch length ratio will be logged.", false);
+    final public Input<Integer> GetTypeChangesInput = new Input<>("GetTypeChanges", "Number of types for type changes logging.",0);
+    final public Input<Boolean> ExternalInternalRatioInput = new Input<>("ExternalInternalRatio", "If true, external to internal branch length ratio will be logged.", false);
 
-    boolean TreeHeight;
-    boolean secondInternalNodeHeight;
+    boolean TreeHeight, secondInternalNodeHeight, externalInternalRatio;
     int getTypeChanges;
-    boolean externalInternalRatio;
 
     @Override
     public void initAndValidate() {
@@ -40,21 +38,9 @@ public class TreeStat2Logger extends CalculationNode implements Loggable, Functi
         getTypeChanges = GetTypeChangesInput.get();
         externalInternalRatio = ExternalInternalRatioInput.get();
 
-        if (!TreeHeight) {
-            Log.warning.println("TreeStat2Logger " + getID() + " logs nothing. Set TreeHeight=true or at least something");
-        }
-
-    	if (!secondInternalNodeHeight) {
-    		Log.warning.println("TreeStat2Logger " + getID() + " logs nothing. Set SecondInternalNodeHeight=true or at least something");
-    	}
-
-        if (getTypeChanges<2) {
-            Log.warning.println("TreeStat2Logger " + getID() + " logs nothing. Set GetTypeChanges=[number of types]");
-        }
-
-        if (!externalInternalRatio) {
-            Log.warning.println("TreeStat2Logger " + getID() + " logs nothing. Set ExternalInternalRatio=true or at least something");
-        }
+        if (!TreeHeight && !secondInternalNodeHeight && getTypeChanges<2 && !externalInternalRatio) {
+            Log.warning.println("TreeStat2Logger " + getID() + " logs nothing. Set TreeHeight=true, or SecondInternalNodeHeight=true, or ExternalInternalRatio=true, or GetTypeChanges=[number of types]");
+	}
     }
 
     @Override
