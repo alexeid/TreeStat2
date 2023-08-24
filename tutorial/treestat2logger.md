@@ -4,6 +4,14 @@ Written by John Tay 24 August 2023
 Currently, only the following tree statistics are implemented in TreeStat2Logger:
 ExternalInternalRatio, GetTypeChanges, SecondInternalNodeHeight, and TreeHeight.
 
+To access these tree statistics, you must clone the latest TreeStat2 repo and build with ant (ant must be installed with sudo apt-get ant).
+```
+git clone https://github.com/Tay-j/TreeStat2
+cd TreeStat2
+ant
+```
+The built package will be located in dist/TreeStat2.vX.X.X.zip, which should be unzipped in your ~/.beast/2.7 directory.
+
 ## Example with GetTypeChanges on MTBD
 
 These instructions will assist in setting up TreeStat2Logger a multitype birth-death model on some simulated data.
