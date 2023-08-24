@@ -35,14 +35,14 @@ The following code logs the trace and statistics from the MCMC, as well as the n
   <log idref="gammaShape.s:updated_aln268"/>
   <log idref="kappa.s:updated_aln268"/>
   <log idref="freqParameter.s:updated_aln268"/>
-  <ins><log id="getTypeChanges" spec="treestat2.TreeStat2Logger" tree="@Tree.t:updated_aln268" GetTypeChanges="2" /></ins>
+  <u><log id="getTypeChanges" spec="treestat2.TreeStat2Logger" tree="@Tree.t:updated_aln268" GetTypeChanges="2" /></u>
 </logger>
 <logger id="screenlog" spec="Logger" logEvery="1000">
   <log idref="posterior"/>
   <log id="ESS.0" spec="util.ESS" arg="@posterior"/>
   <log idref="likelihood"/>
   <log idref="prior"/>
-  <ins><log idref="getTypeChanges" spec="treestat2.TreeStat2Logger" tree="@Tree.t:updated_aln268" GetTypeChanges="2" /></ins>
+  <u><log idref="getTypeChanges" spec="treestat2.TreeStat2Logger" tree="@Tree.t:updated_aln268" GetTypeChanges="2" /></u>
 </logger>
 ```
 
