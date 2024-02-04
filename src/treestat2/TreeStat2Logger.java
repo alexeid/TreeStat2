@@ -20,11 +20,12 @@ public class TreeStat2Logger extends CalculationNode implements Loggable, Functi
     final public Input<Tree> treeInput = new Input<>("tree", "tree to report statistic for.", Validate.REQUIRED);
     final public Input<Boolean> TreeHeightInput = new Input<>("TreeHeight", "If true, tree height will be logged.", false);
     final public Input<Boolean> SecondInternalNodeHeightInput = new Input<>("SecondInternalNodeHeight", "If true, second internal node height will be logged.", false);
-    final public Input<Integer> GetTypeChangesInput = new Input<>("GetTypeChanges", "Number of types for type changes logging.",0);
+    final public Input<String> GetTypeChangesInput = new Input<>("GetTypeChanges", "Comma separated types for type changes logging.","");
     final public Input<Boolean> ExternalInternalRatioInput = new Input<>("ExternalInternalRatio", "If true, external to internal branch length ratio will be logged.", false);
 
     boolean TreeHeight, secondInternalNodeHeight, externalInternalRatio;
-    int getTypeChanges;
+    String getTypeChanges;
+
 
     @Override
     public void initAndValidate() {
@@ -38,9 +39,9 @@ public class TreeStat2Logger extends CalculationNode implements Loggable, Functi
         getTypeChanges = GetTypeChangesInput.get();
         externalInternalRatio = ExternalInternalRatioInput.get();
 
-        if (!TreeHeight && !secondInternalNodeHeight && getTypeChanges<2 && !externalInternalRatio) {
-            Log.warning.println("TreeStat2Logger " + getID() + " logs nothing. Set TreeHeight=true, or SecondInternalNodeHeight=true, or ExternalInternalRatio=true, or GetTypeChanges=[number of types]");
-	}
+        if (!TreeHeight && !secondInternalNodeHeight && !getTypeChanges.isEmpty() && !externalInternalRatio) {
+            Log.warning.println("TreeStat2Logger " + getID() + " logs nothing. Set TreeHeight=true, or SecondInternalNodeHeight=true, or ExternalInternalRatio=true, or GetTypeChanges=\"type1,type2\"");
+        }
     }
 
     @Override
@@ -52,7 +53,7 @@ public class TreeStat2Logger extends CalculationNode implements Loggable, Functi
         if (secondInternalNodeHeight) {
             out.print(tree.getID() + ".SecondInternalNodeHeight\t");
         }
-        if (getTypeChanges>1) {
+        if (!getTypeChanges.isEmpty()) {
             out.print(tree.getID() + ".GetTypeChanges\t");
         }
         if (externalInternalRatio) {
@@ -75,9 +76,9 @@ public class TreeStat2Logger extends CalculationNode implements Loggable, Functi
             double secondInternalNodeHeightValue = summaryStatistic[0];
             out.print(secondInternalNodeHeightValue + "\t");
         }
-        if (getTypeChanges > 1) {
+        if (!getTypeChanges.isEmpty()) {
             GetTypeChanges getTypeChangesCalculator = new GetTypeChanges();
-            getTypeChangesCalculator.setString(Integer.toString(getTypeChanges));
+            getTypeChangesCalculator.setString(getTypeChanges);
             String[] summaryStatistic = getTypeChangesCalculator.getSummaryStatistic(tree);
             String getTypeChangesOutput = summaryStatistic[0];
             out.print(getTypeChangesOutput + "\t");
@@ -85,8 +86,8 @@ public class TreeStat2Logger extends CalculationNode implements Loggable, Functi
         if (externalInternalRatio) {
             ExternalInternalRatio externalInternalRatioCalculator = new ExternalInternalRatio();
             Double[] summaryStatistic = externalInternalRatioCalculator.getSummaryStatistic(tree);
-            double secondInternalNodeHeightValue = summaryStatistic[0];
-            out.print(secondInternalNodeHeightValue + "\t");
+            double externalInternalRatioValue = summaryStatistic[0];
+            out.print(externalInternalRatioValue + "\t");
         }
     }
 
