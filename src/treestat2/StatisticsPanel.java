@@ -120,6 +120,13 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         availableStatistics.add(LongestBranchLength.class);
         availableStatistics.add(SecondInternalNodeHeight.class);
         availableStatistics.add(GetTypeChanges.class);
+        // CCD ...
+        availableStatistics.add(CCD0RFDistance.class);
+        availableStatistics.add(CCD1RFDistance.class);
+        availableStatistics.add(CCD0AvgRFDistance.class);
+        availableStatistics.add(CCD1AvgRFDistance.class);
+        availableStatistics.add(CCD0Information.class);
+        availableStatistics.add(CCD1Information.class);
 
         setOpaque(false);
 

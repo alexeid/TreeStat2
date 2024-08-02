@@ -1,5 +1,6 @@
-<package name='TreeStat2' version='0.1.1'>
-	<depends on='BEAST.base' atleast='2.7.0'/>
+<package name='TreeStat2' version='0.2.0'>
+	<depends on='BEAST.base' atleast='2.7.5'/>
+    <depends on='CCD' atleast='2.7.5'/>
 	
     <packageapp description="TreeStat2"
               class="treestat2.TreeStatApp"
@@ -12,6 +13,12 @@
         <provider classname="treestat2.statistics.BetaTreeDiversityStatistic"/>
         <provider classname="treestat2.statistics.BranchLengths"/>
         <provider classname="treestat2.statistics.BranchRates"/>
+        <provider classname="treestat2.statistics.CCD0RFDistance"/>
+        <provider classname="treestat2.statistics.CCD1RFDistance"/>
+        <provider classname="treestat2.statistics.CCD0AvgRFDistance"/>
+        <provider classname="treestat2.statistics.CCD1AvgRFDistance"/>
+        <provider classname="treestat2.statistics.CCD0Information"/>
+        <provider classname="treestat2.statistics.CCD1Information"/>
         <provider classname="treestat2.statistics.CherryStatistic"/>
         <provider classname="treestat2.statistics.CladeMeanAttributeStatistic"/>
         <provider classname="treestat2.statistics.CladeMRCAAttributeStatistic"/>

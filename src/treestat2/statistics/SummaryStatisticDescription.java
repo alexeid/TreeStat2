@@ -63,11 +63,14 @@ public @interface SummaryStatisticDescription {
 
     boolean allowsDouble() default false;
 
+    boolean isCCD() default false;
+
     Category category() default Category.GENERAL;
 
 	public enum Category {
 
 		TREE_SHAPE("Tree shape"),
+        BAYESIAN_PHYLOGENETIC("Bayesian Phylogenetic"),
 		PHYLOGENETIC("Phylogenetic"),
 		POPULATION_GENETIC("Population genetic"),
 		GENERAL("General"),

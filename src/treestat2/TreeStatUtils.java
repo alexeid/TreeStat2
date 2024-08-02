@@ -4,6 +4,7 @@ import beast.base.evolution.tree.Tree;
 import beast.base.evolution.tree.TreeUtils;
 import beast.base.parser.NexusParser;
 import beast.base.parser.NexusParserListener;
+import treestat2.ccd.CCDHandler;
 import treestat2.statistics.SummaryStatisticDescription;
 import treestat2.statistics.TreeSummaryStatistic;
 
@@ -14,6 +15,8 @@ import java.util.*;
  * @author Alexei Drummond
  */
 public class TreeStatUtils {
+
+    private static CCDHandler ccdHandler;
 
     /**
      * Store the value of the named statistic from the given state
@@ -61,6 +64,11 @@ public class TreeStatUtils {
     }
 
     static void processTreeFile(File inFile, final File outFile, ProcessTreeFileListener listener, List<TreeSummaryStatistic> statistics) throws IOException {
+
+        NexusParser nexusParserCCD = new NexusParser();
+        nexusParserCCD.parseFile(inFile);
+        // Have to init before getInstance in each tree stats
+        ccdHandler = new CCDHandler(nexusParserCCD.trees, 0.1); // TODO burnin cannot be 0
 
         SortedMap<Integer, SortedMap<Integer,Object>> allStats = new TreeMap<>();
         List<String> statisticsNames = new ArrayList<>();
@@ -157,5 +165,11 @@ public class TreeStatUtils {
         writer.close();
 
         listener.processingComplete(nexusParser.trees.size());
+    }
+
+    public static CCDHandler getCCDHandler() {
+        if (ccdHandler == null)
+            throw new IllegalArgumentException("CCDHandler is not initialized !");
+        return ccdHandler;
     }
 }
