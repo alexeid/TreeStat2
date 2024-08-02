@@ -67,7 +67,7 @@ public class TreeStatUtils {
 
         NexusParser nexusParserCCD = new NexusParser();
         nexusParserCCD.parseFile(inFile);
-        // Have to init before getInstance in each tree stats
+        // CCD distribution is created by removing 10% burnin
         ccdHandler = new CCDHandler(nexusParserCCD.trees, 0.1); // TODO burnin cannot be 0
 
         SortedMap<Integer, SortedMap<Integer,Object>> allStats = new TreeMap<>();
