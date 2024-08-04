@@ -1,0 +1,6 @@
+beast.app.treestat.statistics.CCD0RFDistance
+beast.app.treestat.statistics.CCD1RFDistance
+beast.app.treestat.statistics.CCD0AvgRFDistance
+beast.app.treestat.statistics.CCD1AvgRFDistance
+beast.app.treestat.statistics.CCD0Information
+beast.app.treestat.statistics.CCD1Information

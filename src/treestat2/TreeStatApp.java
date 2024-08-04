@@ -26,6 +26,7 @@
 package treestat2;
 
 import beast.base.core.Log;
+import beast.pkgmgmt.BEASTClassLoader;
 import jam.framework.SingleDocApplication;
 import jam.mac.Utils;
 import treestat2.statistics.SummaryStatisticDescription;
@@ -45,7 +46,9 @@ public class TreeStatApp extends SingleDocApplication {
 
     static TreeSummaryStatistic processLine(String[] parts) {
         try {
-            Class<? extends TreeSummaryStatistic> tssClass = (Class<? extends TreeSummaryStatistic>) Class.forName(parts[0]);
+//            Class<? extends TreeSummaryStatistic> tssClass = (Class<? extends TreeSummaryStatistic>) Class.forName(parts[0]);
+            Class<? extends TreeSummaryStatistic> tssClass = (Class<? extends TreeSummaryStatistic>) BEASTClassLoader.forName(parts[0]);
+
             SummaryStatisticDescription ssd = TreeSummaryStatistic.getSummaryStatisticDescription(tssClass);
 
             TreeSummaryStatistic statistic = tssClass.newInstance();
@@ -94,7 +97,7 @@ public class TreeStatApp extends SingleDocApplication {
                 String fileName = args[i];
 
                 File inFile = new File(fileName);
-                File outFile = new File(fileName + ".log");
+                File outFile = new File(fileName + "treestats.log");
 
                 System.out.println("  Processing tree file: " + fileName);
 

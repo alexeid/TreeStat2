@@ -15,8 +15,8 @@
         <provider classname="treestat2.statistics.BranchRates"/>
         <provider classname="treestat2.statistics.CCD0RFDistance"/>
         <provider classname="treestat2.statistics.CCD1RFDistance"/>
-        <provider classname="treestat2.statistics.CCD0AvgRFDistance"/>
-        <provider classname="treestat2.statistics.CCD1AvgRFDistance"/>
+        <provider classname="treestat2.statistics.CCD0ExpectedRFDistance"/>
+        <provider classname="treestat2.statistics.CCD1ExpectedRFDistance"/>
         <provider classname="treestat2.statistics.CCD0Information"/>
         <provider classname="treestat2.statistics.CCD1Information"/>
         <provider classname="treestat2.statistics.CherryStatistic"/>

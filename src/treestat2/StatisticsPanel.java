@@ -123,8 +123,8 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         // CCD ...
         availableStatistics.add(CCD0RFDistance.class);
         availableStatistics.add(CCD1RFDistance.class);
-        availableStatistics.add(CCD0AvgRFDistance.class);
-        availableStatistics.add(CCD1AvgRFDistance.class);
+        availableStatistics.add(CCD0ExpectedRFDistance.class);
+        availableStatistics.add(CCD1ExpectedRFDistance.class);
         availableStatistics.add(CCD0Information.class);
         availableStatistics.add(CCD1Information.class);
 

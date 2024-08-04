@@ -27,7 +27,6 @@ package treestat2.statistics;
 
 import beast.base.evolution.tree.Tree;
 import ccd.model.CCD0;
-import ccd.model.WrappedBeastTree;
 import treestat2.TreeStatUtils;
 import treestat2.ccd.CCDHandler;
 
@@ -36,13 +35,13 @@ import treestat2.ccd.CCDHandler;
  */
 @SummaryStatisticDescription(
         name = "CCD0 expected RF distance",
-        description = "The average RF distance of the given tree to the trees of this\n" +
+        description = "The expected RF distance of the given tree to the trees of this\n" +
                 "CCD weighted by their probability.",
         category = SummaryStatisticDescription.Category.BAYESIAN_PHYLOGENETIC,
         allowsNonultrametricTrees = true, // TODO
         allowsPolytomies = false, // TODO
         allowsUnrootedTrees = false)
-public class CCD0AvgRFDistance extends AbstractTreeSummaryStatistic<Double> {
+public class CCD0ExpectedRFDistance extends AbstractTreeSummaryStatistic<Double> {
 
     @Override
 	public Double[] getSummaryStatistic(Tree tree) {
