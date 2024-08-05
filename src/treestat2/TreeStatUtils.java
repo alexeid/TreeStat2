@@ -5,6 +5,7 @@ import beast.base.evolution.tree.TreeUtils;
 import beast.base.parser.NexusParser;
 import beast.base.parser.NexusParserListener;
 import treestat2.ccd.CCDHandler;
+import treestat2.statistics.CCDStats;
 import treestat2.statistics.SummaryStatisticDescription;
 import treestat2.statistics.TreeSummaryStatistic;
 
@@ -164,12 +165,39 @@ public class TreeStatUtils {
         writer.flush();
         writer.close();
 
+        //TODO log CCD tree
+        if (useCCD0(statistics))
+            writeCCDMAPTree(CCDStats.Model.CCD0, outFile);
+        if (useCCD1(statistics))
+            writeCCDMAPTree(CCDStats.Model.CCD1, outFile);
+
         listener.processingComplete(nexusParser.trees.size());
     }
+
+    private static boolean useCCD0(List<TreeSummaryStatistic> statistics) {
+        return statistics.stream()
+                .anyMatch(obj -> obj instanceof CCDStats stat && stat.getCCDModel().equals(CCDStats.Model.CCD0));
+    }
+
+    private static boolean useCCD1(List<TreeSummaryStatistic> statistics) {
+        return statistics.stream()
+                .anyMatch(obj -> obj instanceof CCDStats stat && stat.getCCDModel().equals(CCDStats.Model.CCD1));
+    }
+
+    private static void writeCCDMAPTree(CCDStats.Model ccd, final File statsOutFile) {
+//        File dir =
+//        File outFile = new File(statsOutFile.getName() + "treestats.log");
+//TODO
+//
+//        final PrintWriter writer = new PrintWriter(new FileWriter(statsOutFile));
+    }
+
 
     public static CCDHandler getCCDHandler() {
         if (ccdHandler == null)
             throw new IllegalArgumentException("CCDHandler is not initialized !");
         return ccdHandler;
     }
+
+
 }

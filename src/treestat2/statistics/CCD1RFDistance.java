@@ -41,7 +41,7 @@ import treestat2.ccd.CCDHandler;
         allowsNonultrametricTrees = true, // TODO
         allowsPolytomies = false, // TODO
         allowsUnrootedTrees = false)
-public class CCD1RFDistance extends AbstractTreeSummaryStatistic<Integer> {
+public class CCD1RFDistance extends AbstractTreeSummaryStatistic<Integer> implements CCDStats<Integer> {
 
     @Override
 	public Integer[] getSummaryStatistic(Tree tree) {
@@ -53,4 +53,8 @@ public class CCD1RFDistance extends AbstractTreeSummaryStatistic<Integer> {
         return new Integer[]{rf};
     }
 
+    @Override
+    public Model getCCDModel() {
+        return Model.CCD1;
+    }
 }

@@ -40,7 +40,7 @@ import treestat2.ccd.CCDHandler;
         allowsNonultrametricTrees = true, // TODO
         allowsPolytomies = false, // TODO
         allowsUnrootedTrees = false)
-public class CCD1Information extends AbstractTreeSummaryStatistic<Double> {
+public class CCD1Information extends AbstractTreeSummaryStatistic<Double> implements CCDStats<Double> {
 
     @Override
 	public Double[] getSummaryStatistic(Tree tree) {
@@ -49,9 +49,13 @@ public class CCD1Information extends AbstractTreeSummaryStatistic<Double> {
         CCD1 ccd1 = ccdHandler.getCCD1();
 
         double p = ccd1.getProbabilityOfTree(tree);
-        double logp = Math.log(p);
+        double logp = -Math.log(p);
 
         return new Double[]{logp};
     }
 
+    @Override
+    public Model getCCDModel() {
+        return Model.CCD1;
+    }
 }
