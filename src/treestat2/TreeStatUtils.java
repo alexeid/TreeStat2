@@ -10,6 +10,8 @@ import treestat2.statistics.SummaryStatisticDescription;
 import treestat2.statistics.TreeSummaryStatistic;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.*;
 
 /**
@@ -166,12 +168,23 @@ public class TreeStatUtils {
         writer.close();
 
         //TODO log CCD tree
-        if (useCCD0(statistics))
+        boolean useCCD0 = useCCD0(statistics);
+        boolean useCCD1 = useCCD1(statistics);
+        if (useCCD0)
             writeCCDMAPTree(CCDStats.Model.CCD0, outFile);
-        if (useCCD1(statistics))
+        if (useCCD1)
             writeCCDMAPTree(CCDStats.Model.CCD1, outFile);
+        if (useCCD0 || useCCD1) {
+            writeCCDSummary(outFile);
+        }
 
         listener.processingComplete(nexusParser.trees.size());
+    }
+
+    private static void writeCCDSummary(File outFile) throws IOException {
+        File file = changeExtension(outFile, "_CCD.tsv");
+
+        Files.write(file.toPath(), ccdHandler.getCCDSummary(), Charset.defaultCharset());
     }
 
     private static boolean useCCD0(List<TreeSummaryStatistic> statistics) {
@@ -182,6 +195,12 @@ public class TreeStatUtils {
     private static boolean useCCD1(List<TreeSummaryStatistic> statistics) {
         return statistics.stream()
                 .anyMatch(obj -> obj instanceof CCDStats stat && stat.getCCDModel().equals(CCDStats.Model.CCD1));
+    }
+
+    public static File changeExtension(File f, String newExtension) {
+        int i = f.getName().lastIndexOf('.');
+        String name = f.getName().substring(0,i);
+        return new File(f.getParent(), name + newExtension);
     }
 
     private static void writeCCDMAPTree(CCDStats.Model ccd, final File statsOutFile) {
