@@ -1,10 +1,8 @@
 package treestat2.ccd;
 
 import beast.base.evolution.tree.Tree;
-import ccd.model.CCD0;
-import ccd.model.CCD1;
-import ccd.model.CCD2;
-import ccd.model.WrappedBeastTree;
+import ccd.model.*;
+import treestat2.statistics.CCDStats;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +55,15 @@ public class CCDHandler {
         return ccd2;
     }
 
+    public AbstractCCD getCCD(CCDStats.Model ccdModel) {
+        if (CCDStats.Model.CCD0.equals(ccdModel))
+            return getCCD0();
+        else if (CCDStats.Model.CCD1.equals(ccdModel))
+            return getCCD1();
+        else
+            throw new IllegalArgumentException("CCD model (" + ccdModel + ") not supported !");
+    }
+
     public List<String> getCCDSummary() {
         List<String> summary = new ArrayList<>();
         summary.add("Models\tEntropy\tp(MAPTree)\tClades\tPartitions");
@@ -67,19 +74,5 @@ public class CCDHandler {
 //        summary.add("CCD2\t" + ccd2.getEntropy() + "\t" + ccd2.getMaxTreeProbability());
         return summary;
     }
-
-
-
-    //    public static WrappedBeastTree generateMAPTreeCCD0(List<Tree> trees, double burnin) {
-//        CCD0 ccd0 = new CCD0(trees, burnin);
-//        // default "Min branch length 1, contemperaneous leaves"
-//        return new WrappedBeastTree(ccd0.getMAPTree());
-//    }
-//
-//    public static WrappedBeastTree generateMAPTreeCCD1(List<Tree> trees, double burnin) {
-//        CCD1 ccd1 = new CCD1(trees, burnin);
-//        return new WrappedBeastTree(ccd1.getMAPTree());
-//    }
-
 
 }

@@ -4,6 +4,7 @@ import beast.base.evolution.tree.Tree;
 import beast.base.evolution.tree.TreeUtils;
 import beast.base.parser.NexusParser;
 import beast.base.parser.NexusParserListener;
+import ccd.model.AbstractCCD;
 import treestat2.ccd.CCDHandler;
 import treestat2.statistics.CCDStats;
 import treestat2.statistics.SummaryStatisticDescription;
@@ -203,12 +204,15 @@ public class TreeStatUtils {
         return new File(f.getParent(), name + newExtension);
     }
 
-    private static void writeCCDMAPTree(CCDStats.Model ccd, final File statsOutFile) {
-//        File dir =
-//        File outFile = new File(statsOutFile.getName() + "treestats.log");
-//TODO
-//
-//        final PrintWriter writer = new PrintWriter(new FileWriter(statsOutFile));
+    private static void writeCCDMAPTree(CCDStats.Model ccdModel, final File outFile) throws IOException {
+        File file = changeExtension(outFile, ccdModel.name() + "-MAP.tree");
+
+        final PrintWriter writer = new PrintWriter(new FileWriter(file));
+
+        AbstractCCD abstractCCD = ccdHandler.getCCD(ccdModel);
+        Tree mapTree = abstractCCD.getMAPTree();
+        writer.println(mapTree.getRoot().toNewick());
+        writer.close();
     }
 
 
