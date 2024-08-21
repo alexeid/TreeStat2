@@ -66,11 +66,13 @@ public class CCDHandler {
 
     public List<String> getCCDSummary() {
         List<String> summary = new ArrayList<>();
-        summary.add("Models\tEntropy\tp(MAPTree)\tClades\tPartitions");
+        summary.add("Models\tEntropy\tp(MAPTree)\tClades\tPartitions\tLeafNodes");
         summary.add("CCD0\t" + ccd0.getEntropy() + "\t" + ccd0.getMaxTreeProbability() +
-                "\t" + ccd0.getNumberOfClades() + "\t" + ccd0.getNumberOfCladePartitions());
+                "\t" + ccd0.getNumberOfClades() + "\t" + ccd0.getNumberOfCladePartitions() +
+                "\t" + ccd0.getNumberOfLeaves());
         summary.add("CCD1\t" + ccd1.getEntropy() + "\t" + ccd1.getMaxTreeProbability() +
-                "\t" + ccd1.getNumberOfClades() + "\t" + ccd1.getNumberOfCladePartitions());
+                "\t" + ccd1.getNumberOfClades() + "\t" + ccd1.getNumberOfCladePartitions() +
+                "\t" + ccd1.getNumberOfLeaves());
 //        summary.add("CCD2\t" + ccd2.getEntropy() + "\t" + ccd2.getMaxTreeProbability());
         return summary;
     }
