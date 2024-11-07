@@ -8,9 +8,9 @@
     <!-- Location to check for local copy of beast2 repository -->
     <property name="beastDir" location="../beast2"/>
 
-    <!-- BEAST 2 currently uses Java 1.8 -->
-    <property name="sourceVersion" value="1.8"/>
-    <property name="targetVersion" value="1.8"/>
+    <!-- BEAST 2 currently uses Java 17 -->
+    <property name="sourceVersion" value="17"/>
+    <property name="targetVersion" value="17"/>
 
     <!-- Directories necessary for all BEAST 2 packages -->
     <property name="doc" location="doc"/>
@@ -31,9 +31,13 @@
     <property name="test-reports" location="test-reports"/>
     <property name="dist" location="dist"/>
     <property name="pack" location="${dist}/package"/>
+    <property name="beast2classpath" location="../beast2/build"/>
+    <property name="beastapp2classpath" location="../BeastFX/build"/>
+    <property name="ccdclasspath" location="../CCD/build"/>
 
     <!-- Prepare for compilation -->
     <target name="init">
+        <echo message="${ant.project.name}: ${ant.file}"/>
 
         <available file="version.xml" property="versionAvailable"/>
         <fail unless="versionAvailable">
@@ -59,66 +63,76 @@
 
     <!-- Get beast -->
 
-    <target name="find-beast" depends="init">
-        <available file="${beastDir}" property="localBeastAvailable"/>
-    </target>
+<!--    <target name="find-beast" depends="init">-->
+<!--        <available file="${beastDir}" property="localBeastAvailable"/>-->
+<!--    </target>-->
 
-    <target name="build-remote-beast" depends="find-beast" unless="localBeastAvailable">
-        <echo>No local copy of the beast2 source found at ${beastDir}.</echo>
-        <echo>Compiling against version ${beast-version} from GitHub.</echo>
+<!--    <target name="build-remote-beast" depends="find-beast" unless="localBeastAvailable">-->
+<!--        <echo>No local copy of the beast2 source found at ${beastDir}.</echo>-->
+<!--        <echo>Compiling against version ${beast-version} from GitHub.</echo>-->
 
-        <mkdir dir="${build-beast}"/>
+<!--        <mkdir dir="${build-beast}"/>-->
 
-        <get src="https://github.com/CompEvol/beast2/archive/${beast-branch}.zip" dest="${build-beast}/beast.zip"/>
-        <unzip src="${build-beast}/beast.zip" dest="${build-beast}"/>
-        <mkdir dir="${build-beast}/beast2-${beast-version}/build"/>
-        <javac target="${targetVersion}" source="${sourceVersion}"
-            srcdir="${build-beast}/beast2-${beast-version}/src"
-            destdir="${build-beast}/beast2-${beast-version}/build" includeantruntime="false">
-            <classpath>
-                <pathelement path="${classpath}"/>
-                <fileset dir="${build-beast}/beast2-${beast-version}/lib" includes="*.jar"/>
-            </classpath>
-        </javac>
-        <jar jarfile="${build-lib}/beast2.jar" basedir="${build-beast}/beast2-${beast-version}/build" />
-        <copy todir="${build-lib}">
-            <fileset dir="${build-beast}/beast2-${beast-version}/lib" includes="*.jar"/>
-        </copy>
+<!--        <get src="https://github.com/CompEvol/beast2/archive/${beast-branch}.zip" dest="${build-beast}/beast.zip"/>-->
+<!--        <unzip src="${build-beast}/beast.zip" dest="${build-beast}"/>-->
+<!--        <mkdir dir="${build-beast}/beast2-${beast-version}/build"/>-->
+<!--        <javac target="${targetVersion}" source="${sourceVersion}"-->
+<!--            srcdir="${build-beast}/beast2-${beast-version}/src"-->
+<!--            destdir="${build-beast}/beast2-${beast-version}/build" includeantruntime="false">-->
+<!--            <classpath>-->
+<!--                <pathelement path="${classpath}"/>-->
+<!--                <fileset dir="${build-beast}/beast2-${beast-version}/lib" includes="*.jar"/>-->
+<!--            </classpath>-->
+<!--        </javac>-->
+<!--        <jar jarfile="${build-lib}/beast2.jar" basedir="${build-beast}/beast2-${beast-version}/build" />-->
+<!--        <copy todir="${build-lib}">-->
+<!--            <fileset dir="${build-beast}/beast2-${beast-version}/lib" includes="*.jar"/>-->
+<!--        </copy>-->
 
-        <delete dir="${build-beast}" />
-    </target>
+<!--        <delete dir="${build-beast}" />-->
+<!--    </target>-->
 
-    <target name="build-local-beast" depends="find-beast" if="localBeastAvailable">
-        <echo>Compiling against beast2 source found at ${beastDir}.</echo>
+<!--    <target name="build-local-beast" depends="find-beast" if="localBeastAvailable">-->
+<!--        <echo>Compiling against beast2 source found at ${beastDir}.</echo>-->
 
-        <mkdir dir="${build-beast}"/>
+<!--        <mkdir dir="${build-beast}"/>-->
 
-        <javac target="${targetVersion}" source="${sourceVersion}"
-            srcdir="${beastDir}/src"
-            destdir="${build-beast}" includeantruntime="false">
-            <classpath>
-                <pathelement path="${classpath}"/>
-                <fileset dir="${beastDir}/lib" includes="*.jar"/>
-            </classpath>
-        </javac>
-        <jar jarfile="${build-lib}/beast2.jar" basedir="${build-beast}" />
-        <copy todir="${build-lib}">
-            <fileset dir="${beastDir}/lib" includes="*.jar"/>
-        </copy>
+<!--        <javac target="${targetVersion}" source="${sourceVersion}"-->
+<!--            srcdir="${beastDir}/src"-->
+<!--            destdir="${build-beast}" includeantruntime="false">-->
+<!--            <classpath>-->
+<!--                <pathelement path="${classpath}"/>-->
+<!--                <fileset dir="${beastDir}/lib" includes="*.jar"/>-->
+<!--            </classpath>-->
+<!--        </javac>-->
+<!--        <jar jarfile="${build-lib}/beast2.jar" basedir="${build-beast}" />-->
+<!--        <copy todir="${build-lib}">-->
+<!--            <fileset dir="${beastDir}/lib" includes="*.jar"/>-->
+<!--        </copy>-->
 
-        <delete dir="${build-beast}" />
-    </target>
+<!--        <delete dir="${build-beast}" />-->
+<!--    </target>-->
 
-    <target name="build-beast" depends="build-local-beast,build-remote-beast"/>
+<!--    <target name="build-beast" depends="build-local-beast,build-remote-beast"/>-->
 
-    <!-- Compile -->
-    <target name="compile" depends="build-beast">
+<!--    <import file="../CCD/build.xml"/>-->
+    <!--  CCD/build.xml not working here, so -->
+    <!--  1. cd ../CCD -->
+    <!--  2. change Java to Zulu -->
+    <!--  3. ant build_all_CCD -->
+    <!-- Then, run ant build under TreeState2 dir -->
+    <target name="compile" depends="init">
         <javac target="${targetVersion}" source="${sourceVersion}" srcdir="${src}" destdir="${build}" includeantruntime="false">
             <classpath>
                 <pathelement path="${classpath}"/>
                 <fileset dir="${build-lib}" includes="*.jar"/>
+                <!-- have to ant build_all_CCD, otherwise these would work -->
+                <pathelement path="${beast2classpath}"/>
+                <pathelement path="${beastapp2classpath}"/>
+                <pathelement path="${ccdclasspath}"/>
             </classpath>
         </javac>
+        <echo message="Successfully compiled."/>
     </target>
 
     <target name="copy-resources" depends="compile">
@@ -142,6 +156,8 @@
                 <pathelement path="${classpath}"/>
                 <pathelement path="${build}" />
                 <fileset dir="${build-lib}" includes="*.jar"/>
+                <pathelement path="${build}" />
+                <pathelement path="${build}" />
             </classpath>
         </javac>
     </target>
@@ -170,7 +186,7 @@
 
 
     <!-- Create BEAST 2 package -->
-    <target name="build" depends="compile,copy-resources">
+    <target name="build" depends="clean,compile,copy-resources">
         <property name="fullName" value="${projName}.v${projVersion}"/>
 
         <mkdir dir="${pack}"/>

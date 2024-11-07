@@ -1,5 +1,6 @@
 <package name='TreeStat2' version='0.2.0'>
 	<depends on='BEAST.base' atleast='2.7.7'/>
+    <depends on='BEAST.app' atleast='2.7.7'/>
     <depends on='CCD' atleast='1.0.1'/>
 	
     <packageapp description="TreeStat2"
