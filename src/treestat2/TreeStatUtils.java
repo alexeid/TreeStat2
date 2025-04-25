@@ -199,8 +199,16 @@ public class TreeStatUtils {
     }
 
     public static File changeExtension(File f, String newExtension) {
-        int i = f.getName().lastIndexOf('.');
-        String name = f.getName().substring(0,i);
+        String fileName = f.getName();
+        int i = fileName.lastIndexOf('.');
+
+        String name;
+        if (i > 0) {
+            name = fileName.substring(0, i);
+        } else {
+            name = fileName; // No extension found
+        }
+
         return new File(f.getParent(), name + newExtension);
     }
 
