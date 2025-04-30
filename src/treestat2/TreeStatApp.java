@@ -44,11 +44,25 @@ public class TreeStatApp extends SingleDocApplication {
         super(nameString, aboutString, icon, websiteURLString, helpURLString);
     }
 
-    static TreeSummaryStatistic processLine(String[] parts) {
+    @SuppressWarnings("unchecked")
+    private static Class<? extends TreeSummaryStatistic> loadStatisticClass(String name) throws ClassNotFoundException {
         try {
-//            Class<? extends TreeSummaryStatistic> tssClass = (Class<? extends TreeSummaryStatistic>) Class.forName(parts[0]);
-            String classToLoad = "treestat2.statistics." + parts[0];
-            Class<? extends TreeSummaryStatistic> tssClass = (Class<? extends TreeSummaryStatistic>) BEASTClassLoader.forName(classToLoad);
+            return (Class<? extends TreeSummaryStatistic>) BEASTClassLoader.forName(name);
+        } catch (ClassNotFoundException e1) {
+            // Fall back tries to use statistics in this package
+            String fallback = "treestat2.statistics." + name;
+            try {
+                return (Class<? extends TreeSummaryStatistic>) BEASTClassLoader.forName(fallback);
+            } catch (ClassNotFoundException e2) {
+                throw e2; // propagate to outer try-catch
+            }
+        }
+    }
+
+    static TreeSummaryStatistic processLine(String[] parts) {
+        Class<? extends TreeSummaryStatistic> tssClass;
+        try {
+            tssClass = loadStatisticClass(parts[0]);
 
             SummaryStatisticDescription ssd = TreeSummaryStatistic.getSummaryStatisticDescription(tssClass);
 
@@ -184,25 +198,24 @@ public class TreeStatApp extends SingleDocApplication {
             }
             if (multipleInputs && outFileName != null) {
                 // Will only throw warning, but ignore and fall back to using --out-tag
-                Log.err("Error: --out-file cannot be used when processing multiple input files. Use --out-tag instead!");
+                Log.warning("Error: --out-file cannot be used when processing multiple input files. Use --out-tag instead!");
             }
 
             List<TreeSummaryStatistic> statistics = new ArrayList<>();
 
             if (controlFileName != null) {
-                System.out.println("Processing control file: " + controlFileName);
+                Log.info("Processing control file: " + controlFileName);
                 File file = new File(controlFileName);
                 FileReader fileReader = new FileReader(file);
                 BufferedReader reader = new BufferedReader(fileReader);
 
                 String line = reader.readLine();
-                System.out.println("line = " + line);
                 while (line != null) {
                     line = line.trim();
                     String[] parts = line.split(" ");
                     TreeSummaryStatistic statistic = processLine(parts);
                     if (statistic != null) {
-                        System.out.println("  Adding statistic: " + statistic.getName());
+                        Log.info("  Adding statistic: " + statistic.getName());
                         statistics.add(statistic);
                     }
                     line = reader.readLine();
@@ -228,12 +241,12 @@ public class TreeStatApp extends SingleDocApplication {
 
                 @Override
                 public void processingHalted() {
-                    System.out.println("  Processing halted!");
+                    Log.info("  Processing halted!");
                 }
 
                 @Override
                 public void processingComplete(int numTreesProcessed) {
-                    System.out.println("  Processed " + numTreesProcessed + " trees.");
+                    Log.info("  Processed " + numTreesProcessed + " trees.");
                 }
 
                 @Override

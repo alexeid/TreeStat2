@@ -12,6 +12,17 @@ This package depends on [BEAST2](https://github.com/CompEvol/beast2/) see also [
 ---
 ## Example Usage
 
+Below are some example commands. For a full list of options, run:
+
+```bash
+applauncher TreeStatApp --help
+```
+
+> [!Note]
+> Depending on your installation, you may need to use the full path to applauncher.
+> For example:
+> `Applications/BEAST 2.7.7/bin/applauncher`
+
 ### Compute One Statistic for a Single Tree File
 
 To compute the `TreeLength` statistic for `example.trees` and save the result to `computed-stats.log`:
@@ -67,3 +78,28 @@ applauncher TreeStatApp --control-file config --tree-files example1.trees exampl
 This will also generate:
 - `example1-stats.log`
 - `example2-stats.log`
+
+
+### Further Input Options
+
+In addition to the shorthand statistic names (e.g., `TreeLength`, `CCD1ExpectedRFDistance`),
+you may also specify the **fully qualified class names** directly in a file `config`:
+
+```
+treestat2.statistics.TreeLength
+treestat2.statistics.CCD1ExpectedRFDistance
+```
+
+or on the command line 
+
+```bash
+applauncher TreeStatApp --stats  --tree-files example.trees
+```
+
+> [!Important]
+> This is exactly how shorthand names are resolved internally.
+> 
+> Specifying the full class path allows TreeStat to use statistics from other packages or custom implementations 
+> — as long as they follow the expected `TreeSummaryStatistic` interface.
+> 
+> This feature is currently **experimental and untested**!
