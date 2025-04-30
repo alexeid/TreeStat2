@@ -183,7 +183,7 @@ public class TreeStatUtils {
     }
 
     private static void writeCCDSummary(File outFile) throws IOException {
-        File file = changeExtension(outFile, "_CCD.tsv");
+        File file = changeExtension(outFile, "-CCD.tsv");
 
         Files.write(file.toPath(), ccdHandler.getCCDSummary(), Charset.defaultCharset());
     }
@@ -213,7 +213,7 @@ public class TreeStatUtils {
     }
 
     private static void writeCCDMAPTree(CCDStats.Model ccdModel, final File outFile) throws IOException {
-        File file = changeExtension(outFile, ccdModel.name() + "-MAP.tree");
+        File file = changeExtension(outFile, "-" + ccdModel.name() + "-MAP.tree");
 
         final PrintWriter writer = new PrintWriter(new FileWriter(file));
 

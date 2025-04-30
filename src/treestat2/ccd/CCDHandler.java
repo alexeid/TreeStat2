@@ -22,10 +22,13 @@ public class CCDHandler {
         // default "Min branch length 1, contemperaneous leaves"
         mapTreeCCD0 = new WrappedBeastTree(ccd0.getMAPTree());
 
-        ccd1 = new CCD1(trees, burnin);
+        // todo WIP the burnin was causing differences
+//        ccd1 = new CCD1(trees, burnin);
+        ccd1 = new CCD1(trees, 0);
         mapTreeCCD1 = new WrappedBeastTree(ccd1.getMAPTree());
 
-        ccd2 = new CCD2(trees, burnin);
+//        ccd2 = new CCD2(trees, burnin);
+        ccd2 = new CCD2(trees, 0);
         mapTreeCCD2 = new WrappedBeastTree(ccd2.getMAPTree());
 
         this.burnin = burnin;

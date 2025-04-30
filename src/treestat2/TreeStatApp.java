@@ -47,12 +47,14 @@ public class TreeStatApp extends SingleDocApplication {
     static TreeSummaryStatistic processLine(String[] parts) {
         try {
 //            Class<? extends TreeSummaryStatistic> tssClass = (Class<? extends TreeSummaryStatistic>) Class.forName(parts[0]);
-            Class<? extends TreeSummaryStatistic> tssClass = (Class<? extends TreeSummaryStatistic>) BEASTClassLoader.forName(parts[0]);
+            String classToLoad = "treestat2.statistics." + parts[0];
+            Class<? extends TreeSummaryStatistic> tssClass = (Class<? extends TreeSummaryStatistic>) BEASTClassLoader.forName(classToLoad);
 
             SummaryStatisticDescription ssd = TreeSummaryStatistic.getSummaryStatisticDescription(tssClass);
 
             TreeSummaryStatistic statistic = tssClass.newInstance();
 
+            // todo WIP: what is this allowsDouble???? and how to use it...
             if (ssd.allowsDouble()) {
                 statistic.setDouble(Double.parseDouble(parts[1]));
             } else if (ssd.allowsInteger()) {
@@ -61,72 +63,209 @@ public class TreeStatApp extends SingleDocApplication {
                 statistic.setString(parts[1]);
             }
             return statistic;
-        } catch (InstantiationException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException ignored) {
+            Log.err("[TreeStatApp]: Class not found " + parts[0] + ".\n\tUse --list to see accepted classes.");
         }
         return null;
+    }
+
+    // Print Help static
+    private static void printHelp() {
+        System.out.println("TreeStatApp - Compute summary statistics from BEAST tree files");
+        System.out.println();
+        System.out.println("Usage:");
+        System.out.println("  applauncher TreeStatApp [options]");
+        System.out.println();
+        System.out.println("Options:");
+        System.out.println("  --control-file <path>, -c <path>");
+        System.out.println("      Path to a control file specifying statistics and options.");
+        System.out.println();
+        System.out.println("  --stats <stat1> [stat2 ...], -s <stat1> [stat2 ...]");
+        System.out.println("      Directly specify one or more statistic names to compute. Use this instead of --control-file.");
+        System.out.println();
+        System.out.println("  --tree-file <path>, --tree-files <path1> [path2 ...], -t <path1> [path2 ...]");
+        System.out.println("      One or more input tree files to analyze.");
+        System.out.println();
+        System.out.println("  --out-file <path>, -o <path>");
+        System.out.println("      (Single input only) Output file path. Will not be used with multiple input files.");
+        System.out.println();
+        System.out.println("  --out-tag <tag>, -g <tag>");
+        System.out.println("      Suffix or tag to append to input filenames for output files.");
+        System.out.println("      Used when processing multiple input files. Default: \"-treestats.log\"");
+        System.out.println();
+        System.out.println("  --list, -list, -l");
+        System.out.println("      Print all available tree statistic classes.");
+        System.out.println();
+        System.out.println("  --help, -help, -h");
+        System.out.println("      Show this help message.");
     }
 
     // Main entry point
     static public void main(String[] args) throws IOException {
 
         if (args.length > 0) {
-            System.out.println("Processing control file: " + args[0]);
-            File file = new File(args[0]);
-            FileReader fileReader = new FileReader(file);
-            BufferedReader reader = new BufferedReader(fileReader);
+            String controlFileName = null;
+            List<String> treeFileNames = new ArrayList<>();
+            String outFileName = null;
+            String outFileSuffix = "-treestats.log";  // default suffix for files
+            List<String> statNames = new ArrayList<>();
+
+            for (int i = 0; i < args.length; i++) {
+                switch (args[i]) {
+                    case "--help":
+                    case "-help":
+                    case "-h":
+                        printHelp();
+                        return;
+                    case "--list":
+                    case "-list":
+                    case "-l":
+                        TreeStatisticRegistry.printAvailableOptions();
+                        return;
+                    case "--control-file":
+                    case "-c":
+                        if (i + 1 < args.length) {
+                            controlFileName = args[++i]; // get next arg
+                        } else {
+                            System.err.println("Error: --control-file requires a file path.");
+                            return;
+                        }
+                        break;
+                    case "--stats":
+                    case "-s":
+                        while (i + 1 < args.length && !args[i + 1].startsWith("-")) {
+                            statNames.add(args[++i]);
+                        }
+                        break;
+                    case "--tree-file":
+                    case "--tree-files":
+                    case "-t":
+                        i++;
+                        while (i < args.length && !args[i].startsWith("-")) {
+                            treeFileNames.add(args[i++]);
+                        }
+                        i--;
+                        if (treeFileNames.isEmpty()) {
+                            System.err.println("Error: --tree-file(s) requires at least one file.");
+                            return;
+                        }
+                        break;
+                    case "--out-file":
+                    case "-o":
+                        if (i + 1 < args.length) {
+                            outFileName = args[++i]; // get next arg
+                        } else {
+                            System.err.println("Error: --out-file requires a file path.");
+                            return;
+                        }
+                        break;
+                    case "--out-tag":
+                    case "-g":
+                        if (i + 1 < args.length) {
+                            outFileSuffix = args[++i];
+                        } else {
+                            System.err.println("Error: --out-suffix requires a suffix string.");
+                            return;
+                        }
+                        break;
+                    default:
+                        System.err.println("Unknown option: " + args[i]);
+                        printHelp();
+                        return;
+                }
+            }
+
+            boolean multipleInputs = treeFileNames.size() > 1;
+
+            if (treeFileNames.isEmpty()) {
+                throw new IllegalArgumentException("Error: --tree-file(s) requires at least one input file.");
+            }
+            if (multipleInputs && outFileName != null) {
+                // Will only throw warning, but ignore and fall back to using --out-tag
+                Log.err("Error: --out-file cannot be used when processing multiple input files. Use --out-tag instead!");
+            }
 
             List<TreeSummaryStatistic> statistics = new ArrayList<>();
 
-            String line = reader.readLine();
-            while (line != null) {
-                String[] parts = line.split(" ");
-                TreeSummaryStatistic statistic = processLine(parts);
-                if (statistic != null) {
-                    System.out.println("  Adding statistic: " + statistic.getName());
-                    statistics.add(statistic);
+            if (controlFileName != null) {
+                System.out.println("Processing control file: " + controlFileName);
+                File file = new File(controlFileName);
+                FileReader fileReader = new FileReader(file);
+                BufferedReader reader = new BufferedReader(fileReader);
+
+                String line = reader.readLine();
+                System.out.println("line = " + line);
+                while (line != null) {
+                    line = line.trim();
+                    String[] parts = line.split(" ");
+                    TreeSummaryStatistic statistic = processLine(parts);
+                    if (statistic != null) {
+                        System.out.println("  Adding statistic: " + statistic.getName());
+                        statistics.add(statistic);
+                    }
+                    line = reader.readLine();
                 }
-                line = reader.readLine();
+
+            } else if (!statNames.isEmpty()) {
+                // Use names directly
+                for (String name : statNames) {
+                    TreeSummaryStatistic stat = processLine(new String[]{name});
+                    if (stat != null) {
+                        statistics.add(stat);
+                    } else {
+                        Log.err("Unknown statistic: " + name);
+                    }
+                }
+            } else {
+                Log.err("No input provided. Use --help for usage.");
             }
 
-            for (int i = 1; i < args.length; i++) {
-                String fileName = args[i];
+            ProcessTreeFileListener listener = new ProcessTreeFileListener() {
+                @Override
+                public void startProcessing() {}
 
-                File inFile = new File(fileName);
-                File outFile = new File(fileName + "treestats.log");
+                @Override
+                public void processingHalted() {
+                    System.out.println("  Processing halted!");
+                }
 
-                System.out.println("  Processing tree file: " + fileName);
+                @Override
+                public void processingComplete(int numTreesProcessed) {
+                    System.out.println("  Processed " + numTreesProcessed + " trees.");
+                }
 
-                ProcessTreeFileListener listener = new ProcessTreeFileListener() {
+                @Override
+                public boolean warning(String message) { Log.warning(message); return true; }
 
-                    @Override
-					public void startProcessing() {}
+                @Override
+                public void error(String errorTitle, String errorMessage) { Log.err(errorTitle+": "+errorMessage); }
 
-                    @Override
-                    public void processingHalted() {
-                        System.out.println("  Processing halted!");
+                @Override
+                public void progress(String progress) {}
+            };
+
+            for (String treeFileName : treeFileNames) {
+                File inFile = new File(treeFileName);
+
+                File outFile;
+                if (multipleInputs || outFileName == null) {
+                    // Always use suffix for multiple inputs or if outFileName is not provided
+                    String baseName;
+                    int lastDot = treeFileName.lastIndexOf('.');
+                    if (lastDot > 0) {
+                        baseName = treeFileName.substring(0, lastDot);
+                    } else {
+                        baseName = treeFileName; // No extension found
                     }
+                    outFile = new File(baseName + outFileSuffix);
+                } else {
+                    // Use explicit output file name for single file
+                    outFile = new File(outFileName);
+                }
 
-                    @Override
-					public void processingComplete(int numTreesProcessed) {
-                        System.out.println("  Processed " + numTreesProcessed + " trees.");
-                    }
-
-                    @Override
-					public boolean warning(String message) { Log.warning(message); return true; }
-
-                    @Override
-                    public void error(String errorTitle, String errorMessage) { Log.err(errorTitle+": "+errorMessage); }
-
-                    @Override
-                    public void progress(String progress) {}
-                };
-
-                TreeStatUtils.processTreeFile(inFile, outFile, listener, statistics);
+            TreeStatUtils.processTreeFile(inFile, outFile, listener, statistics);
             }
         } else {
 

@@ -14,8 +14,8 @@
 
     <!-- Directories necessary for all BEAST 2 packages -->
     <property name="doc" location="doc"/>
-    <property name="examples" location="examples"/>
-    <property name="templates" location="templates"/>
+<!--    <property name="examples" location="examples"/>-->
+<!--    <property name="templates" location="templates"/>-->
 
     <!-- BEAST branch and version to build against
          (only different for version tags because of
@@ -190,8 +190,8 @@
         <property name="fullName" value="${projName}.v${projVersion}"/>
 
         <mkdir dir="${pack}"/>
-        <mkdir dir="${pack}/examples"/>
-        <mkdir dir="${pack}/templates"/>
+<!--        <mkdir dir="${pack}/examples"/>-->
+<!--        <mkdir dir="${pack}/templates"/>-->
         <!--mkdir dir="${pack}/lib"/-->
         <mkdir dir="${pack}/doc"/>
 
@@ -209,16 +209,16 @@
             <fileset dir="${lib}" includes="LICENSE*" />
         </copy-->
 
-        <mkdir dir="${examples}" />
-        <copy todir="${pack}/examples">
-            <fileset dir="${examples}" includes="**/*.xml" />
-            <fileset dir="${examples}" includes="**/*.fasta" />
-        </copy>
+<!--        <mkdir dir="${examples}" />-->
+<!--        <copy todir="${pack}/examples">-->
+<!--            <fileset dir="${examples}" includes="**/*.xml" />-->
+<!--            <fileset dir="${examples}" includes="**/*.fasta" />-->
+<!--        </copy>-->
 
-        <mkdir dir="${templates}" />
-        <copy todir="${pack}/templates">
-            <fileset dir="${templates}" includes="*.xml" />
-        </copy>
+<!--        <mkdir dir="${templates}" />-->
+<!--        <copy todir="${pack}/templates">-->
+<!--            <fileset dir="${templates}" includes="*.xml" />-->
+<!--        </copy>-->
 
         <mkdir dir="${doc}" />
         <copy todir="${pack}/doc">
