@@ -26,7 +26,6 @@
 package treestat2.statistics;
 
 import beast.base.evolution.tree.Tree;
-import ccd.model.CCD0;
 import ccd.model.CCD2;
 import treestat2.TreeStatUtils;
 import treestat2.ccd.CCDHandler;
