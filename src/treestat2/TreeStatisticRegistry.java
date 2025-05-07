@@ -69,6 +69,7 @@ public class TreeStatisticRegistry {
 
         // Tree metric jump distance traces
         statistics.add(RNNIJumpDistance.class);
+        statistics.add(RFJumpDistance.class);
     }
 
     public static List<Class<? extends TreeSummaryStatistic>> getAvailableStatistics() {

@@ -1,33 +1,32 @@
 package treestat2.statistics;
 
 import beast.base.evolution.tree.Tree;
-import beastlabs.evolution.tree.RNNIMetric;
+import ccd.algorithms.TreeDistances;
+import ccd.model.WrappedBeastTree;
 
 /**
  * @author Lars Berling
  */
 @SummaryStatisticDescription(
-        name = "RNNI jump distance trace",
-        description = "The Ranked NNI (RNNI) distance trace from a fixed tree to all other trees.",
+        name = "RF jump distance trace",
+        description = "The Robinson Foulds (RF) distance trace from a fixed tree to all other trees.",
         category = SummaryStatisticDescription.Category.BAYESIAN_PHYLOGENETIC,
         allowsInteger = true)
-public class RNNIJumpDistance extends AbstractTreeSummaryStatistic<Integer> implements RequiresReferenceTree {
+public class RFJumpDistance extends AbstractTreeSummaryStatistic<Integer> implements RequiresReferenceTree {
 
     private int fixedTreeIndex = 0;
 
     private Tree fixedReferenceTree;
 
     @Override
-    public Integer[] getSummaryStatistic(Tree tree) {
+    Integer[] getSummaryStatistic(Tree tree) {
         if (fixedReferenceTree == null) {
             throw new IllegalStateException("Reference tree was not set in " + getClass().getSimpleName());
         }
 
-        RNNIMetric rnniMetric = new RNNIMetric(tree.getTaxaNames());
+        int rf = TreeDistances.robinsonsFouldDistance(new WrappedBeastTree(tree), new WrappedBeastTree(fixedReferenceTree));
 
-        int rnni = (int) rnniMetric.distance(tree, fixedReferenceTree);
-
-        return new Integer[]{rnni};
+        return new Integer[]{rf};
     }
 
     @Override
@@ -44,5 +43,4 @@ public class RNNIJumpDistance extends AbstractTreeSummaryStatistic<Integer> impl
     public void setFixedReferenceTree(Tree fixedReferenceTree) {
         this.fixedReferenceTree = fixedReferenceTree;
     }
-
 }
