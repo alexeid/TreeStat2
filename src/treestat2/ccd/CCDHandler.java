@@ -1,5 +1,6 @@
 package treestat2.ccd;
 
+import beast.base.core.Log;
 import beast.base.evolution.tree.Tree;
 import ccd.model.*;
 import treestat2.statistics.CCDStats;
@@ -15,23 +16,27 @@ public class CCDHandler {
     final private WrappedBeastTree mapTreeCCD0;
     final private WrappedBeastTree mapTreeCCD1;
     final private WrappedBeastTree mapTreeCCD2;
-    private double burnin;
 
     public CCDHandler(List<Tree> trees, double burnin) {
-        ccd0 = new CCD0(trees, burnin);
-        // default "Min branch length 1, contemperaneous leaves"
+
+        System.out.println("CCDHandler.CCDHandler:");
+        System.out.println("burnin = " + burnin);
+
+        double adjustedBurnin = burnin;
+        if (burnin < 0.1) {
+            Log.warning("[TreeStatApp] CCD0 construction: Burn-in value too low (" + burnin + "), adjusted to 0.1.");
+            adjustedBurnin = 0.1;
+        }
+        ccd0 = new CCD0(trees, adjustedBurnin);
+        // default "Min branch length 1, contemporaneous leaves"
         mapTreeCCD0 = new WrappedBeastTree(ccd0.getMAPTree());
 
-        // todo WIP the burnin was causing differences
-//        ccd1 = new CCD1(trees, burnin);
-        ccd1 = new CCD1(trees, 0);
+        ccd1 = new CCD1(trees, burnin);
         mapTreeCCD1 = new WrappedBeastTree(ccd1.getMAPTree());
 
-//        ccd2 = new CCD2(trees, burnin);
-        ccd2 = new CCD2(trees, 0);
+        ccd2 = new CCD2(trees, burnin);
         mapTreeCCD2 = new WrappedBeastTree(ccd2.getMAPTree());
 
-        this.burnin = burnin;
     }
 
     public WrappedBeastTree getMapTreeCCD0() {
