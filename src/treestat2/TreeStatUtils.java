@@ -6,9 +6,7 @@ import beast.base.parser.NexusParser;
 import beast.base.parser.NexusParserListener;
 import ccd.model.AbstractCCD;
 import treestat2.ccd.CCDHandler;
-import treestat2.statistics.CCDStats;
-import treestat2.statistics.SummaryStatisticDescription;
-import treestat2.statistics.TreeSummaryStatistic;
+import treestat2.statistics.*;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -24,18 +22,19 @@ public class TreeStatUtils {
 
     /**
      * Store the value of the named statistic from the given state
+     *
      * @param index the index of the tree (first tree is index 0)
-     * @param key the name of the statistic
+     * @param key   the name of the statistic
      * @param value the value of the statistic for the given index
      */
-    static void putInBigMap(int index, String key, Object value, SortedMap<Integer, SortedMap<Integer,Object>> bigMap, List<String> statisticsNames) {
+    static void putInBigMap(int index, String key, Object value, SortedMap<Integer, SortedMap<Integer, Object>> bigMap, List<String> statisticsNames) {
 
         int statIndex = statisticsNames.indexOf(key);
         if (statIndex == -1) {
             throw new RuntimeException("Statistic '" + key + "' not found in:" + Arrays.toString(statisticsNames.toArray()));
         }
 
-        SortedMap<Integer,Object> innerMap = bigMap.get(statIndex);
+        SortedMap<Integer, Object> innerMap = bigMap.get(statIndex);
         if (innerMap == null) {
             innerMap = new TreeMap<>();
             bigMap.put(statIndex, innerMap);
@@ -43,7 +42,7 @@ public class TreeStatUtils {
         innerMap.put(index, value);
     }
 
-    static void writeBigMap(PrintWriter writer, int numTrees, SortedMap<Integer, SortedMap<Integer,Object>> bigMap, List<String> statisticsNames) {
+    static void writeBigMap(PrintWriter writer, int numTrees, SortedMap<Integer, SortedMap<Integer, Object>> bigMap, List<String> statisticsNames) {
 
         // Write out the first line of the statistics file
         writer.print("state");
@@ -57,11 +56,11 @@ public class TreeStatUtils {
             writer.print(state);
 
             for (Integer key : bigMap.keySet()) {
-                SortedMap<Integer,Object> innerMap = bigMap.get(key);
+                SortedMap<Integer, Object> innerMap = bigMap.get(key);
                 Object value = innerMap.get(state);
                 if (value == null) {
                     writer.print("\t0");
-                } else writer.print("\t"+value);
+                } else writer.print("\t" + value);
             }
             writer.println();
         }
@@ -78,7 +77,7 @@ public class TreeStatUtils {
         nexusParserCCD.parseFile(inFile);
         ccdHandler = new CCDHandler(nexusParserCCD.trees, ccdBurnIn);
 
-        SortedMap<Integer, SortedMap<Integer,Object>> allStats = new TreeMap<>();
+        SortedMap<Integer, SortedMap<Integer, Object>> allStats = new TreeMap<>();
         List<String> statisticsNames = new ArrayList<>();
 
         BufferedReader r = new BufferedReader(new FileReader(inFile));
@@ -97,7 +96,7 @@ public class TreeStatUtils {
             boolean isBinary;
 
             @Override
-			public void treeParsed(int treeIndex, Tree tree) {
+            public void treeParsed(int treeIndex, Tree tree) {
 
                 if (treeIndex == 0) {
                     // firstTree = tree;
@@ -108,6 +107,12 @@ public class TreeStatUtils {
                     // check that the trees conform with the requirements of the selected statistics
                     for (int i = 0; i < statistics.size(); i++) {
                         TreeSummaryStatistic tss = statistics.get(i);
+
+                        if (tss instanceof RequiresReferenceTree refStat) {
+                            int refIndex = refStat.getReferenceTreeIndex();
+                            Tree refTree = nexusParserCCD.trees.get(refIndex);
+                            refStat.setFixedReferenceTree(refTree);
+                        }
 
                         SummaryStatisticDescription ssd = TreeSummaryStatistic.Utils.getDescription(tss);
 
@@ -125,7 +130,7 @@ public class TreeStatUtils {
 
                         if (!isBinary && !ssd.allowsPolytomies()) {
                             if (!listener.warning("Warning: These trees may not be strictly bifurcating and this is\na requirement of the " +
-                                            label + " statistic. Do you wish to continue?")) {
+                                    label + " statistic. Do you wish to continue?")) {
                                 stop = true;
                                 break;
                             }
@@ -161,7 +166,7 @@ public class TreeStatUtils {
             } catch (FileNotFoundException fnfe) {
                 listener.error("Unable to open file", "File not found '" + inFile + "'");
             } catch (IOException ioe) {
-                listener.error( "Unable to read file","Unable to read file: '" + inFile + "' " + ioe);
+                listener.error("Unable to read file", "Unable to read file: '" + inFile + "' " + ioe);
             } catch (Exception e) {
                 listener.error("Error", e.toString());
             }

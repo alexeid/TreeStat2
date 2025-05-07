@@ -2,8 +2,6 @@ package treestat2.statistics;
 
 import beast.base.evolution.tree.Tree;
 import beastlabs.evolution.tree.RNNIMetric;
-import ccd.model.WrappedBeastTree;
-import treestat2.TreeStatUtils;
 
 /**
  * @author Lars Berling
@@ -11,18 +9,39 @@ import treestat2.TreeStatUtils;
 @SummaryStatisticDescription(
         name = "RNNI jump distance trace",
         description = "The Ranked NNI (RNNI) distance trace from a fixed tree to all other trees.",
-        category = SummaryStatisticDescription.Category.BAYESIAN_PHYLOGENETIC)
-public class RNNIJumpDistance extends AbstractTreeSummaryStatistic<Integer> {
+        category = SummaryStatisticDescription.Category.BAYESIAN_PHYLOGENETIC,
+        allowsInteger = true)
+public class RNNIJumpDistance extends AbstractTreeSummaryStatistic<Integer> implements RequiresReferenceTree {
+
+    private int fixedTreeIndex = 0;
+
+    private Tree fixedReferenceTree;
+
+    @Override
+    public int getReferenceTreeIndex() {
+        return fixedTreeIndex;
+    }
+
+    @Override
+    public void setFixedReferenceTree(Tree fixedReferenceTree) {
+        System.out.println("Setting reference tree with " + fixedReferenceTree.getLeafNodeCount() + " leaves");
+        this.fixedReferenceTree = fixedReferenceTree;
+    }
+
+    @Override
+    public void setInteger(int value) {
+        this.fixedTreeIndex = value;
+    }
+
     @Override
     public Integer[] getSummaryStatistic(Tree tree) {
-
-        // TODO Figure out how to do this...
-
-        Tree fixed_tree = tree.copy();
+        if (fixedReferenceTree == null) {
+            throw new IllegalStateException("Reference tree was not set in " + getClass().getSimpleName());
+        }
 
         RNNIMetric rnniMetric = new RNNIMetric(tree.getTaxaNames());
 
-        int rnni = (int) rnniMetric.distance(tree, fixed_tree);
+        int rnni = (int) rnniMetric.distance(tree, fixedReferenceTree);
 
         return new Integer[]{rnni};
     }
