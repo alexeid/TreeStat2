@@ -179,7 +179,7 @@ public class TreeStatApp extends SingleDocApplication {
         System.out.println("      Suffix or tag to append to input filenames for output files.");
         System.out.println("      Used when processing multiple input files. Default: \"-treestats.log\"");
         System.out.println();
-        System.out.println("  --ccd-burn-in <double>, -b <double>");
+        System.out.println("  --ccd-burn-in <double>, -b <double> (optional)");
         System.out.println("      Burn-in used to construct CCDs with, should be between 0 and 1.");
         System.out.println("      Defaults to 0.1 for 10% burn-in, CCD0 has a default minimum of 0.1!");
         System.out.println();

@@ -34,6 +34,7 @@
     <property name="beast2classpath" location="../beast2/build"/>
     <property name="beastapp2classpath" location="../BeastFX/build"/>
     <property name="ccdclasspath" location="../CCD/build"/>
+    <property name="beastlabsclasspath" location="../BEASTLabs/build" />
 
     <!-- Prepare for compilation -->
     <target name="init">
@@ -120,7 +121,7 @@
     <!--  1. cd ../CCD -->
     <!--  2. change Java to Zulu -->
     <!--  3. ant build_all_CCD -->
-    <!-- Then, run ant build under TreeState2 dir -->
+    <!-- Then, run ant build under TreeStat2 dir -->
     <target name="compile" depends="init">
         <javac target="${targetVersion}" source="${sourceVersion}" srcdir="${src}" destdir="${build}" includeantruntime="false">
             <classpath>
@@ -130,6 +131,7 @@
                 <pathelement path="${beast2classpath}"/>
                 <pathelement path="${beastapp2classpath}"/>
                 <pathelement path="${ccdclasspath}"/>
+                <pathelement path="${beastlabsclasspath}"/>
             </classpath>
         </javac>
         <echo message="Successfully compiled."/>

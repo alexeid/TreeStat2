@@ -66,6 +66,9 @@ public class TreeStatisticRegistry {
         statistics.add(CCD1ExpectedRFDistance.class);
         statistics.add(CCD0Information.class);
         statistics.add(CCD1Information.class);
+
+        // Tree metric jump distance traces
+        statistics.add(RNNIJumpDistance.class);
     }
 
     public static List<Class<? extends TreeSummaryStatistic>> getAvailableStatistics() {
