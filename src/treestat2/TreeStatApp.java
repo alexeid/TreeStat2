@@ -60,15 +60,39 @@ public class TreeStatApp extends SingleDocApplication {
         }
     }
 
+    private static TreeSummaryStatistic createStatistic(String name, String value) throws ClassNotFoundException {
+        Class<? extends TreeSummaryStatistic> tssClass = loadStatisticClass(name);
+        SummaryStatisticDescription ssd = TreeSummaryStatistic.getSummaryStatisticDescription(tssClass);
+        TreeSummaryStatistic stat;
+        try {
+            stat = tssClass.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (value != null) {
+            if (ssd.allowsDouble()) {
+                stat.setDouble(Double.parseDouble(value));
+            } else if (ssd.allowsInteger()) {
+                stat.setInteger(Integer.parseInt(value));
+            } else if (ssd.allowsString()) {
+                stat.setString(value);
+            } else {
+                Log.err("[TreeStatApp]: Statistic '" + name + "' does not accept a value, but one was provided: " + value);
+            }
+        }
+
+        return stat;
+    }
+
     private static List<TreeSummaryStatistic> parseCliStats(List<String> statNames) {
         List<TreeSummaryStatistic> statistics = new ArrayList<>();
         for (int i = 0; i < statNames.size(); i++) {
             String name = statNames.get(i);
+            String value = null;
             try {
-                Class<? extends TreeSummaryStatistic> tssClass = loadStatisticClass(name);
-                SummaryStatisticDescription ssd = TreeSummaryStatistic.getSummaryStatisticDescription(tssClass);
-                TreeSummaryStatistic statistic = tssClass.getDeclaredConstructor().newInstance();
-
+                loadStatisticClass(name);
                 // Look ahead for optional value
                 if (i + 1 < statNames.size()) {
                     String potentialValue = statNames.get(i + 1);
@@ -77,57 +101,21 @@ public class TreeStatApp extends SingleDocApplication {
                         loadStatisticClass(potentialValue);
                     } catch (ClassNotFoundException e) {
                         // Next token is not a class – treat as a value
+                        value = potentialValue;
                         i++; // Consume the value
-
-                        if (ssd.allowsDouble()) {
-                            statistic.setDouble(Double.parseDouble(potentialValue));
-                        } else if (ssd.allowsInteger()) {
-                            statistic.setInteger(Integer.parseInt(potentialValue));
-                        } else if (ssd.allowsString()) {
-                            statistic.setString(potentialValue);
-                        } else {
-                            Log.err("Passing value " + potentialValue + " to statistic " + name + " which does not accept a value.");
-                        }
                     }
                 }
-
-                statistics.add(statistic);
+                TreeSummaryStatistic stat = createStatistic(name, value);
+                statistics.add(stat);
             } catch (ClassNotFoundException e) {
-                Log.err("Unknown statistic class: " + name);
+                Log.err("[TreeStatApp]: Class not found " + name + ".\n\tUse --list to see accepted classes.");
             } catch (Exception e) {
-                Log.err("Failed to create statistic '" + name + "': " + e.getMessage());
+                Log.err("[TreeStatApp]: Failed to create statistic '" + name + "': " + e.getMessage());
                 e.printStackTrace();
             }
         }
 
         return statistics;
-    }
-
-    private static TreeSummaryStatistic processLine(String[] parts) {
-        Class<? extends TreeSummaryStatistic> tssClass;
-        try {
-            tssClass = loadStatisticClass(parts[0]);
-
-            SummaryStatisticDescription ssd = TreeSummaryStatistic.getSummaryStatisticDescription(tssClass);
-
-            TreeSummaryStatistic statistic = tssClass.getDeclaredConstructor().newInstance();
-
-            if (ssd.allowsDouble()) {
-                statistic.setDouble(Double.parseDouble(parts[1]));
-            } else if (ssd.allowsInteger()) {
-                statistic.setInteger(Integer.parseInt(parts[1]));
-            } else if (ssd.allowsString()) {
-                statistic.setString(parts[1]);
-            }
-            return statistic;
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException ignored) {
-            Log.err("[TreeStatApp]: Class not found " + parts[0] + ".\n\tUse --list to see accepted classes.");
-        } catch (InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
     }
 
     private static List<TreeSummaryStatistic> loadStatisticsFromControlFile(String controlFileName) throws IOException {
@@ -143,13 +131,21 @@ public class TreeStatApp extends SingleDocApplication {
                 String[] parts = line.split("\\s+");
 
                 if (parts.length > 2) {
-                    Log.err("Only one optional value is supported per statistic and remainder will be ignored." +
+                    Log.err("[TreeStatApp]: Only one optional value is supported per statistic and remainder will be ignored." +
                             "Invalid input: " + line);
                 }
 
-                TreeSummaryStatistic stat = processLine(parts);
+                TreeSummaryStatistic stat = null;
+                try {
+                    String name = parts[0];
+                    String value = parts.length == 2 ? parts[1] : null;
+                    stat = createStatistic(name, value);
+                } catch (ClassNotFoundException ignored) {
+                    Log.err("[TreeStatApp]: Class not found " + parts[0] + ".\n\tUse --list to see accepted classes.");
+                }
+
                 if (stat != null) {
-                    Log.debug("  Adding statistic: " + stat.getName());
+                    Log.info("  Adding statistic: " + stat.getName());
                     statistics.add(stat);
                 }
             }
@@ -267,11 +263,11 @@ public class TreeStatApp extends SingleDocApplication {
             boolean multipleInputs = treeFileNames.size() > 1;
 
             if (treeFileNames.isEmpty()) {
-                throw new IllegalArgumentException("Error: --tree-file(s) requires at least one input file.");
+                throw new IllegalArgumentException("[TreeStatApp]: Error: --tree-file(s) requires at least one input file.");
             }
             if (multipleInputs && outFileName != null) {
                 // Will only throw warning, but ignore and fall back to using --out-tag
-                Log.warning("Error: --out-file cannot be used when processing multiple input files. Use --out-tag instead!");
+                Log.warning("[TreeStatApp]: Error: --out-file cannot be used when processing multiple input files. Use --out-tag instead!");
             }
 
             List<TreeSummaryStatistic> statistics;
@@ -283,7 +279,7 @@ public class TreeStatApp extends SingleDocApplication {
                 // Parse input stats and values from cli input
                 statistics = parseCliStats(statNames);
             } else {
-                Log.err("No input provided. Use --help for usage.");
+                Log.err("[TreeStatApp]: No input provided. Use --help for usage.");
                 return;
             }
 
