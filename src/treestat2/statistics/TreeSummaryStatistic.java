@@ -52,7 +52,7 @@ public interface TreeSummaryStatistic<T> {
     /**
      * @return the name=value pairs of this summary statistic for the given tree.
      */
-    public Map<String,T> getStatistics(Tree tree);
+    Map<String,T> getStatistics(Tree tree);
 
     /**
      * Return the dimension of this statistic for the given tree
@@ -60,16 +60,16 @@ public interface TreeSummaryStatistic<T> {
      * @return
      */
     default int getDimension(Tree tree) {
-        return getStatistics(tree).keySet().size();
+        return getStatistics(tree).size();
     }
 
-    public class Utils {
+    class Utils {
         public static SummaryStatisticDescription getDescription(TreeSummaryStatistic<?> tss) {
             return tss.getClass().getAnnotation(SummaryStatisticDescription.class);
         }
     }
 
-    public abstract class Factory {
+    abstract class Factory {
 		public TreeSummaryStatistic<?> createStatistic() {
 			throw new RuntimeException("This factory method is not implemented");
 		}
