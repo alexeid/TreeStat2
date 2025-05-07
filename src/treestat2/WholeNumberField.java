@@ -100,7 +100,7 @@ public class WholeNumberField extends JTextField
 
     public Integer getValue() {
         try {
-            return new Integer(getText());
+            return Integer.valueOf(getText());
         } catch (NumberFormatException e) {
             return null;
         }
@@ -108,7 +108,7 @@ public class WholeNumberField extends JTextField
 
     public Long getLongValue() {
         try {
-            return new Long(getText());
+            return Long.valueOf(getText());
         } catch (NumberFormatException e) {
             return null;
         }
