@@ -13,7 +13,7 @@
     <property name="targetVersion" value="17"/>
 
     <!-- Directories necessary for all BEAST 2 packages -->
-    <property name="doc" location="doc"/>
+<!--    <property name="doc" location="doc"/>-->
 <!--    <property name="examples" location="examples"/>-->
 <!--    <property name="templates" location="templates"/>-->
 
@@ -193,7 +193,7 @@
 <!--        <mkdir dir="${pack}/examples"/>-->
 <!--        <mkdir dir="${pack}/templates"/>-->
         <!--mkdir dir="${pack}/lib"/-->
-        <mkdir dir="${pack}/doc"/>
+<!--        <mkdir dir="${pack}/doc"/>-->
 
         <jar jarfile="${pack}/${fullName}.src.jar" basedir="${src}" />
 
@@ -220,10 +220,10 @@
 <!--            <fileset dir="${templates}" includes="*.xml" />-->
 <!--        </copy>-->
 
-        <mkdir dir="${doc}" />
-        <copy todir="${pack}/doc">
-            <fileset dir="${doc}" includes="*.tex,*.doc,*.lyx,*.txt"/>
-        </copy>
+<!--        <mkdir dir="${doc}" />-->
+<!--        <copy todir="${pack}/doc">-->
+<!--            <fileset dir="${doc}" includes="*.tex,*.doc,*.lyx,*.txt"/>-->
+<!--        </copy>-->
 
         <copy file="version.xml" todir="${pack}" />
 
