@@ -35,6 +35,7 @@ import treestat2.statistics.TreeSummaryStatistic;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.List;
 
@@ -59,21 +60,63 @@ public class TreeStatApp extends SingleDocApplication {
         }
     }
 
-    static TreeSummaryStatistic processLine(String[] parts) {
+    private static List<TreeSummaryStatistic> parseCliStats(List<String> statNames) {
+        List<TreeSummaryStatistic> statistics = new ArrayList<>();
+        for (int i = 0; i < statNames.size(); i++) {
+            String name = statNames.get(i);
+            try {
+                Class<? extends TreeSummaryStatistic> tssClass = loadStatisticClass(name);
+                SummaryStatisticDescription ssd = TreeSummaryStatistic.getSummaryStatisticDescription(tssClass);
+                TreeSummaryStatistic statistic = tssClass.getDeclaredConstructor().newInstance();
+
+                // Look ahead for optional value
+                if (i + 1 < statNames.size()) {
+                    String potentialValue = statNames.get(i + 1);
+                    try {
+                        // If next token is also a stat, do not consume it
+                        loadStatisticClass(potentialValue);
+                    } catch (ClassNotFoundException e) {
+                        // Next token is not a class – treat as a value
+                        i++; // Consume the value
+
+                        if (ssd.allowsDouble()) {
+                            statistic.setDouble(Double.parseDouble(potentialValue));
+                        } else if (ssd.allowsInteger()) {
+                            statistic.setInteger(Integer.parseInt(potentialValue));
+                        } else if (ssd.allowsString()) {
+                            statistic.setString(potentialValue);
+                        } else {
+                            Log.err("Passing value " + potentialValue + " to statistic " + name + " which does not accept a value.");
+                        }
+                    }
+                }
+
+                statistics.add(statistic);
+            } catch (ClassNotFoundException e) {
+                Log.err("Unknown statistic class: " + name);
+            } catch (Exception e) {
+                Log.err("Failed to create statistic '" + name + "': " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+        return statistics;
+    }
+
+    private static TreeSummaryStatistic processLine(String[] parts) {
         Class<? extends TreeSummaryStatistic> tssClass;
         try {
             tssClass = loadStatisticClass(parts[0]);
 
             SummaryStatisticDescription ssd = TreeSummaryStatistic.getSummaryStatisticDescription(tssClass);
 
-            TreeSummaryStatistic statistic = tssClass.newInstance();
+            TreeSummaryStatistic statistic = tssClass.getDeclaredConstructor().newInstance();
 
-            // todo WIP: what is this allowsDouble???? and how to use it...
             if (ssd.allowsDouble()) {
                 statistic.setDouble(Double.parseDouble(parts[1]));
             } else if (ssd.allowsInteger()) {
                 statistic.setInteger(Integer.parseInt(parts[1]));
-            } else if (ssd.allowsString()) {  // allowsString
+            } else if (ssd.allowsString()) {
                 statistic.setString(parts[1]);
             }
             return statistic;
@@ -81,8 +124,38 @@ public class TreeStatApp extends SingleDocApplication {
             e.printStackTrace();
         } catch (ClassNotFoundException ignored) {
             Log.err("[TreeStatApp]: Class not found " + parts[0] + ".\n\tUse --list to see accepted classes.");
+        } catch (InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
         }
         return null;
+    }
+
+    private static List<TreeSummaryStatistic> loadStatisticsFromControlFile(String controlFileName) throws IOException {
+        Log.info("Processing control file: " + controlFileName);
+        List<TreeSummaryStatistic> statistics = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(controlFileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+                if (line.isEmpty()) continue;
+
+                String[] parts = line.split("\\s+");
+
+                if (parts.length > 2) {
+                    Log.err("Only one optional value is supported per statistic and remainder will be ignored." +
+                            "Invalid input: " + line);
+                }
+
+                TreeSummaryStatistic stat = processLine(parts);
+                if (stat != null) {
+                    Log.debug("  Adding statistic: " + stat.getName());
+                    statistics.add(stat);
+                }
+            }
+        }
+
+        return statistics;
     }
 
     // Print Help static
@@ -201,38 +274,17 @@ public class TreeStatApp extends SingleDocApplication {
                 Log.warning("Error: --out-file cannot be used when processing multiple input files. Use --out-tag instead!");
             }
 
-            List<TreeSummaryStatistic> statistics = new ArrayList<>();
+            List<TreeSummaryStatistic> statistics;
 
             if (controlFileName != null) {
-                Log.info("Processing control file: " + controlFileName);
-                File file = new File(controlFileName);
-                FileReader fileReader = new FileReader(file);
-                BufferedReader reader = new BufferedReader(fileReader);
-
-                String line = reader.readLine();
-                while (line != null) {
-                    line = line.trim();
-                    String[] parts = line.split(" ");
-                    TreeSummaryStatistic statistic = processLine(parts);
-                    if (statistic != null) {
-                        Log.info("  Adding statistic: " + statistic.getName());
-                        statistics.add(statistic);
-                    }
-                    line = reader.readLine();
-                }
-
+                // Parse input stats from control file
+                statistics = loadStatisticsFromControlFile(controlFileName);
             } else if (!statNames.isEmpty()) {
-                // Use names directly
-                for (String name : statNames) {
-                    TreeSummaryStatistic stat = processLine(new String[]{name});
-                    if (stat != null) {
-                        statistics.add(stat);
-                    } else {
-                        Log.err("Unknown statistic: " + name);
-                    }
-                }
+                // Parse input stats and values from cli input
+                statistics = parseCliStats(statNames);
             } else {
                 Log.err("No input provided. Use --help for usage.");
+                return;
             }
 
             ProcessTreeFileListener listener = new ProcessTreeFileListener() {
