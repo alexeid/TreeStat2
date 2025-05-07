@@ -35,11 +35,11 @@ applauncher TreeStatApp --stats TreeLength --tree-file example.trees --out-file 
 
 ### Compute Multiple Statistics for Multiple Tree Files
 
-To compute both `TreeLength` and `CCD1ExpectedRFDistance` for two input files (`example1.trees` and `example2.trees`) and save the output to tagged log files:
+To compute both `TreeLength` and `CCD1ExpectedRFDistance` for two input files 
+(`example1.trees` and `example2.trees`) and save the output to tagged log files:
 
 ```bash
-applauncher TreeStatApp --stats TreeLength CCD1ExpectedRFDistance --tree-files example1.trees 
-example2.trees --out-tag -stats.log
+applauncher TreeStatApp --stats TreeLength CCD1ExpectedRFDistance --tree-files example1.trees example2.trees --out-tag -stats.log
 ```
 
 This will generate:
@@ -49,8 +49,7 @@ This will generate:
 If no `--out-tag` is specified, the default suffix `-treestats.log` is used. For example:
 
 ```bash
-applauncher TreeStatApp --stats TreeLength CCD1ExpectedRFDistance --tree-files example1.trees 
-example2.trees
+applauncher TreeStatApp --stats TreeLength CCD1ExpectedRFDistance --tree-files example1.trees example2.trees
 ```
 
 Generates:
@@ -71,8 +70,7 @@ CCD1ExpectedRFDistance
 Then run:
 
 ```bash
-applauncher TreeStatApp --control-file config --tree-files example1.trees example2.trees 
---out-tag -stats.log
+applauncher TreeStatApp --control-file config --tree-files example1.trees example2.trees --out-tag -stats.log
 ```
 
 This will also generate:
@@ -93,7 +91,7 @@ treestat2.statistics.CCD1ExpectedRFDistance
 or on the command line 
 
 ```bash
-applauncher TreeStatApp --stats  --tree-files example.trees
+applauncher TreeStatApp --stats treestat2.statistics.TreeLength  treestat2.statistics.CCD1ExpectedRFDistance --tree-files example.trees
 ```
 
 > [!Important]
