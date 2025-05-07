@@ -67,12 +67,16 @@ public class TreeStatUtils {
         }
     }
 
-    static void processTreeFile(File inFile, final File outFile, ProcessTreeFileListener listener, List<TreeSummaryStatistic> statistics) throws IOException {
+    static void processTreeFile(File inFile, File outFile, ProcessTreeFileListener listener, List<TreeSummaryStatistic> statistics) throws IOException {
+        processTreeFile(inFile, outFile, listener, statistics, 0.1);
+        // default burnin for CCD construction is 0.1
+    }
+
+    static void processTreeFile(File inFile, final File outFile, ProcessTreeFileListener listener, List<TreeSummaryStatistic> statistics, double ccdBurnIn) throws IOException {
 
         NexusParser nexusParserCCD = new NexusParser();
         nexusParserCCD.parseFile(inFile);
-        // CCD distribution is created by removing 10% burnin
-        ccdHandler = new CCDHandler(nexusParserCCD.trees, 0.1); // TODO burnin cannot be 0
+        ccdHandler = new CCDHandler(nexusParserCCD.trees, ccdBurnIn);
 
         SortedMap<Integer, SortedMap<Integer,Object>> allStats = new TreeMap<>();
         List<String> statisticsNames = new ArrayList<>();

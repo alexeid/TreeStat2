@@ -36,6 +36,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.*;
 import java.util.List;
 
@@ -178,11 +179,16 @@ public class TreeStatApp extends SingleDocApplication {
         System.out.println("      Suffix or tag to append to input filenames for output files.");
         System.out.println("      Used when processing multiple input files. Default: \"-treestats.log\"");
         System.out.println();
+        System.out.println("  --ccd-burn-in <double>, -b <double>");
+        System.out.println("      Burn-in used to construct CCDs with, should be between 0 and 1.");
+        System.out.println("      Defaults to 0.1 for 10% burn-in, CCD0 has a default minimum of 0.1!");
+        System.out.println();
         System.out.println("  --list, -list, -l");
         System.out.println("      Print all available tree statistic classes.");
         System.out.println();
         System.out.println("  --help, -help, -h");
         System.out.println("      Show this help message.");
+        System.out.println();
     }
 
     // Main entry point
@@ -194,6 +200,7 @@ public class TreeStatApp extends SingleDocApplication {
             String outFileName = null;
             String outFileSuffix = "-treestats.log";  // default suffix for files
             List<String> statNames = new ArrayList<>();
+            String ccdBurnInInput = null;  // default ccdBurnIn for CLI only!
 
             for (int i = 0; i < args.length; i++) {
                 switch (args[i]) {
@@ -253,6 +260,15 @@ public class TreeStatApp extends SingleDocApplication {
                             return;
                         }
                         break;
+                    case "--ccd-burn-in":
+                    case "-b":
+                        if (i + 1 < args.length) {
+                            ccdBurnInInput = args[++i];
+                        } else {
+                            System.err.println("Error: --ccd-burn-in requires a double as input.");
+                            return;
+                        }
+                        break;
                     default:
                         System.err.println("Unknown option: " + args[i]);
                         printHelp();
@@ -281,6 +297,21 @@ public class TreeStatApp extends SingleDocApplication {
             } else {
                 Log.err("[TreeStatApp]: No input provided. Use --help for usage.");
                 return;
+            }
+
+            // Parsing ccdBurnIn value
+            double ccdBurnIn = 0.1; // default ccd burnin
+            if (ccdBurnInInput != null && !ccdBurnInInput.trim().isEmpty()) {
+                try {
+                    double parsed = Double.parseDouble(ccdBurnInInput);
+                    if (parsed >= 0.0 && parsed < 1.0) {
+                        ccdBurnIn = parsed;
+                    } else {
+                        Log.warning("Burn-in value must be between 0.0 (inclusive) and 1.0 (exclusive). Using default: " + ccdBurnIn);
+                    }
+                } catch (NumberFormatException e) {
+                    Log.warning("Invalid burn-in value: '" + ccdBurnInInput +"', using default: " + ccdBurnIn);
+                }
             }
 
             ProcessTreeFileListener listener = new ProcessTreeFileListener() {
@@ -326,7 +357,7 @@ public class TreeStatApp extends SingleDocApplication {
                     outFile = new File(outFileName);
                 }
 
-            TreeStatUtils.processTreeFile(inFile, outFile, listener, statistics);
+                TreeStatUtils.processTreeFile(inFile, outFile, listener, statistics, ccdBurnIn);
             }
         } else {
 
@@ -348,7 +379,7 @@ public class TreeStatApp extends SingleDocApplication {
 
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
-                java.net.URL url = TreeStatApp.class.getResource("images/TreeStat.png");
+                URL url = TreeStatApp.class.getResource("images/TreeStat.png");
                 Icon icon = null;
 
                 if (url != null) {

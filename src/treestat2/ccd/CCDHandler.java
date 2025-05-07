@@ -19,12 +19,10 @@ public class CCDHandler {
 
     public CCDHandler(List<Tree> trees, double burnin) {
 
-        System.out.println("CCDHandler.CCDHandler:");
-        System.out.println("burnin = " + burnin);
-
         double adjustedBurnin = burnin;
         if (burnin < 0.1) {
-            Log.warning("[TreeStatApp] CCD0 construction: Burn-in value too low (" + burnin + "), adjusted to 0.1.");
+            Log.warning("[TreeStatApp]: CCD0 construction: Burn-in value too low (" + burnin + ")" +
+                    ", adjusted to 0.1.");
             adjustedBurnin = 0.1;
         }
         ccd0 = new CCD0(trees, adjustedBurnin);
