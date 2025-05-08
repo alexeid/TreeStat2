@@ -46,6 +46,7 @@ public class WholeNumberField extends JTextField
 
             String text = getText().trim();
             if (text.isEmpty()) {
+                setText("0"); // Set a default value if the field is empty
                 return;
             }
 
