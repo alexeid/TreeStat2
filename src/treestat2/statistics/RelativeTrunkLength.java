@@ -2,8 +2,6 @@ package treestat2.statistics;
 
 import beast.base.evolution.tree.Tree;
 import beast.base.evolution.tree.TreeUtils;
-import treestat2.statistics.AbstractTreeSummaryStatistic;
-import treestat2.statistics.SummaryStatisticDescription;
 
 @SummaryStatisticDescription(
         name = "Relative trunk length",

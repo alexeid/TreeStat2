@@ -29,7 +29,8 @@ import jam.framework.Exportable;
 import jam.panels.OptionsPanel;
 import jam.table.TableRenderer;
 import jam.util.IconUtils;
-import treestat2.statistics.*;
+import treestat2.statistics.SummaryStatisticDescription;
+import treestat2.statistics.TreeSummaryStatistic;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

@@ -26,9 +26,9 @@
 package treestat2;
 
 import beast.base.evolution.tree.Tree;
+import beast.base.evolution.tree.TreeParser;
 import beast.base.evolution.tree.TreeUtils;
 import beast.base.parser.NexusParser;
-import beast.base.evolution.tree.TreeParser;
 import jam.framework.Application;
 import jam.framework.DocumentFrame;
 import jam.util.IconUtils;

@@ -27,8 +27,8 @@ package treestat2.statistics;
 
 import beast.base.evolution.tree.Node;
 import beast.base.evolution.tree.Tree;
-import beast.base.evolution.tree.TreeUtils;
 import beast.base.evolution.tree.TreeParser;
+import beast.base.evolution.tree.TreeUtils;
 
 import java.util.Set;
 import java.util.TreeSet;

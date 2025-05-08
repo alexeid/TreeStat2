@@ -30,7 +30,7 @@ import beast.base.evolution.tree.Node;
 import beast.base.evolution.tree.Tree;
 import beast.base.evolution.tree.TreeUtils;
 
-import java.util.*;
+import java.util.Set;
 
 /**
  * @author Alexei Drummond

@@ -25,12 +25,12 @@
 
 package treestat2;
 
+import treestat2.statistics.TreeSummaryStatistic;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import treestat2.statistics.TreeSummaryStatistic;
 
 public class TreeStatData {
 	public static final String version = "2.0alpha";

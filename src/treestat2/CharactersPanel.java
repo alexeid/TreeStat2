@@ -26,19 +26,16 @@
 package treestat2;
 
 
+import jam.framework.Exportable;
+import jam.table.TableRenderer;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
-
-import beast.pkgmgmt.Utils6;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-
-import jam.table.TableRenderer;
-import jam.framework.Exportable;
 
 
 public class CharactersPanel extends JPanel implements Exportable {
@@ -607,7 +604,7 @@ public class CharactersPanel extends JPanel implements Exportable {
         @Override
 		public Class<?> getColumnClass(int c) {return getValueAt(0, c).getClass();}
     }
-    
+
     public static Image getImage(Object caller, String name) {
 
         java.net.URL url = caller.getClass().getClassLoader().getResource(name);

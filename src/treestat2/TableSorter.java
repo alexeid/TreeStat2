@@ -30,7 +30,9 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.*;
 import java.util.List;
 
@@ -88,7 +90,7 @@ import java.util.List;
 
 public class TableSorter extends AbstractTableModel {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -292884326733536967L;
 
