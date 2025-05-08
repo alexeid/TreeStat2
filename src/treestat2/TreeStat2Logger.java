@@ -20,7 +20,7 @@ public class TreeStat2Logger extends CalculationNode implements Loggable, Functi
     final public Input<Tree> treeInput = new Input<>("tree", "tree to report statistic for.", Validate.REQUIRED);
     final public Input<Boolean> TreeHeightInput = new Input<>("TreeHeight", "If true, tree height will be logged.", false);
     final public Input<Boolean> SecondInternalNodeHeightInput = new Input<>("SecondInternalNodeHeight", "If true, second internal node height will be logged.", false);
-    final public Input<String> GetTypeChangesInput = new Input<>("GetTypeChanges", "Comma separated types for type changes logging.","");
+    final public Input<String> GetTypeChangesInput = new Input<>("GetTypeChanges", "Comma separated types for type changes logging.", "");
     final public Input<Boolean> ExternalInternalRatioInput = new Input<>("ExternalInternalRatio", "If true, external to internal branch length ratio will be logged.", false);
 
     boolean TreeHeight, secondInternalNodeHeight, externalInternalRatio;
@@ -92,7 +92,7 @@ public class TreeStat2Logger extends CalculationNode implements Loggable, Functi
     }
 
 
-	@Override
+    @Override
     public void close(PrintStream out) {
         // nothing to do
     }

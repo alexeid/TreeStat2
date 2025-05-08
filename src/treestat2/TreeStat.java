@@ -16,41 +16,41 @@ import java.util.Map;
 
 @Description("Logger for a tree statistic")
 public class TreeStat extends BEASTObject implements Loggable {
-	final public Input<Tree> treeInput = new Input<>("tree", "tree for which a statistic is logged", Validate.REQUIRED);
-	final public Input<AbstractTreeSummaryStatistic<?>> statInput = new Input<>("state", "tree statistic to be logged", Validate.REQUIRED);
+    final public Input<Tree> treeInput = new Input<>("tree", "tree for which a statistic is logged", Validate.REQUIRED);
+    final public Input<AbstractTreeSummaryStatistic<?>> statInput = new Input<>("state", "tree statistic to be logged", Validate.REQUIRED);
 
-	Tree tree;
-	AbstractTreeSummaryStatistic<?> stat;
-	List<String> labels;
+    Tree tree;
+    AbstractTreeSummaryStatistic<?> stat;
+    List<String> labels;
 
-	@Override
-	public void initAndValidate() {
-		tree = treeInput.get();
-		stat = statInput.get();
-	}
+    @Override
+    public void initAndValidate() {
+        tree = treeInput.get();
+        stat = statInput.get();
+    }
 
-	@Override
-	public void init(PrintStream out) {
-		Map<String, ?> map = stat.getStatistics(tree);
-		labels = new ArrayList<>();
-		labels.addAll(map.keySet());
-		Collections.sort(labels);
-		for (int i = 0; i < labels.size(); i++) {
-			out.print(labels.get(i) + "\t");
-		}
-	}
+    @Override
+    public void init(PrintStream out) {
+        Map<String, ?> map = stat.getStatistics(tree);
+        labels = new ArrayList<>();
+        labels.addAll(map.keySet());
+        Collections.sort(labels);
+        for (int i = 0; i < labels.size(); i++) {
+            out.print(labels.get(i) + "\t");
+        }
+    }
 
-	@Override
-	public void log(long sample, PrintStream out) {
-		Map<String, ?> map = stat.getStatistics(tree);
-		for (int i = 0; i < labels.size(); i++) {
-			out.print(map.get(labels.get(i)) + "\t");
-		}
-	}
+    @Override
+    public void log(long sample, PrintStream out) {
+        Map<String, ?> map = stat.getStatistics(tree);
+        for (int i = 0; i < labels.size(); i++) {
+            out.print(map.get(labels.get(i)) + "\t");
+        }
+    }
 
-	@Override
-	public void close(PrintStream out) {
-		// nothing to do
-	}
+    @Override
+    public void close(PrintStream out) {
+        // nothing to do
+    }
 
 }

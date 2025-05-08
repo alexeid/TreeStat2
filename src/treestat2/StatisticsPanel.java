@@ -87,7 +87,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
 
         availableStatisticsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
-			public void valueChanged(ListSelectionEvent evt) {
+            public void valueChanged(ListSelectionEvent evt) {
                 statisticsTableSelectionChanged(false);
             }
         });
@@ -111,7 +111,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
 
         includedStatisticsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
-			public void valueChanged(ListSelectionEvent evt) {
+            public void valueChanged(ListSelectionEvent evt) {
                 statisticsTableSelectionChanged(true);
             }
         });
@@ -198,7 +198,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
     }
 
     @Override
-	public JComponent getExportableComponent() {
+    public JComponent getExportableComponent() {
         return this;
     }
 
@@ -240,7 +240,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         private static final long serialVersionUID = -7179224487959650620L;
 
         @Override
-		public void actionPerformed(ActionEvent ae) {
+        public void actionPerformed(ActionEvent ae) {
             int[] indices = availableStatisticsTable.getSelectedRows();
             for (int i = indices.length - 1; i >= 0; i--) {
                 Class<? extends TreeSummaryStatistic> ssd = availableStatistics.get(indices[i]);
@@ -257,7 +257,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
                 }
             }
             if (frame != null) {
-            	frame.fireDataChanged();
+                frame.fireDataChanged();
             }
             dataChanged();
         }
@@ -270,14 +270,14 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         private static final long serialVersionUID = -3904236403703620633L;
 
         @Override
-		public void actionPerformed(ActionEvent ae) {
+        public void actionPerformed(ActionEvent ae) {
             int[] indices = includedStatisticsTable.getSelectedRows();
             for (int i = indices.length - 1; i >= 0; i--) {
                 treeStatData.statistics.remove(indices[i]);
             }
 
             if (frame != null) {
-            	frame.fireDataChanged();
+                frame.fireDataChanged();
             }
             dataChanged();
         }
@@ -476,19 +476,19 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         }
 
         @Override
-		public int getColumnCount() {
+        public int getColumnCount() {
             return 1;
         }
 
         @Override
-		public int getRowCount() {
+        public int getRowCount() {
             if (treeStatData == null || treeStatData.statistics == null) return 0;
 
             return treeStatData.statistics.size();
         }
 
         @Override
-		public Object getValueAt(int row, int col) {
+        public Object getValueAt(int row, int col) {
             if (treeStatData == null || treeStatData.statistics == null) return null;
             if (col == 0)
                 return treeStatData.statistics.get(row).getName();
@@ -496,18 +496,18 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         }
 
         @Override
-		public boolean isCellEditable(int row, int col) {
+        public boolean isCellEditable(int row, int col) {
             return false;
         }
 
         @Override
-		public String getColumnName(int column) {
+        public String getColumnName(int column) {
             if (column == 0) return "Statistic Name";
             return "Description";
         }
 
         @Override
-		public Class<?> getColumnClass(int c) {
+        public Class<?> getColumnClass(int c) {
             return getValueAt(0, c).getClass();
         }
     }

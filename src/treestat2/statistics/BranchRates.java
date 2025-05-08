@@ -37,7 +37,7 @@ import java.util.Set;
  * @author Alexei Drummond
  */
 @SummaryStatisticDescription(
-        name="Branch Rates",
+        name = "Branch Rates",
         description = "The branch rates of all the edges in the tree, once tree has been rotated alphabetically",
         allowsNonultrametricTrees = true,
         allowsPolytomies = false,
@@ -48,13 +48,13 @@ public class BranchRates extends AbstractTreeSummaryStatistic<Double> {
     String[] cladeStrings;
 
     @Override
-	public String getStatisticLabel(Tree tree, int i) {
+    public String getStatisticLabel(Tree tree, int i) {
         if (statsNames == null) initStatsNames(tree);
         return statsNames[i];
     }
 
     @Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    public Double[] getSummaryStatistic(Tree tree) {
         if (statsNames == null) initStatsNames(tree);
         Double[] stats = new Double[tree.getNodeCount() - 1];
 
@@ -91,22 +91,22 @@ public class BranchRates extends AbstractTreeSummaryStatistic<Double> {
     }
 
     @Override
-	public void setTaxonList(String name, Set<String> taxonList) {
+    public void setTaxonList(String name, Set<String> taxonList) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setInteger(int value) {
+    public void setInteger(int value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setDouble(double value) {
+    public void setDouble(double value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setString(String value) {
+    public void setString(String value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 }

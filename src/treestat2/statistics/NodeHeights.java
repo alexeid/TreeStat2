@@ -42,17 +42,17 @@ import java.util.List;
 public class NodeHeights extends AbstractTreeSummaryStatistic<Double> {
 
     @Override
-	public String getStatisticLabel(Tree tree, int i) {
+    public String getStatisticLabel(Tree tree, int i) {
         return "Age " + Integer.toString(i + tree.getLeafNodeCount());
     }
 
     @Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    public Double[] getSummaryStatistic(Tree tree) {
 
         List<Node> internalNodes = tree.getInternalNodes();
         Double[] stats = new Double[internalNodes.size()];
         for (Node node : internalNodes) {
-            stats[node.getNr()-tree.getLeafNodeCount()] = node.getHeight();
+            stats[node.getNr() - tree.getLeafNodeCount()] = node.getHeight();
         }
 
         return stats;

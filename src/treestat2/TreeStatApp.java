@@ -314,13 +314,14 @@ public class TreeStatApp extends SingleDocApplication {
                         Log.warning("Burn-in value must be between 0.0 (inclusive) and 1.0 (exclusive). Using default: " + ccdBurnIn);
                     }
                 } catch (NumberFormatException e) {
-                    Log.warning("Invalid burn-in value: '" + ccdBurnInInput +"', using default: " + ccdBurnIn);
+                    Log.warning("Invalid burn-in value: '" + ccdBurnInInput + "', using default: " + ccdBurnIn);
                 }
             }
 
             ProcessTreeFileListener listener = new ProcessTreeFileListener() {
                 @Override
-                public void startProcessing() {}
+                public void startProcessing() {
+                }
 
                 @Override
                 public void processingHalted() {
@@ -333,13 +334,19 @@ public class TreeStatApp extends SingleDocApplication {
                 }
 
                 @Override
-                public boolean warning(String message) { Log.warning(message); return true; }
+                public boolean warning(String message) {
+                    Log.warning(message);
+                    return true;
+                }
 
                 @Override
-                public void error(String errorTitle, String errorMessage) { Log.err(errorTitle+": "+errorMessage); }
+                public void error(String errorTitle, String errorMessage) {
+                    Log.err(errorTitle + ": " + errorMessage);
+                }
 
                 @Override
-                public void progress(String progress) {}
+                public void progress(String progress) {
+                }
             };
 
             for (String treeFileName : treeFileNames) {
@@ -373,10 +380,10 @@ public class TreeStatApp extends SingleDocApplication {
                 if (Utils.getMacOSXVersion().startsWith("10.5")) {
                     System.setProperty("apple.awt.brushMetalLook", "true");
                 }
-            System.setProperty("apple.laf.useScreenMenuBar", "true");
-            System.setProperty("apple.awt.showGrowBox", "true");
-            UIManager.put("SystemFont", new Font("Lucida Grande", Font.PLAIN, 13));
-            UIManager.put("SmallSystemFont", new Font("Lucida Grande", Font.PLAIN, 11));
+                System.setProperty("apple.laf.useScreenMenuBar", "true");
+                System.setProperty("apple.awt.showGrowBox", "true");
+                UIManager.put("SystemFont", new Font("Lucida Grande", Font.PLAIN, 13));
+                UIManager.put("SmallSystemFont", new Font("Lucida Grande", Font.PLAIN, 11));
             }
 
             try {

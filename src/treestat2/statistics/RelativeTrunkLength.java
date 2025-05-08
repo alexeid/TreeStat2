@@ -13,7 +13,7 @@ import beast.base.evolution.tree.TreeUtils;
 public class RelativeTrunkLength extends AbstractTreeSummaryStatistic<Double> {
 
     @Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    public Double[] getSummaryStatistic(Tree tree) {
         double treeLength = TreeUtils.getTreeLength(tree, tree.getRoot());
         return new Double[]{Double.valueOf(TreeUtils.getTrunkLength(tree, tree.getRoot()) / treeLength)};
     }

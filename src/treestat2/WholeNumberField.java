@@ -14,9 +14,9 @@ import java.awt.event.FocusListener;
 public class WholeNumberField extends JTextField
         implements FocusListener, DocumentListener {
 
- 	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
- 	protected static char MINUS_CHAR = '-';
+    protected static char MINUS_CHAR = '-';
     protected EventListenerList changeListeners = new EventListenerList();
     protected long min;
     protected long max;
@@ -44,11 +44,11 @@ public class WholeNumberField extends JTextField
     }
 
     @Override
-	public void focusGained(FocusEvent evt) {
+    public void focusGained(FocusEvent evt) {
     }
 
     @Override
-	public void focusLost(FocusEvent evt) {
+    public void focusLost(FocusEvent evt) {
         if (range_check && !range_checked) {
             range_checked = true;
             try {
@@ -125,26 +125,26 @@ public class WholeNumberField extends JTextField
     }
 
     @Override
-	protected Document createDefaultModel() {
+    protected Document createDefaultModel() {
         Document doc = new WholeNumberFieldDocument();
         doc.addDocumentListener(this);
         return doc;
     }
 
     @Override
-	public void insertUpdate(DocumentEvent e) {
+    public void insertUpdate(DocumentEvent e) {
         range_checked = false;
         fireChanged();
     }
 
     @Override
-	public void removeUpdate(DocumentEvent e) {
+    public void removeUpdate(DocumentEvent e) {
         range_checked = false;
         fireChanged();
     }
 
     @Override
-	public void changedUpdate(DocumentEvent e) {
+    public void changedUpdate(DocumentEvent e) {
         range_checked = false;
         fireChanged();
     }
@@ -154,10 +154,10 @@ public class WholeNumberField extends JTextField
     };
 
     class WholeNumberFieldDocument extends PlainDocument {
-		private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
-		@Override
-		public void insertString(int offs, String str, AttributeSet a)
+        @Override
+        public void insertString(int offs, String str, AttributeSet a)
                 throws BadLocationException {
 
             if (str == null) return;

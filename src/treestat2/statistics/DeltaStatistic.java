@@ -33,9 +33,9 @@ import beast.base.util.Binomial;
 /**
  * @author Alexei Drummond
  */
-@Citation(value="Pybus and Harvey (2000)")
+@Citation(value = "Pybus and Harvey (2000)")
 @SummaryStatisticDescription(
-        name="Delta",
+        name = "Delta",
         description = "The delta-statistic is a summary of the information contained in the inter-node " +
                 "intervals of a genealogy; under the assumption of a constant-size population, " +
                 "it follows a normal distribution with mean of zero and a standard-deviation " +
@@ -50,24 +50,24 @@ import beast.base.util.Binomial;
 public class DeltaStatistic extends AbstractTreeSummaryStatistic<Double> {
 
     @Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    public Double[] getSummaryStatistic(Tree tree) {
 
         int n = tree.getLeafNodeCount();
         double[] g = TreeUtils.getIntervals(tree);
 
         double T = 0; // total branch length
         for (int j = 2; j <= n; j++) {
-            T += Binomial.choose2(j) * g[j-2];
+            T += Binomial.choose2(j) * g[j - 2];
         }
 
         double sum = 0.0;
         for (int i = n; i > 2; i--) {
             for (int k = n; k >= i; k--) {
-                sum += Binomial.choose2(k) * g[k-2];
+                sum += Binomial.choose2(k) * g[k - 2];
             }
         }
 
-        double delta = ((T / 2.0) - (sum * (1.0 / (n - 2.0)))) / (T * Math.sqrt(1.0/(12.0*(n - 2.0))));
-        return new Double[] { delta };
+        double delta = ((T / 2.0) - (sum * (1.0 / (n - 2.0)))) / (T * Math.sqrt(1.0 / (12.0 * (n - 2.0))));
+        return new Double[]{delta};
     }
 }

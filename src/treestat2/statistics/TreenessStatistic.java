@@ -36,18 +36,18 @@ import beast.base.evolution.tree.TreeUtils;
 @SummaryStatisticDescription(
         name = "Treeness",
         description = "The proportion of the total length of the tree that is taken up by internal branches. " +
-        "Interpreted as a signal/(signal+noise) measure for phylogenetic reconstruction.",
+                "Interpreted as a signal/(signal+noise) measure for phylogenetic reconstruction.",
         category = SummaryStatisticDescription.Category.PHYLOGENETIC,
         allowsNonultrametricTrees = true,
         allowsPolytomies = true,
         allowsUnrootedTrees = true)
 public class TreenessStatistic extends AbstractTreeSummaryStatistic<Double> {
 
-	@Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    @Override
+    public Double[] getSummaryStatistic(Tree tree) {
 
-		double externalLength = TreeUtils.getExternalLength(tree);
-		double internalLength = TreeUtils.getInternalLength(tree);
-		return new Double[] { internalLength/(internalLength+externalLength) };
-	}
+        double externalLength = TreeUtils.getExternalLength(tree);
+        double internalLength = TreeUtils.getInternalLength(tree);
+        return new Double[]{internalLength / (internalLength + externalLength)};
+    }
 }

@@ -37,21 +37,21 @@ import java.util.TreeMap;
  * @author Alexei Drummond
  * @version $Id: AbstractTreeSummaryStatistic.java,v 1.1 2005/09/28 13:50:55 rambaut Exp $
  */
-public abstract  class AbstractTreeSummaryStatistic<T> extends BEASTObject implements TreeSummaryStatistic<T> {
+public abstract class AbstractTreeSummaryStatistic<T> extends BEASTObject implements TreeSummaryStatistic<T> {
 
     //public int getStatisticDimensions(Tree tree) {
     //    return 1;
     //}
 
     @Override
-	public String getStatisticLabel(Tree tree, int i) {
+    public String getStatisticLabel(Tree tree, int i) {
 
         return getName();
     }
 
     @Override
-	public Map<String,T> getStatistics(Tree tree) {
-        Map<String,T> gs = new TreeMap<String,T>();
+    public Map<String, T> getStatistics(Tree tree) {
+        Map<String, T> gs = new TreeMap<String, T>();
 
         T[] values = getSummaryStatistic(tree);
 
@@ -67,7 +67,7 @@ public abstract  class AbstractTreeSummaryStatistic<T> extends BEASTObject imple
     abstract T[] getSummaryStatistic(Tree tree);
 
     @Override
-	public String getName() {
+    public String getName() {
         return Utils.getDescription(this).name();
     }
 
@@ -96,7 +96,7 @@ public abstract  class AbstractTreeSummaryStatistic<T> extends BEASTObject imple
     }
 
     @Override
-	public void setTaxonList(String name, Set<String> taxonList) {
+    public void setTaxonList(String name, Set<String> taxonList) {
         this.taxonList = taxonList;
         this.taxonListName = name;
     }
@@ -106,25 +106,25 @@ public abstract  class AbstractTreeSummaryStatistic<T> extends BEASTObject imple
     }
 
     @Override
-	public void setInteger(int value) {
+    public void setInteger(int value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setDouble(double value) {
+    public void setDouble(double value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setString(String value) {
+    public void setString(String value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
     public void initAndValidate() {
-    	// nothing to do
+        // nothing to do
     }
-    
+
     Set<String> taxonList = null;
     String taxonListName = null;
 }

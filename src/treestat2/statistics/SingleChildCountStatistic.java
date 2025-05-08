@@ -29,9 +29,8 @@ import beast.base.evolution.tree.Node;
 import beast.base.evolution.tree.Tree;
 
 /**
- * @version $Id: SingleChildCountStatistic.java,v 1.2 2005/09/28 13:50:56 rambaut Exp $
- *
  * @author Alexei Drummond
+ * @version $Id: SingleChildCountStatistic.java,v 1.2 2005/09/28 13:50:56 rambaut Exp $
  */
 @SummaryStatisticDescription(
         name = "Single child count",
@@ -41,15 +40,15 @@ import beast.base.evolution.tree.Tree;
         allowsUnrootedTrees = false)
 public class SingleChildCountStatistic extends AbstractTreeSummaryStatistic<Integer> {
 
-	@Override
-	public Integer[] getSummaryStatistic(Tree tree) {
+    @Override
+    public Integer[] getSummaryStatistic(Tree tree) {
 
-		int singleChildCount = 0;
-		for (Node node : tree.getInternalNodes()) {
-			if (node.getChildCount() == 1) {
+        int singleChildCount = 0;
+        for (Node node : tree.getInternalNodes()) {
+            if (node.getChildCount() == 1) {
                 singleChildCount += 1;
             }
-		}
-		return new Integer[] { singleChildCount };
-	}
+        }
+        return new Integer[]{singleChildCount};
+    }
 }

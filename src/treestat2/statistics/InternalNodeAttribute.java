@@ -34,7 +34,7 @@ import java.util.Set;
  * @author Alexei Drummond
  */
 @SummaryStatisticDescription(
-        name="Internal Branch Attribute",
+        name = "Internal Branch Attribute",
         description = "A named attribute of the internal nodes of the tree.",
         allowsNonultrametricTrees = true,
         allowsPolytomies = true,
@@ -48,7 +48,7 @@ public class InternalNodeAttribute extends AbstractTreeSummaryStatistic<String> 
     }
 
     @Override
-	public void setString(String value) {
+    public void setString(String value) {
         this.attributeName = value;
     }
 
@@ -57,12 +57,12 @@ public class InternalNodeAttribute extends AbstractTreeSummaryStatistic<String> 
     }
 
     @Override
-	public String getStatisticLabel(Tree tree, int i) {
+    public String getStatisticLabel(Tree tree, int i) {
         return attributeName + " " + Integer.toString(i + 1);
     }
 
     @Override
-	public String[] getSummaryStatistic(Tree tree) {
+    public String[] getSummaryStatistic(Tree tree) {
 
         int internalNodeCount = tree.getInternalNodeCount();
         String[] stats = new String[internalNodeCount - 1];
@@ -77,39 +77,39 @@ public class InternalNodeAttribute extends AbstractTreeSummaryStatistic<String> 
     }
 
     @Override
-	public void setTaxonList(String name, Set<String> taxonList) {
+    public void setTaxonList(String name, Set<String> taxonList) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setInteger(int value) {
+    public void setInteger(int value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setDouble(double value) {
+    public void setDouble(double value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     public static final Factory FACTORY = new Factory() {
 
         @Override
-		public String getValueName() {
+        public String getValueName() {
             return "The attribute name:";
         }
 
         @Override
-		public boolean allowsWholeTree() {
+        public boolean allowsWholeTree() {
             return true;
         }
 
         @Override
-		public boolean allowsTaxonList() {
+        public boolean allowsTaxonList() {
             return true;
         }
 
         @Override
-		public boolean allowsString() {
+        public boolean allowsString() {
             return true;
         }
     };

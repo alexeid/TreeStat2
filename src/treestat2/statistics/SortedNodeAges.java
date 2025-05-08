@@ -43,12 +43,12 @@ import java.util.List;
 public class SortedNodeAges extends AbstractTreeSummaryStatistic<Double> {
 
     @Override
-	public String getStatisticLabel(Tree tree, int i) {
+    public String getStatisticLabel(Tree tree, int i) {
         return "Age " + Integer.toString(i + 1);
     }
 
     @Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    public Double[] getSummaryStatistic(Tree tree) {
 
         List<Node> internalNodes = tree.getInternalNodes();
         Double[] stats = new Double[internalNodes.size()];

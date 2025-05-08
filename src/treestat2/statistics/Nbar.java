@@ -32,7 +32,7 @@ import beast.base.evolution.tree.Tree;
 /**
  * @author Alexei Drummond
  */
-@Citation(value="Kirkpatrick & Slatkin (1992)")
+@Citation(value = "Kirkpatrick & Slatkin (1992)")
 @SummaryStatisticDescription(
         name = "N_bar",
         description = "The mean number of nodes above an external node.",
@@ -42,15 +42,15 @@ import beast.base.evolution.tree.Tree;
         allowsUnrootedTrees = false)
 public class Nbar extends AbstractTreeSummaryStatistic<Double> {
 
-	@Override
-	public Double[] getSummaryStatistic(Tree tree) {
-		double NBar = 0.0;
-		for (Node node : tree.getExternalNodes()) {
-			while (!node.isRoot()) {
-				node = node.getParent();
-				NBar += 1.0;
-			}
-		}
-		return new Double[] { NBar / tree.getLeafNodeCount()};
-	}
+    @Override
+    public Double[] getSummaryStatistic(Tree tree) {
+        double NBar = 0.0;
+        for (Node node : tree.getExternalNodes()) {
+            while (!node.isRoot()) {
+                node = node.getParent();
+                NBar += 1.0;
+            }
+        }
+        return new Double[]{NBar / tree.getLeafNodeCount()};
+    }
 }

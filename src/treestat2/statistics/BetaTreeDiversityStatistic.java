@@ -37,19 +37,19 @@ import java.util.TreeSet;
  * @author Alexei Drummond
  */
 @SummaryStatisticDescription(
-        name="Beta Diversity",
-        description="The ratio of shared diversity to total diversity (tree length) between given taxa and the remainder.",
+        name = "Beta Diversity",
+        description = "The ratio of shared diversity to total diversity (tree length) between given taxa and the remainder.",
         allowsNonultrametricTrees = true,
         allowsPolytomies = true,
         allowsUnrootedTrees = false,
-        allowsWholeTree =true,
+        allowsWholeTree = true,
         allowsCharacter = false,
-        allowsCharacterState= false,
+        allowsCharacterState = false,
         allowsTaxonList = true)
 public class BetaTreeDiversityStatistic extends AbstractTreeSummaryStatistic<Double> {
 
     @Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    public Double[] getSummaryStatistic(Tree tree) {
         if (taxonList == null) {
             return new Double[]{1.0};
         }

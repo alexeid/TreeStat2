@@ -5,6 +5,7 @@ import beast.base.evolution.tree.TreeIntervals;
 
 /**
  * Returns the number of lineages that exist at time t.
+ *
  * @author Alexei Drummond
  */
 @SummaryStatisticDescription(
@@ -20,12 +21,12 @@ import beast.base.evolution.tree.TreeIntervals;
 public class LineageCountStatistic extends AbstractTreeSummaryStatistic<Integer> {
 
     @Override
-	public void setDouble(double value) {
+    public void setDouble(double value) {
         this.t = value;
     }
 
-	@Override
-	public Integer[] getSummaryStatistic(Tree tree) {
+    @Override
+    public Integer[] getSummaryStatistic(Tree tree) {
 
         try {
             TreeIntervals intervals = new TreeIntervals(tree);
@@ -33,29 +34,31 @@ public class LineageCountStatistic extends AbstractTreeSummaryStatistic<Integer>
             for (int i = 0; i < intervals.getIntervalCount(); i++) {
                 totalTime += intervals.getInterval(i);
                 if (totalTime > t) {
-                    return new Integer[] { intervals.getLineageCount(i) };
+                    return new Integer[]{intervals.getLineageCount(i)};
                 }
             }
-            return new Integer[] { 1 };
+            return new Integer[]{1};
         } catch (Exception e) {
-            return new Integer[] {};
+            return new Integer[]{};
         }
-	}
+    }
 
-	public String getSummaryStatisticName() {
+    public String getSummaryStatisticName() {
         return "LineageCount(" + t + ")";
     }
 
-	public String getSummaryStatisticDescription() {
+    public String getSummaryStatisticDescription() {
         return getSummaryStatisticName() + " is the number of lineages that exists in the genealogy at " +
-            "time " + t + ".";
+                "time " + t + ".";
     }
 
-	public static final Factory FACTORY = new Factory() {
+    public static final Factory FACTORY = new Factory() {
 
-		@Override
-		public String getValueName() { return "The time (t):"; }
+        @Override
+        public String getValueName() {
+            return "The time (t):";
+        }
     };
 
-	double t = 1.0;
+    double t = 1.0;
 }

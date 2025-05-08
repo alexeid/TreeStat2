@@ -12,8 +12,8 @@ import beast.base.evolution.tree.Tree;
         allowsPolytomies = true,
         allowsUnrootedTrees = false)
 public class NumberOfTips extends AbstractTreeSummaryStatistic<Double> {
-	@Override
-	public Double[] getSummaryStatistic(Tree tree) {
-		return new Double[] { (double) tree.getLeafNodeCount() };
-	}
+    @Override
+    public Double[] getSummaryStatistic(Tree tree) {
+        return new Double[]{(double) tree.getLeafNodeCount()};
+    }
 }

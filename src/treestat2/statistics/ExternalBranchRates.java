@@ -35,8 +35,8 @@ import java.util.Set;
  * @author Alexei Drummond
  */
 @SummaryStatisticDescription(
-        name="External Branch Rates",
-        description="The rates associated with the external edges of the tree.",
+        name = "External Branch Rates",
+        description = "The rates associated with the external edges of the tree.",
         allowsNonultrametricTrees = true,
         allowsPolytomies = true,
         allowsUnrootedTrees = false)
@@ -47,12 +47,12 @@ public class ExternalBranchRates extends AbstractTreeSummaryStatistic<Double> {
     }
 
     @Override
-	public String getStatisticLabel(Tree tree, int i) {
+    public String getStatisticLabel(Tree tree, int i) {
         return "Branch Rate " + Integer.toString(i + 1);
     }
 
     @Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    public Double[] getSummaryStatistic(Tree tree) {
 
         int externalNodeCount = tree.getLeafNodeCount();
         Double[] stats = new Double[externalNodeCount];
@@ -66,29 +66,29 @@ public class ExternalBranchRates extends AbstractTreeSummaryStatistic<Double> {
     }
 
     @Override
-	public void setTaxonList(String name, Set<String> taxonList) {
+    public void setTaxonList(String name, Set<String> taxonList) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setInteger(int value) {
+    public void setInteger(int value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setDouble(double value) {
+    public void setDouble(double value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setString(String value) {
+    public void setString(String value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     public static final Factory FACTORY = new Factory() {
 
         @Override
-		public TreeSummaryStatistic<?> createStatistic() {
+        public TreeSummaryStatistic<?> createStatistic() {
             return new ExternalBranchRates();
         }
 

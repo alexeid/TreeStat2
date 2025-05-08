@@ -16,7 +16,7 @@ import treestat2.statistics.SummaryStatisticDescription.Category;
 public class SAStatistic extends AbstractTreeSummaryStatistic<Integer> {
 
     @Override
-	public Integer[] getSummaryStatistic(Tree tree) {
+    public Integer[] getSummaryStatistic(Tree tree) {
         tree.getDirectAncestorNodeCount();
         return new Integer[]{Integer.valueOf(tree.getDirectAncestorNodeCount())};
     }

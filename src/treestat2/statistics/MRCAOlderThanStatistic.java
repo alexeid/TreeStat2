@@ -20,12 +20,12 @@ import beast.base.evolution.tree.TreeIntervals;
 public class MRCAOlderThanStatistic extends AbstractTreeSummaryStatistic<Boolean> {
 
     @Override
-	public void setDouble(double value) {
+    public void setDouble(double value) {
         this.t = value;
     }
 
     @Override
-	public Boolean[] getSummaryStatistic(Tree tree) {
+    public Boolean[] getSummaryStatistic(Tree tree) {
 
         try {
             TreeIntervals intervals = new TreeIntervals(tree);
@@ -56,7 +56,7 @@ public class MRCAOlderThanStatistic extends AbstractTreeSummaryStatistic<Boolean
     public static final Factory FACTORY = new Factory() {
 
         @Override
-		public TreeSummaryStatistic<?> createStatistic() {
+        public TreeSummaryStatistic<?> createStatistic() {
             return new MRCAOlderThanStatistic();
         }
 
@@ -74,7 +74,7 @@ public class MRCAOlderThanStatistic extends AbstractTreeSummaryStatistic<Boolean
         }
 
         @Override
-		public String getValueName() {
+        public String getValueName() {
             return "The time (t):";
         }
     };

@@ -37,7 +37,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SummaryStatisticDescription {
 
-	String name();
+    String name();
 
     String description();
 
@@ -47,7 +47,7 @@ public @interface SummaryStatisticDescription {
 
     boolean allowsPolytomies() default false;
 
-	boolean allowsUnrootedTrees() default false;
+    boolean allowsUnrootedTrees() default false;
 
     boolean allowsWholeTree() default true;
 
@@ -67,25 +67,25 @@ public @interface SummaryStatisticDescription {
 
     Category category() default Category.GENERAL;
 
-	public enum Category {
+    public enum Category {
 
-		TREE_SHAPE("Tree shape"),
+        TREE_SHAPE("Tree shape"),
         BAYESIAN_PHYLOGENETIC("Bayesian Phylogenetic"),
-		PHYLOGENETIC("Phylogenetic"),
-		POPULATION_GENETIC("Population genetic"),
-		GENERAL("General"),
-		SPECIATION("Speciation/Birth-death");
+        PHYLOGENETIC("Phylogenetic"),
+        POPULATION_GENETIC("Population genetic"),
+        GENERAL("General"),
+        SPECIATION("Speciation/Birth-death");
 
-		private Category(String name) {
-			this.name = name;
-		}
+        private Category(String name) {
+            this.name = name;
+        }
 
         public String getPrettyName() {
             return name;
         }
 
         private String name;
-	}
+    }
 
 }
 

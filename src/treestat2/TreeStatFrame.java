@@ -71,7 +71,7 @@ public class TreeStatFrame extends DocumentFrame {
     }
 
     @Override
-	public void initializeComponents() {
+    public void initializeComponents() {
 
         setSize(new java.awt.Dimension(800, 600));
 
@@ -126,17 +126,17 @@ public class TreeStatFrame extends DocumentFrame {
     }
 
     @Override
-	protected boolean readFromFile(File file) throws IOException {
+    protected boolean readFromFile(File file) throws IOException {
         return false;
     }
 
     @Override
-	protected boolean writeToFile(File file) {
+    protected boolean writeToFile(File file) {
         return false;
     }
 
     @Override
-	public final void doImport() {
+    public final void doImport() {
 
         FileDialog dialog = new FileDialog(this,
                 "Import Tree File...",
@@ -202,7 +202,7 @@ public class TreeStatFrame extends DocumentFrame {
     }
 
     @Override
-	public final void doExport() {
+    public final void doExport() {
 
         FileDialog inDialog = new FileDialog(this,
                 "Import Tree File...",
@@ -269,7 +269,7 @@ public class TreeStatFrame extends DocumentFrame {
             }
 
             @Override
-			public void processingComplete(int numTreesProcessed) {
+            public void processingComplete(int numTreesProcessed) {
                 in.getProgressMonitor().setNote("Writing out statistics...");
                 progressLabel.setText("" + numTreesProcessed + " trees processed.");
                 processTreeFileAction.setEnabled(true);
@@ -296,7 +296,7 @@ public class TreeStatFrame extends DocumentFrame {
     }
 
     @Override
-	public JComponent getExportableComponent() {
+    public JComponent getExportableComponent() {
         return statisticsPanel.getExportableComponent();
     }
 
@@ -307,7 +307,7 @@ public class TreeStatFrame extends DocumentFrame {
         private static final long serialVersionUID = -3185667996732228702L;
 
         @Override
-		public void actionPerformed(java.awt.event.ActionEvent ae) {
+        public void actionPerformed(java.awt.event.ActionEvent ae) {
             doImport();
         }
     };
@@ -319,7 +319,7 @@ public class TreeStatFrame extends DocumentFrame {
         private static final long serialVersionUID = -8285433136692586532L;
 
         @Override
-		public void actionPerformed(java.awt.event.ActionEvent ae) {
+        public void actionPerformed(java.awt.event.ActionEvent ae) {
             doExport();
         }
     };

@@ -34,8 +34,8 @@ import beast.base.evolution.tree.TreeUtils;
  */
 
 @SummaryStatisticDescription(
-        name="Mean Clade Attribute",
-        description="Extracts the mean of a named attribute for a clade defined by a taxon set.",
+        name = "Mean Clade Attribute",
+        description = "Extracts the mean of a named attribute for a clade defined by a taxon set.",
         allowsNonultrametricTrees = true,
         allowsPolytomies = true,
         allowsUnrootedTrees = false,
@@ -44,24 +44,25 @@ import beast.base.evolution.tree.TreeUtils;
         allowsString = true)
 public class CladeMeanAttributeStatistic extends AbstractTreeSummaryStatistic<Double> {
 
-	public CladeMeanAttributeStatistic() {
+    public CladeMeanAttributeStatistic() {
         this.attributeName = "";
     }
 
     @Override
-	public void setString(String value) {
+    public void setString(String value) {
         this.attributeName = value;
     }
 
 
     @Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    public Double[] getSummaryStatistic(Tree tree) {
         Node node;
         if (taxonList == null) {
             node = tree.getRoot();
         } else {
             node = TreeUtils.getCommonAncestorNode(tree, taxonList);
-            if (node == null) throw new RuntimeException("No clade found that contains " + taxonList);
+            if (node == null)
+                throw new RuntimeException("No clade found that contains " + taxonList);
         }
 
         sumAttribute = 0.0;
@@ -110,27 +111,27 @@ public class CladeMeanAttributeStatistic extends AbstractTreeSummaryStatistic<Do
     public static final Factory FACTORY = new Factory() {
 
         @Override
-		public TreeSummaryStatistic<?> createStatistic() {
+        public TreeSummaryStatistic<?> createStatistic() {
             return new CladeMeanAttributeStatistic();
         }
 
         @Override
-		public String getValueName() {
+        public String getValueName() {
             return "The attribute name:";
         }
 
         @Override
-		public boolean allowsWholeTree() {
+        public boolean allowsWholeTree() {
             return true;
         }
 
         @Override
-		public boolean allowsTaxonList() {
+        public boolean allowsTaxonList() {
             return true;
         }
 
         @Override
-		public boolean allowsString() {
+        public boolean allowsString() {
             return true;
         }
     };
