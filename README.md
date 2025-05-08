@@ -91,7 +91,7 @@ treestat2.statistics.CCD1ExpectedRFDistance
 or on the command line 
 
 ```bash
-applauncher TreeStatApp --stats treestat2.statistics.TreeLength  treestat2.statistics.CCD1ExpectedRFDistance --tree-files example.trees
+applauncher TreeStatApp --stats treestat2.statistics.TreeLength  treestat2.statistics.CCD1ExpectedRFDistance --tree-file example.trees
 ```
 
 > [!Important]
@@ -101,3 +101,37 @@ applauncher TreeStatApp --stats treestat2.statistics.TreeLength  treestat2.stati
 > — as long as they follow the expected `TreeSummaryStatistic` interface.
 > 
 > This feature is currently **experimental and untested**!
+
+### CCD burn-in option
+
+The `--ccd-burn-in` (or `-b`) option allows you to control the burn-in proportion used when
+constructing the CCD (Conditional Clade Distribution) from the input tree set.
+This value must be a `double` between `0.0`(inclusive) and `1.0`(exclusive).
+
+> [!Note]
+> CCD0 construction uses a default burn-in of `0.1` and enforces this as a minimum to ensure
+> proper initialization.
+
+### Jump Distance Statistics
+
+You can calculate traces of tree distances for all trees to a specified fixed tree in the sample.
+Currently the RNNI and RF metrics are supported.
+
+```bash
+applauncher TreeStatApp --stats RNNIJumpDistance 10 RFJumpDistance 10 --tree-file example.trees
+```
+
+The above command would calculate the RF and RNNI distance of all trees in `example.trees` to the
+10th tree in the sample, which is used as the fixed reference tree.
+These traces can then be put into tracer to generate a pseudo ESS estimate.
+
+> [!Important]
+> The trace of tree distances contains the sample itself, i.e. at index 10 there will be a 0 in
+> the trace. This will likely lower the ESS estimates!
+
+It is also possible to calculate these traces for multiple trees in one command, for example if
+you want to calculate the trace for sample `10` and sample `56` use the following command:
+
+```bash
+applauncher TreeStatApp --stats RNNIJumpDistance 10 RNNIJumpDistance 56 --tree-file example.trees
+```
