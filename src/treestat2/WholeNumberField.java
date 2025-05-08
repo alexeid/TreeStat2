@@ -35,14 +35,6 @@ public class WholeNumberField extends JTextField
         this.addFocusListener(this);
     }
 
-    public WholeNumberField(long min, long max) {
-        super();
-        this.min = min;
-        this.max = max;
-        range_check = true;
-        this.addFocusListener(this);
-    }
-
     @Override
     public void focusGained(FocusEvent evt) {
     }
@@ -51,8 +43,14 @@ public class WholeNumberField extends JTextField
     public void focusLost(FocusEvent evt) {
         if (range_check && !range_checked) {
             range_checked = true;
+
+            String text = getText().trim();
+            if (text.isEmpty()) {
+                return;
+            }
+
             try {
-                long value = Long.valueOf(getText());
+                long value = Long.valueOf(text);
                 if (value < min || value > max) {
                     errorMsg();
                 }
@@ -60,10 +58,6 @@ public class WholeNumberField extends JTextField
                 errorMsg();
             }
         }
-    }
-
-    public void setText(Integer obj) {
-        setText(obj.toString());
     }
 
     protected void errorMsg() {
@@ -75,6 +69,7 @@ public class WholeNumberField extends JTextField
     public void setValue(int value) {
         if (range_check) {
             if (value < min || value > max) {
+                System.out.println("WholeNumberField.setValue");
                 errorMsg();
                 return;
             }
@@ -85,6 +80,7 @@ public class WholeNumberField extends JTextField
     public void setValue(long value) {
         if (range_check) {
             if (value < min || value > max) {
+                System.out.println("WholeNumberField.setValue");
                 errorMsg();
                 return;
             }
@@ -98,30 +94,6 @@ public class WholeNumberField extends JTextField
         } catch (NumberFormatException e) {
             return null;
         }
-    }
-
-    public Long getLongValue() {
-        try {
-            return Long.valueOf(getText());
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
-
-    public Integer getValue(int default_value) {
-        Integer value = getValue();
-        if (value == null)
-            return default_value;
-        else
-            return value;
-    }
-
-    public Long getValue(long default_value) {
-        Long value = getLongValue();
-        if (value == null)
-            return default_value;
-        else
-            return value;
     }
 
     @Override
@@ -191,14 +163,6 @@ public class WholeNumberField extends JTextField
     //------------------------------------------------------------------------
     // Event Methods
     //------------------------------------------------------------------------
-
-    public void addChangeListener(ChangeListener x) {
-        changeListeners.add(ChangeListener.class, x);
-    }
-
-    public void removeChangeListener(ChangeListener x) {
-        changeListeners.remove(ChangeListener.class, x);
-    }
 
     protected void fireChanged() {
         ChangeEvent c = new ChangeEvent(this);
