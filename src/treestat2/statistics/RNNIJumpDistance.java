@@ -45,4 +45,14 @@ public class RNNIJumpDistance extends AbstractTreeSummaryStatistic<Integer> impl
         this.fixedReferenceTree = fixedReferenceTree;
     }
 
+    @Override
+    public String getStatisticLabel(Tree tree, int i) {
+        SummaryStatisticDescription desc = this.getClass().getAnnotation(SummaryStatisticDescription.class);
+        if (desc != null) {
+            String name = desc.name();
+            return name + " (" + fixedTreeIndex + ")";
+        }
+        // In case name is somehow not set?...
+        return "RNNIJumpDistance(" + fixedTreeIndex + ")";
+    }
 }
