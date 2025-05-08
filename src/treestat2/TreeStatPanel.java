@@ -38,54 +38,58 @@ import java.awt.*;
  */
 public class TreeStatPanel extends javax.swing.JPanel implements Exportable {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 2437334458007083790L;
-	private JTabbedPane tabbedPane = new JTabbedPane();
-	private TaxonSetsPanel taxonSetsPanel;
-	//private CharactersPanel charactersPanel;
-	private StatisticsPanel statisticsPanel;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 2437334458007083790L;
+    private JTabbedPane tabbedPane = new JTabbedPane();
+    private TaxonSetsPanel taxonSetsPanel;
+    //private CharactersPanel charactersPanel;
+    private StatisticsPanel statisticsPanel;
 
-	/** Creates new form TreeStatPanel */
-	public TreeStatPanel(TreeStatFrame frame, TreeStatData treeStatData) {
-		taxonSetsPanel = new TaxonSetsPanel(frame, treeStatData);
-		//charactersPanel = new CharactersPanel(frame, treeStatData);
-		statisticsPanel = new StatisticsPanel(frame, treeStatData);
+    /**
+     * Creates new form TreeStatPanel
+     */
+    public TreeStatPanel(TreeStatFrame frame, TreeStatData treeStatData) {
+        taxonSetsPanel = new TaxonSetsPanel(frame, treeStatData);
+        //charactersPanel = new CharactersPanel(frame, treeStatData);
+        statisticsPanel = new StatisticsPanel(frame, treeStatData);
 
-		tabbedPane.addTab("Taxon Sets", null, taxonSetsPanel);
-		//tabbedPane.addTab("Characters", null, charactersPanel);
-		tabbedPane.addTab("Statistics", null, statisticsPanel);
+        tabbedPane.addTab("Taxon Sets", null, taxonSetsPanel);
+        //tabbedPane.addTab("Characters", null, charactersPanel);
+        tabbedPane.addTab("Statistics", null, statisticsPanel);
 
-		setLayout(new BorderLayout());
-		add(tabbedPane, BorderLayout.CENTER);
-	}
+        setLayout(new BorderLayout());
+        add(tabbedPane, BorderLayout.CENTER);
+    }
 
-	/** This function calls dataChanged for each panel */
-	public void fireDataChanged() {
+    /**
+     * This function calls dataChanged for each panel
+     */
+    public void fireDataChanged() {
 
-		taxonSetsPanel.dataChanged();
-		//charactersPanel.dataChanged();
-		statisticsPanel.dataChanged();
-	}
+        taxonSetsPanel.dataChanged();
+        //charactersPanel.dataChanged();
+        statisticsPanel.dataChanged();
+    }
 
     @Override
-	public JComponent getExportableComponent() {
+    public JComponent getExportableComponent() {
 
-		JComponent exportable = null;
-		Component comp = tabbedPane.getSelectedComponent();
+        JComponent exportable = null;
+        Component comp = tabbedPane.getSelectedComponent();
 
-		if (comp instanceof Exportable) {
-			exportable = ((Exportable)comp).getExportableComponent();
-		} else if (comp instanceof JComponent) {
-			exportable = (JComponent)comp;
-		}
+        if (comp instanceof Exportable) {
+            exportable = ((Exportable) comp).getExportableComponent();
+        } else if (comp instanceof JComponent) {
+            exportable = (JComponent) comp;
+        }
 
-		return exportable;
-	}
+        return exportable;
+    }
 
-	//************************************************************************
-	// private methods
-	//************************************************************************
+    //************************************************************************
+    // private methods
+    //************************************************************************
 
 }

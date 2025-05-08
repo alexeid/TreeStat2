@@ -25,45 +25,54 @@
 
 package treestat2;
 
+import treestat2.statistics.TreeSummaryStatistic;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import treestat2.statistics.TreeSummaryStatistic;
-
 public class TreeStatData {
-	public static final String version = "2.0alpha";
+    public static final String version = "2.0alpha";
 
-	public TreeStatData() {
-	}
+    public TreeStatData() {
+    }
 
-	// Data options
-	public Set<String> allTaxa = new HashSet<>();
-	public List<TaxonSet> taxonSets = new ArrayList<>();
-	public List<Character> characters = new ArrayList<>();
-	public List<TreeSummaryStatistic> statistics = new ArrayList<>();
+    // Data options
+    public Set<String> allTaxa = new HashSet<>();
+    public List<TaxonSet> taxonSets = new ArrayList<>();
+    public List<Character> characters = new ArrayList<>();
+    public List<TreeSummaryStatistic> statistics = new ArrayList<>();
 
-	public static class TaxonSet {
-		String name;
-		List<Object> taxa;
-		@Override
-		public String toString() { return name; }
-	}
+    public static class TaxonSet {
+        String name;
+        List<Object> taxa;
 
-	public static class Character {
-		String name;
-		List<TreeStatData.State> states;
-		@Override
-		public String toString() { return name; }
-	}
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
 
-	public static class State {
-		String name;
-		String description;
-		List<String> taxa;
-		@Override
-		public String toString() { return name; }
-	}
+    public static class Character {
+        String name;
+        List<TreeStatData.State> states;
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
+
+    public static class State {
+        String name;
+        String description;
+        List<String> taxa;
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
 }
 

@@ -30,7 +30,7 @@ import beast.base.evolution.tree.Node;
 import beast.base.evolution.tree.Tree;
 import beast.base.evolution.tree.TreeUtils;
 
-import java.util.*;
+import java.util.Set;
 
 /**
  * @author Alexei Drummond
@@ -46,13 +46,13 @@ import java.util.*;
 public class TMRCASummaryStatistic extends AbstractTreeSummaryStatistic<Double> {
 
     @Override
-	public void setTaxonList(String name, Set<String> taxonList) {
+    public void setTaxonList(String name, Set<String> taxonList) {
         this.taxonListName = name;
         this.taxonList = taxonList;
     }
 
     @Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    public Double[] getSummaryStatistic(Tree tree) {
 
         if (taxonList == null) {
             return new Double[]{tree.getRoot().getHeight()};
@@ -69,7 +69,7 @@ public class TMRCASummaryStatistic extends AbstractTreeSummaryStatistic<Double> 
     }
 
     @Override
-	public String getName() {
+    public String getName() {
         if (characterState != null) {
             return super.getName() + characterState + ")";
         } else if (taxonList != null) {

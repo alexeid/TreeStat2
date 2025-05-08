@@ -33,7 +33,7 @@ import java.util.Set;
  * @author Alexei Drummond
  */
 @SummaryStatisticDescription(
-        name="Root Branch Trait",
+        name = "Root Branch Trait",
         description = "The trait value of the root branch of a tree.",
         allowsString = true,
         allowsNonultrametricTrees = true,
@@ -44,33 +44,33 @@ public class RootBranchTrait extends AbstractTreeSummaryStatistic<Double> {
     String traitName = "rate";
 
     @Override
-	public String getStatisticLabel(Tree tree, int i) {
+    public String getStatisticLabel(Tree tree, int i) {
         return "Root Branch " + traitName;
     }
 
     @Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    public Double[] getSummaryStatistic(Tree tree) {
 
-        return new Double[] {(Double) tree.getRoot().getMetaData(traitName)};
+        return new Double[]{(Double) tree.getRoot().getMetaData(traitName)};
     }
 
     @Override
-	public void setTaxonList(String name, Set<String> taxonList) {
+    public void setTaxonList(String name, Set<String> taxonList) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setInteger(int value) {
+    public void setInteger(int value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setDouble(double value) {
+    public void setDouble(double value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setString(String value) {
+    public void setString(String value) {
         traitName = value;
     }
 }

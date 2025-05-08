@@ -44,7 +44,7 @@ import treestat2.TreeStatUtils;
 public class CCD2RFDistance extends AbstractTreeSummaryStatistic<Integer> implements CCDStats<Integer> {
 
     @Override
-	public Integer[] getSummaryStatistic(Tree tree) {
+    public Integer[] getSummaryStatistic(Tree tree) {
 
         WrappedBeastTree mapTree = TreeStatUtils.getCCDHandler().getMapTreeCCD2();
 

@@ -33,8 +33,8 @@ import beast.base.evolution.tree.TreeUtils;
  * @author Alexei Drummond
  */
 @SummaryStatisticDescription(
-        name="Clade MRCA Attribute",
-        description="Extracts a named attribute for the MRCA of a clade defined by a taxon set.",
+        name = "Clade MRCA Attribute",
+        description = "Extracts a named attribute for the MRCA of a clade defined by a taxon set.",
         allowsNonultrametricTrees = true,
         allowsPolytomies = true,
         allowsUnrootedTrees = false,
@@ -43,24 +43,25 @@ import beast.base.evolution.tree.TreeUtils;
         allowsString = true)
 public class CladeMRCAAttributeStatistic extends AbstractTreeSummaryStatistic<Double> {
 
-	public CladeMRCAAttributeStatistic() {
+    public CladeMRCAAttributeStatistic() {
         this.attributeName = "";
     }
 
     @Override
-	public void setString(String value) {
+    public void setString(String value) {
         this.attributeName = value;
     }
 
 
     @Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    public Double[] getSummaryStatistic(Tree tree) {
         Node node;
         if (taxonList == null) {
             node = tree.getRoot();
         } else {
             node = TreeUtils.getCommonAncestorNode(tree, taxonList);
-            if (node == null) throw new RuntimeException("No clade found that contains " + taxonList);
+            if (node == null)
+                throw new RuntimeException("No clade found that contains " + taxonList);
         }
         Object item = node.getMetaData(attributeName);
         if (item == null) {
@@ -103,7 +104,7 @@ public class CladeMRCAAttributeStatistic extends AbstractTreeSummaryStatistic<Do
     public static final Factory FACTORY = new Factory() {
 
         @Override
-		public TreeSummaryStatistic<?> createStatistic() {
+        public TreeSummaryStatistic<?> createStatistic() {
             return new CladeMRCAAttributeStatistic();
         }
 
@@ -120,7 +121,7 @@ public class CladeMRCAAttributeStatistic extends AbstractTreeSummaryStatistic<Do
         }
 
         @Override
-		public String getValueName() {
+        public String getValueName() {
             return "The attribute name:";
         }
     };

@@ -1,155 +1,263 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<beast beautitemplate="MultiTypeBirthDeath" beautistatus="" namespace="beast.core:         beast.evolution.alignment:         beast.evolution.tree.coalescent:         beast.core.util:         beast.evolution.nuc:beast.evolution.operators:         beast.evolution.sitemodel:         beast.evolution.substitutionmodel:         beast.base.evolution.alignment:         beast.pkgmgmt:beast.base.core:         beast.base.inference:         beast.base.evolution.tree.coalescent:         beast.pkgmgmt:beast.base.core:         beast.base.inference.util:         beast.evolution.nuc:         beast.base.evolution.operator:         beast.base.inference.operator:         beast.base.evolution.sitemodel:         beast.base.evolution.substitutionmodel:         beast.base.evolution.likelihood" required="BEAST.base v2.7.4:BDMM v2.0.0:MultiTypeTree v8.0.0" version="2.7">
-  <alignment spec="feast.fileio.AlignmentFromFasta" fileName="updated_aln268.fasta" id="updated_aln268"/>
-  <map name="Uniform">beast.base.inference.distribution.Uniform</map>
-  <map name="Exponential">beast.base.inference.distribution.Exponential</map>
-  <map name="LogNormal">beast.base.inference.distribution.LogNormalDistributionModel</map>
-  <map name="Normal">beast.base.inference.distribution.Normal</map>
-  <map name="Beta">beast.base.inference.distribution.Beta</map>
-  <map name="Gamma">beast.base.inference.distribution.Gamma</map>
-  <map name="LaplaceDistribution">beast.base.inference.distribution.LaplaceDistribution</map>
-  <map name="prior">beast.base.inference.distribution.Prior</map>
-  <map name="InverseGamma">beast.base.inference.distribution.InverseGamma</map>
-  <map name="OneOnX">beast.base.inference.distribution.OneOnX</map>
-  <run id="mcmc" spec="MCMC" chainLength="10000000">
-    <state id="state" spec="State" storeEvery="5000">
-      <stateNode id="Tree.t:updated_aln268" spec="multitypetree.evolution.tree.StructuredCoalescentMultiTypeTree">
-        <migrationModel id="migModel.t:updated_aln268" spec="multitypetree.evolution.tree.SCMigrationModel">
-          <parameter id="RealParameter.0" spec="parameter.RealParameter" dimension="2" estimate="false" name="rateMatrix">1.0 1.0</parameter>
-          <parameter id="RealParameter.1" spec="parameter.RealParameter" estimate="false" name="rateMatrixScaleFactor">1.0</parameter>
-          <parameter id="RealParameter.2" spec="parameter.RealParameter" dimension="2" estimate="false" name="popSizes">1.0 1.0</parameter>
-          <parameter id="RealParameter.3" spec="parameter.RealParameter" estimate="false" name="popSizesScaleFactor">1.0</parameter>
-          <typeSet id="typeSet.t:updated_aln268" spec="multitypetree.evolution.tree.TypeSet">
-            <typeTraitSet id="typeTraitSetInput.t:updated_aln268" spec="feast.fileio.TraitSetFromTaxonSet" traitname="type" delimiter="_" takeGroup="1">
-              <taxa id="TaxonSet.0" spec="TaxonSet" alignment="@updated_aln268"/>
-            </typeTraitSet>
-          </typeSet>
-        </migrationModel>
-        <typeTrait idref="typeTraitSetInput.t:updated_aln268"/>
-        <typeSet idref="typeSet.t:updated_aln268"/>
-        <trait spec="feast.fileio.TraitSetFromTaxonSet" delimiter="_" everythingAfterLast="true" traitname="date">
-          <taxa idref="TaxonSet.0"/>
-        </trait>
-      </stateNode>
-      <parameter id="R0.t:updated_aln268" spec="parameter.RealParameter" dimension="2" lower="0.0" name="stateNode" upper="Infinity">2.0 2.0</parameter>
-      <parameter id="samplingProportion.t:updated_aln268" spec="parameter.RealParameter" dimension="4" lower="0.0" name="stateNode" upper="1.0">0.0 0.01 0.0 0.01</parameter>
-      <parameter id="rateMatrix.t:updated_aln268" spec="parameter.RealParameter" dimension="2" lower="0.0" name="stateNode" upper="100.0">0.1 0.1</parameter>
-      <parameter id="geo-frequencies.t:updated_aln268" spec="parameter.RealParameter" dimension="2" lower="0.0" name="stateNode" upper="1.0">0.5 0.5</parameter>
-      <parameter id="clockRate.c:updated_aln268" spec="parameter.RealParameter" name="stateNode">9.0E-4</parameter>
-      <parameter id="gammaShape.s:updated_aln268" spec="parameter.RealParameter" name="stateNode">1.0</parameter>
-      <parameter id="kappa.s:updated_aln268" spec="parameter.RealParameter" lower="0.0" name="stateNode">2.0</parameter>
-      <parameter id="freqParameter.s:updated_aln268" spec="parameter.RealParameter" dimension="4" lower="0.0" name="stateNode" upper="1.0">0.25</parameter>
-    </state>
-    <distribution id="posterior" spec="CompoundDistribution">
-      <distribution id="prior" spec="CompoundDistribution">
-        <distribution id="birthDeathMigration.t:updated_aln268" spec="bdmm.evolution.speciation.BirthDeathMigrationModel" R0="@R0.t:updated_aln268" checkRho="false" frequencies="@geo-frequencies.t:updated_aln268" migrationMatrix="@rateMatrix.t:updated_aln268" samplingProportion="@samplingProportion.t:updated_aln268" stateNumber="2" tree="@Tree.t:updated_aln268">
-          <parameter id="samplingRateChangeTimes.s:updated_aln268" spec="parameter.RealParameter" dimension="2" name="samplingRateChangeTimes">0.0 2.63</parameter>
-          <reverseTimeArrays id="BooleanParameter.0" spec="parameter.BooleanParameter" dimension="6">false false true false false false</reverseTimeArrays>
-          <parameter id="becomeUninfectiousRate.t:updated_aln268" spec="parameter.RealParameter" dimension="2" estimate="false" lower="0.0" name="becomeUninfectiousRate" upper="Infinity">0.5 0.5</parameter>
+<beast beautitemplate="MultiTypeBirthDeath" beautistatus=""
+       namespace="beast.core:         beast.evolution.alignment:         beast.evolution.tree.coalescent:         beast.core.util:         beast.evolution.nuc:beast.evolution.operators:         beast.evolution.sitemodel:         beast.evolution.substitutionmodel:         beast.base.evolution.alignment:         beast.pkgmgmt:beast.base.core:         beast.base.inference:         beast.base.evolution.tree.coalescent:         beast.pkgmgmt:beast.base.core:         beast.base.inference.util:         beast.evolution.nuc:         beast.base.evolution.operator:         beast.base.inference.operator:         beast.base.evolution.sitemodel:         beast.base.evolution.substitutionmodel:         beast.base.evolution.likelihood"
+       required="BEAST.base v2.7.4:BDMM v2.0.0:MultiTypeTree v8.0.0" version="2.7">
+    <alignment spec="feast.fileio.AlignmentFromFasta" fileName="updated_aln268.fasta"
+               id="updated_aln268"/>
+    <map name="Uniform">beast.base.inference.distribution.Uniform</map>
+    <map name="Exponential">beast.base.inference.distribution.Exponential</map>
+    <map name="LogNormal">beast.base.inference.distribution.LogNormalDistributionModel</map>
+    <map name="Normal">beast.base.inference.distribution.Normal</map>
+    <map name="Beta">beast.base.inference.distribution.Beta</map>
+    <map name="Gamma">beast.base.inference.distribution.Gamma</map>
+    <map name="LaplaceDistribution">beast.base.inference.distribution.LaplaceDistribution</map>
+    <map name="prior">beast.base.inference.distribution.Prior</map>
+    <map name="InverseGamma">beast.base.inference.distribution.InverseGamma</map>
+    <map name="OneOnX">beast.base.inference.distribution.OneOnX</map>
+    <run id="mcmc" spec="MCMC" chainLength="10000000">
+        <state id="state" spec="State" storeEvery="5000">
+            <stateNode id="Tree.t:updated_aln268"
+                       spec="multitypetree.evolution.tree.StructuredCoalescentMultiTypeTree">
+                <migrationModel id="migModel.t:updated_aln268"
+                                spec="multitypetree.evolution.tree.SCMigrationModel">
+                    <parameter id="RealParameter.0" spec="parameter.RealParameter" dimension="2"
+                               estimate="false" name="rateMatrix">1.0 1.0
+                    </parameter>
+                    <parameter id="RealParameter.1" spec="parameter.RealParameter" estimate="false"
+                               name="rateMatrixScaleFactor">1.0
+                    </parameter>
+                    <parameter id="RealParameter.2" spec="parameter.RealParameter" dimension="2"
+                               estimate="false" name="popSizes">1.0 1.0
+                    </parameter>
+                    <parameter id="RealParameter.3" spec="parameter.RealParameter" estimate="false"
+                               name="popSizesScaleFactor">1.0
+                    </parameter>
+                    <typeSet id="typeSet.t:updated_aln268"
+                             spec="multitypetree.evolution.tree.TypeSet">
+                        <typeTraitSet id="typeTraitSetInput.t:updated_aln268"
+                                      spec="feast.fileio.TraitSetFromTaxonSet" traitname="type"
+                                      delimiter="_" takeGroup="1">
+                            <taxa id="TaxonSet.0" spec="TaxonSet" alignment="@updated_aln268"/>
+                        </typeTraitSet>
+                    </typeSet>
+                </migrationModel>
+                <typeTrait idref="typeTraitSetInput.t:updated_aln268"/>
+                <typeSet idref="typeSet.t:updated_aln268"/>
+                <trait spec="feast.fileio.TraitSetFromTaxonSet" delimiter="_"
+                       everythingAfterLast="true" traitname="date">
+                    <taxa idref="TaxonSet.0"/>
+                </trait>
+            </stateNode>
+            <parameter id="R0.t:updated_aln268" spec="parameter.RealParameter" dimension="2"
+                       lower="0.0" name="stateNode" upper="Infinity">2.0 2.0
+            </parameter>
+            <parameter id="samplingProportion.t:updated_aln268" spec="parameter.RealParameter"
+                       dimension="4" lower="0.0" name="stateNode" upper="1.0">0.0 0.01 0.0 0.01
+            </parameter>
+            <parameter id="rateMatrix.t:updated_aln268" spec="parameter.RealParameter" dimension="2"
+                       lower="0.0" name="stateNode" upper="100.0">0.1 0.1
+            </parameter>
+            <parameter id="geo-frequencies.t:updated_aln268" spec="parameter.RealParameter"
+                       dimension="2" lower="0.0" name="stateNode" upper="1.0">0.5 0.5
+            </parameter>
+            <parameter id="clockRate.c:updated_aln268" spec="parameter.RealParameter"
+                       name="stateNode">9.0E-4
+            </parameter>
+            <parameter id="gammaShape.s:updated_aln268" spec="parameter.RealParameter"
+                       name="stateNode">1.0
+            </parameter>
+            <parameter id="kappa.s:updated_aln268" spec="parameter.RealParameter" lower="0.0"
+                       name="stateNode">2.0
+            </parameter>
+            <parameter id="freqParameter.s:updated_aln268" spec="parameter.RealParameter"
+                       dimension="4" lower="0.0" name="stateNode" upper="1.0">0.25
+            </parameter>
+        </state>
+        <distribution id="posterior" spec="CompoundDistribution">
+            <distribution id="prior" spec="CompoundDistribution">
+                <distribution id="birthDeathMigration.t:updated_aln268"
+                              spec="bdmm.evolution.speciation.BirthDeathMigrationModel"
+                              R0="@R0.t:updated_aln268" checkRho="false"
+                              frequencies="@geo-frequencies.t:updated_aln268"
+                              migrationMatrix="@rateMatrix.t:updated_aln268"
+                              samplingProportion="@samplingProportion.t:updated_aln268"
+                              stateNumber="2" tree="@Tree.t:updated_aln268">
+                    <parameter id="samplingRateChangeTimes.s:updated_aln268"
+                               spec="parameter.RealParameter" dimension="2"
+                               name="samplingRateChangeTimes">0.0 2.63
+                    </parameter>
+                    <reverseTimeArrays id="BooleanParameter.0" spec="parameter.BooleanParameter"
+                                       dimension="6">false false true false false false
+                    </reverseTimeArrays>
+                    <parameter id="becomeUninfectiousRate.t:updated_aln268"
+                               spec="parameter.RealParameter" dimension="2" estimate="false"
+                               lower="0.0" name="becomeUninfectiousRate" upper="Infinity">0.5 0.5
+                    </parameter>
+                </distribution>
+                <prior id="RPrior.t:updated_aln268" name="distribution" x="@R0.t:updated_aln268">
+                    <LogNormal id="LogNormalDistributionModel.1" name="distr">
+                        <parameter id="RealParameter.6" spec="parameter.RealParameter"
+                                   estimate="false" name="M">2.0
+                        </parameter>
+                        <parameter id="RealParameter.7" spec="parameter.RealParameter"
+                                   estimate="false" name="S">1.0
+                        </parameter>
+                    </LogNormal>
+                </prior>
+                <!--prior id="ClockPrior.c:updated_aln268" name="distribution" x="@clockRate.c:updated_aln268">
+
+                            <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+
+                        </prior-->
+                <prior id="GammaShapePrior.s:updated_aln268" name="distribution"
+                       x="@gammaShape.s:updated_aln268">
+                    <Exponential id="Exponential.0" name="distr">
+                        <mean id="Function$Constant.0" spec="Function$Constant" value="1.0"/>
+                    </Exponential>
+                </prior>
+                <prior id="rateMatrixPrior.t:updated_aln268" name="distribution"
+                       x="@rateMatrix.t:updated_aln268">
+                    <Exponential id="Exponential.1" name="distr">
+                        <parameter id="RealParameter.10" spec="parameter.RealParameter"
+                                   estimate="false" name="mean">1.0
+                        </parameter>
+                    </Exponential>
+                </prior>
+                <distribution id="samplingProportionPrior.t:updated_aln268"
+                              spec="multitypetree.distributions.ExcludablePrior"
+                              x="@samplingProportion.t:updated_aln268">
+                    <xInclude id="samplingProportionXInclude.t:updated_aln268"
+                              spec="parameter.BooleanParameter" dimension="4">false true false true
+                    </xInclude>
+                    <Beta id="Beta.0" name="distr">
+                        <parameter id="RealParameter.8" spec="parameter.RealParameter"
+                                   estimate="false" name="alpha">1.0
+                        </parameter>
+                        <parameter id="RealParameter.9" spec="parameter.RealParameter"
+                                   estimate="false" name="beta">1.0
+                        </parameter>
+                    </Beta>
+                </distribution>
+            </distribution>
+            <distribution id="likelihood" spec="CompoundDistribution">
+                <distribution id="treeLikelihood.updated_aln268" spec="TreeLikelihood"
+                              data="@updated_aln268" tree="@Tree.t:updated_aln268">
+                    <siteModel id="SiteModel.s:updated_aln268" spec="SiteModel"
+                               gammaCategoryCount="4" shape="@gammaShape.s:updated_aln268">
+                        <parameter id="mutationRate.s:updated_aln268" spec="parameter.RealParameter"
+                                   estimate="false" name="mutationRate">1.0
+                        </parameter>
+                        <parameter id="proportionInvariant.s:updated_aln268"
+                                   spec="parameter.RealParameter" estimate="false" lower="0.0"
+                                   name="proportionInvariant" upper="1.0">0.0
+                        </parameter>
+                        <substModel id="hky.s:updated_aln268" spec="HKY"
+                                    kappa="@kappa.s:updated_aln268">
+                            <frequencies id="estimatedFreqs.s:updated_aln268" spec="Frequencies"
+                                         frequencies="@freqParameter.s:updated_aln268"/>
+                        </substModel>
+                    </siteModel>
+                    <branchRateModel id="StrictClock.c:updated_aln268"
+                                     spec="beast.base.evolution.branchratemodel.StrictClockModel"
+                                     clock.rate="@clockRate.c:updated_aln268"/>
+                </distribution>
+            </distribution>
         </distribution>
-        <prior id="RPrior.t:updated_aln268" name="distribution" x="@R0.t:updated_aln268">
-          <LogNormal id="LogNormalDistributionModel.1" name="distr">
-            <parameter id="RealParameter.6" spec="parameter.RealParameter" estimate="false" name="M">2.0</parameter>
-            <parameter id="RealParameter.7" spec="parameter.RealParameter" estimate="false" name="S">1.0</parameter>
-          </LogNormal>
-        </prior>
-        <!--prior id="ClockPrior.c:updated_aln268" name="distribution" x="@clockRate.c:updated_aln268">
-                                    
-                    <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
-                                
-                </prior-->
-        <prior id="GammaShapePrior.s:updated_aln268" name="distribution" x="@gammaShape.s:updated_aln268">
-          <Exponential id="Exponential.0" name="distr">
-            <mean id="Function$Constant.0" spec="Function$Constant" value="1.0"/>
-          </Exponential>
-        </prior>
-        <prior id="rateMatrixPrior.t:updated_aln268" name="distribution" x="@rateMatrix.t:updated_aln268">
-          <Exponential id="Exponential.1" name="distr">
-            <parameter id="RealParameter.10" spec="parameter.RealParameter" estimate="false" name="mean">1.0</parameter>
-          </Exponential>
-        </prior>
-        <distribution id="samplingProportionPrior.t:updated_aln268" spec="multitypetree.distributions.ExcludablePrior" x="@samplingProportion.t:updated_aln268">
-          <xInclude id="samplingProportionXInclude.t:updated_aln268" spec="parameter.BooleanParameter" dimension="4">false true false true</xInclude>
-          <Beta id="Beta.0" name="distr">
-            <parameter id="RealParameter.8" spec="parameter.RealParameter" estimate="false" name="alpha">1.0</parameter>
-            <parameter id="RealParameter.9" spec="parameter.RealParameter" estimate="false" name="beta">1.0</parameter>
-          </Beta>
-        </distribution>
-      </distribution>
-      <distribution id="likelihood" spec="CompoundDistribution">
-        <distribution id="treeLikelihood.updated_aln268" spec="TreeLikelihood" data="@updated_aln268" tree="@Tree.t:updated_aln268">
-          <siteModel id="SiteModel.s:updated_aln268" spec="SiteModel" gammaCategoryCount="4" shape="@gammaShape.s:updated_aln268">
-            <parameter id="mutationRate.s:updated_aln268" spec="parameter.RealParameter" estimate="false" name="mutationRate">1.0</parameter>
-            <parameter id="proportionInvariant.s:updated_aln268" spec="parameter.RealParameter" estimate="false" lower="0.0" name="proportionInvariant" upper="1.0">0.0</parameter>
-            <substModel id="hky.s:updated_aln268" spec="HKY" kappa="@kappa.s:updated_aln268">
-              <frequencies id="estimatedFreqs.s:updated_aln268" spec="Frequencies" frequencies="@freqParameter.s:updated_aln268"/>
-            </substModel>
-          </siteModel>
-          <branchRateModel id="StrictClock.c:updated_aln268" spec="beast.base.evolution.branchratemodel.StrictClockModel" clock.rate="@clockRate.c:updated_aln268"/>
-        </distribution>
-      </distribution>
-    </distribution>
-    <operator id="STX.t:updated_aln268" spec="multitypetree.operators.TypedSubtreeExchange" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268" weight="10.0"/>
-    <operator id="TWB.t:updated_aln268" spec="multitypetree.operators.TypedWilsonBalding" alpha="0.2" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268" weight="10.0"/>
-    <operator id="NR.t:updated_aln268" spec="multitypetree.operators.NodeRetype" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268" weight="10.0"/>
-    <operator id="NSR1.t:updated_aln268" spec="multitypetree.operators.NodeShiftRetype" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268" rootOnly="true" weight="10.0"/>
-    <operator id="NSR2.t:updated_aln268" spec="multitypetree.operators.NodeShiftRetype" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268" noRoot="true" weight="10.0"/>
-    <operator id="MTU.t:updated_aln268" spec="multitypetree.operators.MultiTypeUniform" includeRoot="true" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268" weight="10.0"/>
-    <operator id="MTTS.t:updated_aln268" spec="multitypetree.operators.MultiTypeTreeScale" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268" scaleFactor="0.98" useOldTreeScaler="true" weight="10.0"/>
-    <!--operator id="MTTUpDown.t:updated_aln268" spec="multitypetree.operators.MultiTypeTreeScale" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268" scaleFactor="0.98" useOldTreeScaler="true" weight="10.0">
-                    
-            <parameterInverse idref="rateMatrix.t:updated_aln268"/>
-                    
-            <parameterInverse idref="clockRate.c:updated_aln268"/>
-                
-        </operator-->
-    <operator id="R0Scaler.t:updated_aln268" spec="ScaleOperator" parameter="@R0.t:updated_aln268" scaleFactor="0.8" weight="3.0"/>
-    <operator id="samplingScaler.t:updated_aln268" spec="ScaleOperator" parameter="@samplingProportion.t:updated_aln268" scaleFactor="0.9" weight="3.0"/>
-    <operator id="rateMatrixScaler.t:updated_aln268" spec="ScaleOperator" parameter="@rateMatrix.t:updated_aln268" scaleFactor="0.8" weight="1.0"/>
-    <operator id="geo-frequenciesExchange.t:updated_aln268" spec="operator.DeltaExchangeOperator" delta="0.1" weight="0.1">
-      <parameter idref="geo-frequencies.t:updated_aln268"/>
-    </operator>
-    <operator id="updownBM.t:updated_aln268" spec="operator.UpDownOperator" scaleFactor="0.9" weight="3.0">
-      <up idref="R0.t:updated_aln268"/>
-      <down idref="rateMatrix.t:updated_aln268"/>
-    </operator>
-    <!--operator id="StrictClockRateScaler.c:updated_aln268" spec="ScaleOperator" parameter="@clockRate.c:updated_aln268" weight="3.0"/-->
-    <operator id="gammaShapeScaler.s:updated_aln268" spec="ScaleOperator" parameter="@gammaShape.s:updated_aln268" scaleFactor="0.5" weight="0.1"/>
-    <logger id="tracelog" spec="Logger" fileName="updated_aln268.log" logEvery="1000">
-      <log idref="posterior"/>
-      <log idref="likelihood"/>
-      <log idref="prior"/>
-      <log idref="treeLikelihood.updated_aln268"/>
-      <log id="treeHeight.t:updated_aln268" spec="beast.base.evolution.tree.TreeHeightLogger" tree="@Tree.t:updated_aln268"/>
-      <log id="treeLength.t:updated_aln268" spec="multitypetree.util.TreeLengthLogger" tree="@Tree.t:updated_aln268"/>
-      <log id="changeCounts.t:updated_aln268" spec="multitypetree.util.TypeChangeCounts" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268"/>
-      <log id="nodeTypeCounts.t:updated_aln268" spec="multitypetree.util.NodeTypeCounts" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268"/>
-      <log id="rootTypeLogger.t:updated_aln268" spec="multitypetree.util.TreeRootTypeLogger" multiTypeTree="@Tree.t:updated_aln268"/>
-      <log idref="R0.t:updated_aln268"/>
-      <log idref="samplingProportion.t:updated_aln268"/>
-      <log idref="rateMatrix.t:updated_aln268"/>
-      <log idref="geo-frequencies.t:updated_aln268"/>
-      <log idref="clockRate.c:updated_aln268"/>
-      <log idref="gammaShape.s:updated_aln268"/>
-      <log idref="kappa.s:updated_aln268"/>
-      <log idref="freqParameter.s:updated_aln268"/>
-      <log id="getTypeChanges" spec="treestat2.TreeStat2Logger" tree="@Tree.t:updated_aln268" GetTypeChanges="2" />
-    </logger>
-    <logger id="screenlog" spec="Logger" logEvery="1000">
-      <log idref="posterior"/>
-      <log id="ESS.0" spec="util.ESS" arg="@posterior"/>
-      <log idref="likelihood"/>
-      <log idref="prior"/>
-      <log idref="getTypeChanges" spec="treestat2.TreeStat2Logger" tree="@Tree.t:updated_aln268" GetTypeChanges="2" />
-    </logger>
-    <logger id="treelog.t:updated_aln268" spec="Logger" fileName="updated_aln268.trees" logEvery="10000" mode="tree">
-      <log idref="Tree.t:updated_aln268"/>
-    </logger>
-    <logger id="maptreelog.t:updated_aln268" spec="Logger" fileName="updated_aln268.map.trees" logEvery="10000" mode="tree">
-      <log id="MAPTreeLogger.0" spec="multitypetree.util.MAPTreeLogger" multiTypeTree="@Tree.t:updated_aln268" posterior="@posterior"/>
-    </logger>
-    <logger id="typednodetreelog.t:updated_aln268" spec="Logger" fileName="updated_aln268.typedNode.trees" logEvery="10000" mode="tree">
-      <log id="TypedNodeTreeLogger.0" spec="multitypetree.util.TypedNodeTreeLogger" multiTypeTree="@Tree.t:updated_aln268"/>
-    </logger>
-  </run>
+        <operator id="STX.t:updated_aln268" spec="multitypetree.operators.TypedSubtreeExchange"
+                  migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268"
+                  weight="10.0"/>
+        <operator id="TWB.t:updated_aln268" spec="multitypetree.operators.TypedWilsonBalding"
+                  alpha="0.2" migrationModel="@migModel.t:updated_aln268"
+                  multiTypeTree="@Tree.t:updated_aln268" weight="10.0"/>
+        <operator id="NR.t:updated_aln268" spec="multitypetree.operators.NodeRetype"
+                  migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268"
+                  weight="10.0"/>
+        <operator id="NSR1.t:updated_aln268" spec="multitypetree.operators.NodeShiftRetype"
+                  migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268"
+                  rootOnly="true" weight="10.0"/>
+        <operator id="NSR2.t:updated_aln268" spec="multitypetree.operators.NodeShiftRetype"
+                  migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268"
+                  noRoot="true" weight="10.0"/>
+        <operator id="MTU.t:updated_aln268" spec="multitypetree.operators.MultiTypeUniform"
+                  includeRoot="true" migrationModel="@migModel.t:updated_aln268"
+                  multiTypeTree="@Tree.t:updated_aln268" weight="10.0"/>
+        <operator id="MTTS.t:updated_aln268" spec="multitypetree.operators.MultiTypeTreeScale"
+                  migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268"
+                  scaleFactor="0.98" useOldTreeScaler="true" weight="10.0"/>
+        <!--operator id="MTTUpDown.t:updated_aln268" spec="multitypetree.operators.MultiTypeTreeScale" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268" scaleFactor="0.98" useOldTreeScaler="true" weight="10.0">
+
+                <parameterInverse idref="rateMatrix.t:updated_aln268"/>
+
+                <parameterInverse idref="clockRate.c:updated_aln268"/>
+
+            </operator-->
+        <operator id="R0Scaler.t:updated_aln268" spec="ScaleOperator"
+                  parameter="@R0.t:updated_aln268" scaleFactor="0.8" weight="3.0"/>
+        <operator id="samplingScaler.t:updated_aln268" spec="ScaleOperator"
+                  parameter="@samplingProportion.t:updated_aln268" scaleFactor="0.9" weight="3.0"/>
+        <operator id="rateMatrixScaler.t:updated_aln268" spec="ScaleOperator"
+                  parameter="@rateMatrix.t:updated_aln268" scaleFactor="0.8" weight="1.0"/>
+        <operator id="geo-frequenciesExchange.t:updated_aln268"
+                  spec="operator.DeltaExchangeOperator" delta="0.1" weight="0.1">
+            <parameter idref="geo-frequencies.t:updated_aln268"/>
+        </operator>
+        <operator id="updownBM.t:updated_aln268" spec="operator.UpDownOperator" scaleFactor="0.9"
+                  weight="3.0">
+            <up idref="R0.t:updated_aln268"/>
+            <down idref="rateMatrix.t:updated_aln268"/>
+        </operator>
+        <!--operator id="StrictClockRateScaler.c:updated_aln268" spec="ScaleOperator" parameter="@clockRate.c:updated_aln268" weight="3.0"/-->
+        <operator id="gammaShapeScaler.s:updated_aln268" spec="ScaleOperator"
+                  parameter="@gammaShape.s:updated_aln268" scaleFactor="0.5" weight="0.1"/>
+        <logger id="tracelog" spec="Logger" fileName="updated_aln268.log" logEvery="1000">
+            <log idref="posterior"/>
+            <log idref="likelihood"/>
+            <log idref="prior"/>
+            <log idref="treeLikelihood.updated_aln268"/>
+            <log id="treeHeight.t:updated_aln268" spec="beast.base.evolution.tree.TreeHeightLogger"
+                 tree="@Tree.t:updated_aln268"/>
+            <log id="treeLength.t:updated_aln268" spec="multitypetree.util.TreeLengthLogger"
+                 tree="@Tree.t:updated_aln268"/>
+            <log id="changeCounts.t:updated_aln268" spec="multitypetree.util.TypeChangeCounts"
+                 migrationModel="@migModel.t:updated_aln268"
+                 multiTypeTree="@Tree.t:updated_aln268"/>
+            <log id="nodeTypeCounts.t:updated_aln268" spec="multitypetree.util.NodeTypeCounts"
+                 migrationModel="@migModel.t:updated_aln268"
+                 multiTypeTree="@Tree.t:updated_aln268"/>
+            <log id="rootTypeLogger.t:updated_aln268" spec="multitypetree.util.TreeRootTypeLogger"
+                 multiTypeTree="@Tree.t:updated_aln268"/>
+            <log idref="R0.t:updated_aln268"/>
+            <log idref="samplingProportion.t:updated_aln268"/>
+            <log idref="rateMatrix.t:updated_aln268"/>
+            <log idref="geo-frequencies.t:updated_aln268"/>
+            <log idref="clockRate.c:updated_aln268"/>
+            <log idref="gammaShape.s:updated_aln268"/>
+            <log idref="kappa.s:updated_aln268"/>
+            <log idref="freqParameter.s:updated_aln268"/>
+            <log id="getTypeChanges" spec="treestat2.TreeStat2Logger" tree="@Tree.t:updated_aln268"
+                 GetTypeChanges="2"/>
+        </logger>
+        <logger id="screenlog" spec="Logger" logEvery="1000">
+            <log idref="posterior"/>
+            <log id="ESS.0" spec="util.ESS" arg="@posterior"/>
+            <log idref="likelihood"/>
+            <log idref="prior"/>
+            <log idref="getTypeChanges" spec="treestat2.TreeStat2Logger"
+                 tree="@Tree.t:updated_aln268" GetTypeChanges="2"/>
+        </logger>
+        <logger id="treelog.t:updated_aln268" spec="Logger" fileName="updated_aln268.trees"
+                logEvery="10000" mode="tree">
+            <log idref="Tree.t:updated_aln268"/>
+        </logger>
+        <logger id="maptreelog.t:updated_aln268" spec="Logger" fileName="updated_aln268.map.trees"
+                logEvery="10000" mode="tree">
+            <log id="MAPTreeLogger.0" spec="multitypetree.util.MAPTreeLogger"
+                 multiTypeTree="@Tree.t:updated_aln268" posterior="@posterior"/>
+        </logger>
+        <logger id="typednodetreelog.t:updated_aln268" spec="Logger"
+                fileName="updated_aln268.typedNode.trees" logEvery="10000" mode="tree">
+            <log id="TypedNodeTreeLogger.0" spec="multitypetree.util.TypedNodeTreeLogger"
+                 multiTypeTree="@Tree.t:updated_aln268"/>
+        </logger>
+    </run>
 </beast>

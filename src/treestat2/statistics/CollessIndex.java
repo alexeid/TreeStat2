@@ -32,33 +32,33 @@ import beast.base.evolution.tree.Tree;
 /**
  * @author Alexei Drummond
  */
-@Citation(value="Colless (1982)")
+@Citation(value = "Colless (1982)")
 @SummaryStatisticDescription(
-        name="Colless tree-imbalance",
+        name = "Colless tree-imbalance",
         description = "The normalized sum of differences of number of children in left and right subtrees over all internal nodes",
-        category= SummaryStatisticDescription.Category.TREE_SHAPE,
+        category = SummaryStatisticDescription.Category.TREE_SHAPE,
         allowsNonultrametricTrees = true,
         allowsPolytomies = false,
         allowsUnrootedTrees = false)
 public class CollessIndex extends AbstractTreeSummaryStatistic<Double> {
 
-	/**
-	 * Assumes strictly bifurcating tree.
-	 */
-	@Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    /**
+     * Assumes strictly bifurcating tree.
+     */
+    @Override
+    public Double[] getSummaryStatistic(Tree tree) {
 
-		double C = 0.0;
-		for (Node node : tree.getInternalNodes()) {
+        double C = 0.0;
+        for (Node node : tree.getInternalNodes()) {
 
-			int r = node.getChild(0).getLeafNodeCount();
-			int s = node.getChild(1).getLeafNodeCount();
+            int r = node.getChild(0).getLeafNodeCount();
+            int s = node.getChild(1).getLeafNodeCount();
 
-			C += Math.abs(r-s);
-		}
+            C += Math.abs(r - s);
+        }
 
-		int n = tree.getLeafNodeCount();
-		C *= 2.0 / (n * (n - 3) + 2);
-		return new Double[] { C };
-	}
+        int n = tree.getLeafNodeCount();
+        C *= 2.0 / (n * (n - 3) + 2);
+        return new Double[]{C};
+    }
 }

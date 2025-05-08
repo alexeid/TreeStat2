@@ -43,7 +43,7 @@ import treestat2.ccd.CCDHandler;
 public class CCD1Information extends AbstractTreeSummaryStatistic<Double> implements CCDStats<Double> {
 
     @Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    public Double[] getSummaryStatistic(Tree tree) {
 
         CCDHandler ccdHandler = TreeStatUtils.getCCDHandler();
         CCD1 ccd1 = ccdHandler.getCCD1();

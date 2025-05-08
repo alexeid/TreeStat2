@@ -30,45 +30,43 @@ import beast.base.evolution.tree.Node;
 import beast.base.evolution.tree.Tree;
 
 /**
- *
- * @version $Id: B1Statistic.java,v 1.2 2005/09/28 13:50:56 rambaut Exp $
- *
  * @author Alexei Drummond
+ * @version $Id: B1Statistic.java,v 1.2 2005/09/28 13:50:56 rambaut Exp $
  */
-@Citation(value="Shao & Sokal (1990) 'Tree balance.' Syst Zool 39:266-276", DOI="10.2307/2992186")
+@Citation(value = "Shao & Sokal (1990) 'Tree balance.' Syst Zool 39:266-276", DOI = "10.2307/2992186")
 @SummaryStatisticDescription(
-        name="B1",
-        description="The sum of the reciprocals of the maximum number of nodes between each interior node and a tip (Mi) for all internal nodes except the root.",
-        category=SummaryStatisticDescription.Category.TREE_SHAPE,
+        name = "B1",
+        description = "The sum of the reciprocals of the maximum number of nodes between each interior node and a tip (Mi) for all internal nodes except the root.",
+        category = SummaryStatisticDescription.Category.TREE_SHAPE,
         allowsNonultrametricTrees = true,
         allowsPolytomies = false,
         allowsUnrootedTrees = false
 )
 public class B1Statistic extends AbstractTreeSummaryStatistic<Double> {
 
-	@Override
-	public Double[] getSummaryStatistic(Tree tree) {
-		double B1 = 0.0;
-		for (Node node : tree.getInternalNodes()) {
-			if (!node.isRoot()) {
-				B1 += 1.0/getMi(node);
-			}
-		}
-		return new Double[] { B1 };
-	}
+    @Override
+    public Double[] getSummaryStatistic(Tree tree) {
+        double B1 = 0.0;
+        for (Node node : tree.getInternalNodes()) {
+            if (!node.isRoot()) {
+                B1 += 1.0 / getMi(node);
+            }
+        }
+        return new Double[]{B1};
+    }
 
-	/**
-	 * Assumes strictly bifurcating tree
-	 */
-	private static int getMi(Node node) {
-		int childCount = node.getChildCount();
-		if (childCount == 0) return 0;
-		int Mi = 0;
-		for (int i =0; i < childCount; i++) {
-			int mi = getMi(node.getChild(i));
-			if (mi > Mi) Mi = mi;
-		}
-		Mi += 1;
-		return Mi;
-	}
+    /**
+     * Assumes strictly bifurcating tree
+     */
+    private static int getMi(Node node) {
+        int childCount = node.getChildCount();
+        if (childCount == 0) return 0;
+        int Mi = 0;
+        for (int i = 0; i < childCount; i++) {
+            int mi = getMi(node.getChild(i));
+            if (mi > Mi) Mi = mi;
+        }
+        Mi += 1;
+        return Mi;
+    }
 }

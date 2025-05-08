@@ -13,9 +13,9 @@
     <property name="targetVersion" value="17"/>
 
     <!-- Directories necessary for all BEAST 2 packages -->
-    <property name="doc" location="doc"/>
-    <property name="examples" location="examples"/>
-    <property name="templates" location="templates"/>
+    <!--    <property name="doc" location="doc"/>-->
+    <!--    <property name="examples" location="examples"/>-->
+    <!--    <property name="templates" location="templates"/>-->
 
     <!-- BEAST branch and version to build against
          (only different for version tags because of
@@ -34,6 +34,7 @@
     <property name="beast2classpath" location="../beast2/build"/>
     <property name="beastapp2classpath" location="../BeastFX/build"/>
     <property name="ccdclasspath" location="../CCD/build"/>
+    <property name="beastlabsclasspath" location="../BEASTLabs/build"/>
 
     <!-- Prepare for compilation -->
     <target name="init">
@@ -48,9 +49,9 @@
         </fail>
 
         <!-- Read package name and version from xml file -->
-        <xmlproperty file="version.xml" prefix="fromVersionFile" />
-        <property name="projName" value="${fromVersionFile.package(name)}" />
-        <property name="projVersion" value="${fromVersionFile.package(version)}" />
+        <xmlproperty file="version.xml" prefix="fromVersionFile"/>
+        <property name="projName" value="${fromVersionFile.package(name)}"/>
+        <property name="projVersion" value="${fromVersionFile.package(version)}"/>
 
         <mkdir dir="${build}"/>
         <mkdir dir="${build-lib}"/>
@@ -63,66 +64,67 @@
 
     <!-- Get beast -->
 
-<!--    <target name="find-beast" depends="init">-->
-<!--        <available file="${beastDir}" property="localBeastAvailable"/>-->
-<!--    </target>-->
+    <!--    <target name="find-beast" depends="init">-->
+    <!--        <available file="${beastDir}" property="localBeastAvailable"/>-->
+    <!--    </target>-->
 
-<!--    <target name="build-remote-beast" depends="find-beast" unless="localBeastAvailable">-->
-<!--        <echo>No local copy of the beast2 source found at ${beastDir}.</echo>-->
-<!--        <echo>Compiling against version ${beast-version} from GitHub.</echo>-->
+    <!--    <target name="build-remote-beast" depends="find-beast" unless="localBeastAvailable">-->
+    <!--        <echo>No local copy of the beast2 source found at ${beastDir}.</echo>-->
+    <!--        <echo>Compiling against version ${beast-version} from GitHub.</echo>-->
 
-<!--        <mkdir dir="${build-beast}"/>-->
+    <!--        <mkdir dir="${build-beast}"/>-->
 
-<!--        <get src="https://github.com/CompEvol/beast2/archive/${beast-branch}.zip" dest="${build-beast}/beast.zip"/>-->
-<!--        <unzip src="${build-beast}/beast.zip" dest="${build-beast}"/>-->
-<!--        <mkdir dir="${build-beast}/beast2-${beast-version}/build"/>-->
-<!--        <javac target="${targetVersion}" source="${sourceVersion}"-->
-<!--            srcdir="${build-beast}/beast2-${beast-version}/src"-->
-<!--            destdir="${build-beast}/beast2-${beast-version}/build" includeantruntime="false">-->
-<!--            <classpath>-->
-<!--                <pathelement path="${classpath}"/>-->
-<!--                <fileset dir="${build-beast}/beast2-${beast-version}/lib" includes="*.jar"/>-->
-<!--            </classpath>-->
-<!--        </javac>-->
-<!--        <jar jarfile="${build-lib}/beast2.jar" basedir="${build-beast}/beast2-${beast-version}/build" />-->
-<!--        <copy todir="${build-lib}">-->
-<!--            <fileset dir="${build-beast}/beast2-${beast-version}/lib" includes="*.jar"/>-->
-<!--        </copy>-->
+    <!--        <get src="https://github.com/CompEvol/beast2/archive/${beast-branch}.zip" dest="${build-beast}/beast.zip"/>-->
+    <!--        <unzip src="${build-beast}/beast.zip" dest="${build-beast}"/>-->
+    <!--        <mkdir dir="${build-beast}/beast2-${beast-version}/build"/>-->
+    <!--        <javac target="${targetVersion}" source="${sourceVersion}"-->
+    <!--            srcdir="${build-beast}/beast2-${beast-version}/src"-->
+    <!--            destdir="${build-beast}/beast2-${beast-version}/build" includeantruntime="false">-->
+    <!--            <classpath>-->
+    <!--                <pathelement path="${classpath}"/>-->
+    <!--                <fileset dir="${build-beast}/beast2-${beast-version}/lib" includes="*.jar"/>-->
+    <!--            </classpath>-->
+    <!--        </javac>-->
+    <!--        <jar jarfile="${build-lib}/beast2.jar" basedir="${build-beast}/beast2-${beast-version}/build" />-->
+    <!--        <copy todir="${build-lib}">-->
+    <!--            <fileset dir="${build-beast}/beast2-${beast-version}/lib" includes="*.jar"/>-->
+    <!--        </copy>-->
 
-<!--        <delete dir="${build-beast}" />-->
-<!--    </target>-->
+    <!--        <delete dir="${build-beast}" />-->
+    <!--    </target>-->
 
-<!--    <target name="build-local-beast" depends="find-beast" if="localBeastAvailable">-->
-<!--        <echo>Compiling against beast2 source found at ${beastDir}.</echo>-->
+    <!--    <target name="build-local-beast" depends="find-beast" if="localBeastAvailable">-->
+    <!--        <echo>Compiling against beast2 source found at ${beastDir}.</echo>-->
 
-<!--        <mkdir dir="${build-beast}"/>-->
+    <!--        <mkdir dir="${build-beast}"/>-->
 
-<!--        <javac target="${targetVersion}" source="${sourceVersion}"-->
-<!--            srcdir="${beastDir}/src"-->
-<!--            destdir="${build-beast}" includeantruntime="false">-->
-<!--            <classpath>-->
-<!--                <pathelement path="${classpath}"/>-->
-<!--                <fileset dir="${beastDir}/lib" includes="*.jar"/>-->
-<!--            </classpath>-->
-<!--        </javac>-->
-<!--        <jar jarfile="${build-lib}/beast2.jar" basedir="${build-beast}" />-->
-<!--        <copy todir="${build-lib}">-->
-<!--            <fileset dir="${beastDir}/lib" includes="*.jar"/>-->
-<!--        </copy>-->
+    <!--        <javac target="${targetVersion}" source="${sourceVersion}"-->
+    <!--            srcdir="${beastDir}/src"-->
+    <!--            destdir="${build-beast}" includeantruntime="false">-->
+    <!--            <classpath>-->
+    <!--                <pathelement path="${classpath}"/>-->
+    <!--                <fileset dir="${beastDir}/lib" includes="*.jar"/>-->
+    <!--            </classpath>-->
+    <!--        </javac>-->
+    <!--        <jar jarfile="${build-lib}/beast2.jar" basedir="${build-beast}" />-->
+    <!--        <copy todir="${build-lib}">-->
+    <!--            <fileset dir="${beastDir}/lib" includes="*.jar"/>-->
+    <!--        </copy>-->
 
-<!--        <delete dir="${build-beast}" />-->
-<!--    </target>-->
+    <!--        <delete dir="${build-beast}" />-->
+    <!--    </target>-->
 
-<!--    <target name="build-beast" depends="build-local-beast,build-remote-beast"/>-->
+    <!--    <target name="build-beast" depends="build-local-beast,build-remote-beast"/>-->
 
-<!--    <import file="../CCD/build.xml"/>-->
+    <!--    <import file="../CCD/build.xml"/>-->
     <!--  CCD/build.xml not working here, so -->
     <!--  1. cd ../CCD -->
     <!--  2. change Java to Zulu -->
     <!--  3. ant build_all_CCD -->
-    <!-- Then, run ant build under TreeState2 dir -->
+    <!-- Then, run ant build under TreeStat2 dir -->
     <target name="compile" depends="init">
-        <javac target="${targetVersion}" source="${sourceVersion}" srcdir="${src}" destdir="${build}" includeantruntime="false">
+        <javac target="${targetVersion}" source="${sourceVersion}" srcdir="${src}"
+               destdir="${build}" includeantruntime="false">
             <classpath>
                 <pathelement path="${classpath}"/>
                 <fileset dir="${build-lib}" includes="*.jar"/>
@@ -130,6 +132,7 @@
                 <pathelement path="${beast2classpath}"/>
                 <pathelement path="${beastapp2classpath}"/>
                 <pathelement path="${ccdclasspath}"/>
+                <pathelement path="${beastlabsclasspath}"/>
             </classpath>
         </javac>
         <echo message="Successfully compiled."/>
@@ -138,7 +141,7 @@
     <target name="copy-resources" depends="compile">
         <copy todir="${build}">
             <fileset dir="${src}"
-                     includes="**/*.png" />
+                     includes="**/*.png"/>
         </copy>
     </target>
 
@@ -151,13 +154,14 @@
 
     <!-- Compile unit tests -->
     <target name="compile-test" depends="init-test,compile,copy-resources">
-        <javac target="${targetVersion}" source="${sourceVersion}" srcdir="${test}" destdir="${build-test}" includeantruntime="false">
+        <javac target="${targetVersion}" source="${sourceVersion}" srcdir="${test}"
+               destdir="${build-test}" includeantruntime="false">
             <classpath>
                 <pathelement path="${classpath}"/>
-                <pathelement path="${build}" />
+                <pathelement path="${build}"/>
                 <fileset dir="${build-lib}" includes="*.jar"/>
-                <pathelement path="${build}" />
-                <pathelement path="${build}" />
+                <pathelement path="${build}"/>
+                <pathelement path="${build}"/>
             </classpath>
         </javac>
     </target>
@@ -168,8 +172,8 @@
         <junit printsummary="yes" failureproperty="testFailed" showoutput="true">
             <classpath>
                 <pathelement path="${classpath}"/>
-                <pathelement path="${build}" />
-                <pathelement path="${build-test}" />
+                <pathelement path="${build}"/>
+                <pathelement path="${build-test}"/>
                 <fileset dir="${build-lib}" includes="*.jar"/>
             </classpath>
             <batchtest fork="yes" todir="${test-reports}">
@@ -190,44 +194,44 @@
         <property name="fullName" value="${projName}.v${projVersion}"/>
 
         <mkdir dir="${pack}"/>
-        <mkdir dir="${pack}/examples"/>
-        <mkdir dir="${pack}/templates"/>
+        <!--        <mkdir dir="${pack}/examples"/>-->
+        <!--        <mkdir dir="${pack}/templates"/>-->
         <!--mkdir dir="${pack}/lib"/-->
-        <mkdir dir="${pack}/doc"/>
+        <!--        <mkdir dir="${pack}/doc"/>-->
 
-        <jar jarfile="${pack}/${fullName}.src.jar" basedir="${src}" />
+        <jar jarfile="${pack}/${fullName}.src.jar" basedir="${src}"/>
 
-        <mkdir dir="${lib}" />
+        <mkdir dir="${lib}"/>
         <copy todir="${pack}/lib">
-            <fileset dir="${lib}" includes="*.jar" />
+            <fileset dir="${lib}" includes="*.jar"/>
         </copy>
-        <jar jarfile="${pack}/lib/${fullName}.jar" basedir="${build}" />
+        <jar jarfile="${pack}/lib/${fullName}.jar" basedir="${build}"/>
 
-        <copy file="README.md" tofile="${pack}/README" />
+        <copy file="README.md" tofile="${pack}/README"/>
         <!--copy file="COPYING" todir="${pack}" /-->
         <!--copy todir="${pack}">
             <fileset dir="${lib}" includes="LICENSE*" />
         </copy-->
 
-        <mkdir dir="${examples}" />
-        <copy todir="${pack}/examples">
-            <fileset dir="${examples}" includes="**/*.xml" />
-            <fileset dir="${examples}" includes="**/*.fasta" />
-        </copy>
+        <!--        <mkdir dir="${examples}" />-->
+        <!--        <copy todir="${pack}/examples">-->
+        <!--            <fileset dir="${examples}" includes="**/*.xml" />-->
+        <!--            <fileset dir="${examples}" includes="**/*.fasta" />-->
+        <!--        </copy>-->
 
-        <mkdir dir="${templates}" />
-        <copy todir="${pack}/templates">
-            <fileset dir="${templates}" includes="*.xml" />
-        </copy>
+        <!--        <mkdir dir="${templates}" />-->
+        <!--        <copy todir="${pack}/templates">-->
+        <!--            <fileset dir="${templates}" includes="*.xml" />-->
+        <!--        </copy>-->
 
-        <mkdir dir="${doc}" />
-        <copy todir="${pack}/doc">
-            <fileset dir="${doc}" includes="*.tex,*.doc,*.lyx,*.txt"/>
-        </copy>
+        <!--        <mkdir dir="${doc}" />-->
+        <!--        <copy todir="${pack}/doc">-->
+        <!--            <fileset dir="${doc}" includes="*.tex,*.doc,*.lyx,*.txt"/>-->
+        <!--        </copy>-->
 
-        <copy file="version.xml" todir="${pack}" />
+        <copy file="version.xml" todir="${pack}"/>
 
-        <zip destfile="${dist}/${fullName}.zip" basedir="${pack}" />
+        <zip destfile="${dist}/${fullName}.zip" basedir="${pack}"/>
 
         <delete dir="${pack}"/>
 
@@ -239,12 +243,12 @@
 
     <!-- Revert to pristine state. -->
     <target name="clean">
-        <delete dir="${build}" />
-        <delete dir="${build-lib}" />
+        <delete dir="${build}"/>
+        <delete dir="${build-lib}"/>
         <delete dir="${build-beast}"/>
-        <delete dir="${dist}" />
-        <delete dir="${build-test}" />
-        <delete dir="${test-reports}" />
+        <delete dir="${dist}"/>
+        <delete dir="${build-test}"/>
+        <delete dir="${test-reports}"/>
     </target>
 
     <condition property="isWindows">
@@ -270,12 +274,14 @@
 
     <target name="installMac" depends="build" if="isMac">
         <mkdir dir="${user.home}/.beast/2.7/${projName}"/>
-        <unzip src="${dist}/TreeStat2.v${projVersion}.zip" dest="${user.home}/Library/Application Support/BEAST/2.7/${projName}"/>
+        <unzip src="${dist}/TreeStat2.v${projVersion}.zip"
+               dest="${user.home}/Library/Application Support/BEAST/2.7/${projName}"/>
     </target>
 
     <target name="installWindows" depends="build" if="isWindows">
         <mkdir dir="${user.home}/BEAST/2.7/${projName}"/>
-        <unzip src="${dist}/TreeStat2.v${projVersion}.zip" dest="${user.home}/BEAST/2.7/${projName}"/>
+        <unzip src="${dist}/TreeStat2.v${projVersion}.zip"
+               dest="${user.home}/BEAST/2.7/${projName}"/>
     </target>
 
     <target name="install" depends="installWindows,installMac,installLinux">

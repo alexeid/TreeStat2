@@ -53,7 +53,7 @@ public class SingleChildTransitionCounts extends AbstractTreeSummaryStatistic<In
      * @return a map of statistic names and values
      */
     @Override
-	public Map<String, Integer> getStatistics(Tree tree) {
+    public Map<String, Integer> getStatistics(Tree tree) {
 
         Map<String, Integer> statistics = new TreeMap<String, Integer>();
 
@@ -80,18 +80,18 @@ public class SingleChildTransitionCounts extends AbstractTreeSummaryStatistic<In
     }
 
     @Override
-	public String getName() {
+    public String getName() {
         return super.getName() + "(" + attributeName + ")";
     }
 
 
     @Override
-	Integer[] getSummaryStatistic(Tree tree) {
+    Integer[] getSummaryStatistic(Tree tree) {
         throw new RuntimeException("Should not be used. getStatistics() does job in this class.");
     }
 
     @Override
-	public void setString(String name) {
+    public void setString(String name) {
         this.attributeName = name;
     }
 }

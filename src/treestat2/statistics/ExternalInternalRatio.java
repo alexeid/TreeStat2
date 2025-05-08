@@ -33,9 +33,9 @@ import beast.base.evolution.tree.TreeUtils;
  * @version $Id: ExternalInternalRatio.java,v 1.2 2005/09/28 13:50:56 rambaut Exp $
  */
 @SummaryStatisticDescription(
-        name="External/Internal ratio",
-        description="The ratio of the total length of external branches to the " +
-        "total length of internal branches.",
+        name = "External/Internal ratio",
+        description = "The ratio of the total length of external branches to the " +
+                "total length of internal branches.",
         category = SummaryStatisticDescription.Category.POPULATION_GENETIC,
         allowsNonultrametricTrees = true,
         allowsPolytomies = true,
@@ -43,7 +43,7 @@ import beast.base.evolution.tree.TreeUtils;
 public class ExternalInternalRatio extends AbstractTreeSummaryStatistic<Double> {
 
     @Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    public Double[] getSummaryStatistic(Tree tree) {
         return new Double[]{TreeUtils.getExternalLength(tree) / TreeUtils.getInternalLength(tree)};
     }
 }

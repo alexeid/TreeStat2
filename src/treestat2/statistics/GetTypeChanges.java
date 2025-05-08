@@ -42,6 +42,7 @@ import beast.base.evolution.tree.Tree;
 public class GetTypeChanges extends AbstractTreeSummaryStatistic<String> {
 
     String attributeName = "";
+
     @Override
     public String[] getSummaryStatistic(Tree tree) {
 
@@ -49,26 +50,26 @@ public class GetTypeChanges extends AbstractTreeSummaryStatistic<String> {
 
         Integer[][] countmatrix = new Integer[typecount][typecount];
         for (int x = 0; x < countmatrix[0].length; x++) {
-            for (int y =0; y < countmatrix.length; y++) {
+            for (int y = 0; y < countmatrix.length; y++) {
                 countmatrix[x][y] = 0;
             }
         }
 
         for (Node node : tree.getInternalNodes()) {
-            for (int child_index = 0 ; child_index < node.getChildCount() ; child_index++) {
+            for (int child_index = 0; child_index < node.getChildCount(); child_index++) {
                 String parent = node.toNewick();
                 String child = node.getChild(child_index).toNewick();
-                String fromType = parent.substring(parent.lastIndexOf("type"),parent.lastIndexOf("type")+5);
-                String toType = child.substring(child.lastIndexOf("type"),child.lastIndexOf("type")+5);
+                String fromType = parent.substring(parent.lastIndexOf("type"), parent.lastIndexOf("type") + 5);
+                String toType = child.substring(child.lastIndexOf("type"), child.lastIndexOf("type") + 5);
 
                 if (!fromType.equals(toType)) {
-                    countmatrix[Integer.parseInt(String.valueOf(fromType.charAt(4)))][Integer.parseInt(String.valueOf(toType.charAt(4)))]  ++;
+                    countmatrix[Integer.parseInt(String.valueOf(fromType.charAt(4)))][Integer.parseInt(String.valueOf(toType.charAt(4)))]++;
                 }
             }
         }
 
         String countstring = convertArrayToString(countmatrix);
-        return new String[] { countstring };
+        return new String[]{countstring};
     }
 
     public static String convertArrayToString(Integer[][] array) {
@@ -91,6 +92,7 @@ public class GetTypeChanges extends AbstractTreeSummaryStatistic<String> {
     public String getName() {
         return super.getName() + "(" + attributeName + ")";
     }
+
     @Override
     public void setString(String name) {
         this.attributeName = name;

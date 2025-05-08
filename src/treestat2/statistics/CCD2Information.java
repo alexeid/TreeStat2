@@ -26,7 +26,6 @@
 package treestat2.statistics;
 
 import beast.base.evolution.tree.Tree;
-import ccd.model.CCD0;
 import ccd.model.CCD2;
 import treestat2.TreeStatUtils;
 import treestat2.ccd.CCDHandler;
@@ -45,7 +44,7 @@ import treestat2.ccd.CCDHandler;
 public class CCD2Information extends AbstractTreeSummaryStatistic<Double> implements CCDStats<Double> {
 
     @Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    public Double[] getSummaryStatistic(Tree tree) {
 
         CCDHandler ccdHandler = TreeStatUtils.getCCDHandler();
         CCD2 ccd2 = ccdHandler.getCCD2();

@@ -6,6 +6,7 @@ import beast.base.evolution.tree.TreeIntervals;
 
 /**
  * Returns the time to the maximum number of lineages.
+ *
  * @author Sebastian Duchene
  */
 @SummaryStatisticDescription(
@@ -17,12 +18,12 @@ import beast.base.evolution.tree.TreeIntervals;
         allowsUnrootedTrees = false,
         allowsTaxonList = false,
         allowsInteger = false
-        )
+)
 //        allowsDouble = true)
 public class TimeMaximumLineages extends AbstractTreeSummaryStatistic<Double> {
-	
-	@Override
-	public Double[] getSummaryStatistic(Tree tree) {
+
+    @Override
+    public Double[] getSummaryStatistic(Tree tree) {
 
         try {
             TreeIntervals intervals = new TreeIntervals(tree);
@@ -32,21 +33,21 @@ public class TimeMaximumLineages extends AbstractTreeSummaryStatistic<Double> {
                 intervalTimes[i] = intervals.getIntervalTime(i);
                 lineagesPerInterval[i] = intervals.getLineageCount(i) + 0.0;
             }
-            
+
             Double maxLineages = lineagesPerInterval[0];
             Double maxTimeLineages = 0.0;
-            for(int i = 0; i < intervalTimes.length; i++){
-            	if(lineagesPerInterval[i] > maxLineages){
-            		maxLineages = lineagesPerInterval[i];
-            		maxTimeLineages = intervalTimes[i];
-            	}
+            for (int i = 0; i < intervalTimes.length; i++) {
+                if (lineagesPerInterval[i] > maxLineages) {
+                    maxLineages = lineagesPerInterval[i];
+                    maxTimeLineages = intervalTimes[i];
+                }
 
             }
-            
-            return new Double[] {maxTimeLineages};
+
+            return new Double[]{maxTimeLineages};
 
         } catch (Exception e) {
-            return new Double[] {};
+            return new Double[]{};
         }
-	}
+    }
 }

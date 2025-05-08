@@ -29,14 +29,16 @@ import beast.base.core.Log;
 import beast.base.evolution.tree.Node;
 import beast.base.evolution.tree.Tree;
 
-import java.util.*;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * @author Alexei Drummond
  */
 @SummaryStatisticDescription(
-        name="Unique Branch Trait Values",
-        description="The (sorted) unique trait values of given name associated with the edges of the tree.",
+        name = "Unique Branch Trait Values",
+        description = "The (sorted) unique trait values of given name associated with the edges of the tree.",
         allowsNonultrametricTrees = true,
         allowsString = true,
         allowsPolytomies = true,
@@ -50,12 +52,12 @@ public class UniqueBranchTraitValues extends AbstractTreeSummaryStatistic<Double
     }
 
     @Override
-	public String getStatisticLabel(Tree tree, int i) {
+    public String getStatisticLabel(Tree tree, int i) {
         return traitName + " " + Integer.toString(i + 1);
     }
 
     @Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    public Double[] getSummaryStatistic(Tree tree) {
 
         Set<Double> uniqueValues = uniqueTraits(tree);
         Double[] values = new Double[uniqueValues.size()];
@@ -72,10 +74,10 @@ public class UniqueBranchTraitValues extends AbstractTreeSummaryStatistic<Double
             Double val = 0.0;
             if (traitValue != null) {
                 if (traitValue instanceof Double) {
-                    val = (Double)traitValue;
+                    val = (Double) traitValue;
                 } else if (traitValue instanceof String) {
                     try {
-                        val = Double.parseDouble((String)traitValue);
+                        val = Double.parseDouble((String) traitValue);
                     } catch (NumberFormatException e) {
                         Log.warning("trait " + traitName + " on node " + node.getID() + "/" + node.getNr() + " could not be parsed to a double. Setting to zero.");
                     }
@@ -88,29 +90,29 @@ public class UniqueBranchTraitValues extends AbstractTreeSummaryStatistic<Double
     }
 
     @Override
-	public void setTaxonList(String name, Set<String> taxonList) {
+    public void setTaxonList(String name, Set<String> taxonList) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setInteger(int value) {
+    public void setInteger(int value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setDouble(double value) {
+    public void setDouble(double value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setString(String value) {
+    public void setString(String value) {
         traitName = value;
     }
 
     public static final Factory FACTORY = new Factory() {
 
         @Override
-		public TreeSummaryStatistic<?> createStatistic() {
+        public TreeSummaryStatistic<?> createStatistic() {
             return new UniqueBranchTraitValues();
         }
 

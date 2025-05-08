@@ -10,18 +10,18 @@ import beast.base.evolution.tree.Tree;
         allowsPolytomies = true,
         allowsUnrootedTrees = false)
 public class SamplingTimesInterval extends AbstractTreeSummaryStatistic<Double> {
-	@Override
-	public Double[] getSummaryStatistic(Tree tree) {
-		int nTips = tree.getLeafNodeCount();
-		Double[] oldestTipAge = {0.0};
-		Node [] nodes = tree.getNodesAsArray();
-		for (int i = 0; i <  nTips; i++){
-			Double newTipAge = nodes[i].getHeight();
-			if (newTipAge > oldestTipAge[0]){
-				oldestTipAge[0] = newTipAge;
-			}
-		}
-		
-		return oldestTipAge;
-	}
+    @Override
+    public Double[] getSummaryStatistic(Tree tree) {
+        int nTips = tree.getLeafNodeCount();
+        Double[] oldestTipAge = {0.0};
+        Node[] nodes = tree.getNodesAsArray();
+        for (int i = 0; i < nTips; i++) {
+            Double newTipAge = nodes[i].getHeight();
+            if (newTipAge > oldestTipAge[0]) {
+                oldestTipAge[0] = newTipAge;
+            }
+        }
+
+        return oldestTipAge;
+    }
 }

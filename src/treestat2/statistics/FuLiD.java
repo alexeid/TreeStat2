@@ -32,9 +32,9 @@ import beast.base.evolution.tree.TreeUtils;
 /**
  * @author Alexei Drummond
  */
-@Citation(value="Fu and Li (1993)")
+@Citation(value = "Fu and Li (1993)")
 @SummaryStatisticDescription(
-        name="Fu & Li's D",
+        name = "Fu & Li's D",
         description = "The normalized difference between total tree length and external branch tree length. " +
                 "Note that this implementation uses branch lengths rather than the counts of mutations (this " +
                 "has a nice side-effect of taking into account complex mutation models.)",
@@ -44,63 +44,63 @@ import beast.base.evolution.tree.TreeUtils;
         allowsUnrootedTrees = false)
 public class FuLiD extends AbstractTreeSummaryStatistic<Double> {
 
-	@Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    @Override
+    public Double[] getSummaryStatistic(Tree tree) {
 
-		double externalLength = TreeUtils.getExternalLength(tree);
-		double internalLength = TreeUtils.getInternalLength(tree);
+        double externalLength = TreeUtils.getExternalLength(tree);
+        double internalLength = TreeUtils.getInternalLength(tree);
 
         int n = tree.getLeafNodeCount();
 
-		double total = externalLength + internalLength;
+        double total = externalLength + internalLength;
 
-		// difference in expectations
-		double D = total - a(n)*externalLength;
+        // difference in expectations
+        double D = total - a(n) * externalLength;
 
-		// normalized
-		D /= Math.sqrt(u(n)*total + (v(n)*(total*total)));
+        // normalized
+        D /= Math.sqrt(u(n) * total + (v(n) * (total * total)));
 
-		return new Double[] { D };
-	}
+        return new Double[]{D};
+    }
 
-	private double a(int n) {
-		double a = 0.0;
-		for (int k = 1; k < n; k++) {
-			a += 1/(double)k;
-		}
-		return a;
-	}
+    private double a(int n) {
+        double a = 0.0;
+        for (int k = 1; k < n; k++) {
+            a += 1 / (double) k;
+        }
+        return a;
+    }
 
-	private double b(int n) {
-		double b = 0.0;
-		for (int k = 1; k < n; k++) {
-			b += 1/(double)(k*k);
-		}
-		return b;
-	}
+    private double b(int n) {
+        double b = 0.0;
+        for (int k = 1; k < n; k++) {
+            b += 1 / (double) (k * k);
+        }
+        return b;
+    }
 
-	private double c(int n) {
+    private double c(int n) {
 
-		if (n==2) return 1.0;
+        if (n == 2) return 1.0;
 
-		double an = a(n);
+        double an = a(n);
 
-		double c = 2.0 * (n * an - 2.0 * (n - 1.0));
-		c /= (n-1)*(n-2);
+        double c = 2.0 * (n * an - 2.0 * (n - 1.0));
+        c /= (n - 1) * (n - 2);
 
-		return c;
-	}
+        return c;
+    }
 
-	private double v(int n) {
-		double an2 = a(n);
-		an2 *= an2;
+    private double v(int n) {
+        double an2 = a(n);
+        an2 *= an2;
 
-		double v = 1 + (an2/(b(n)+an2)) * (c(n)-((n+1)/(n-1)));
+        double v = 1 + (an2 / (b(n) + an2)) * (c(n) - ((n + 1) / (n - 1)));
 
-		return v;
-	}
+        return v;
+    }
 
-	private double u(int n) {
-		return a(n) - 1 - v(n);
-	}
+    private double u(int n) {
+        return a(n) - 1 - v(n);
+    }
 }

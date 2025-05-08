@@ -25,15 +25,14 @@ public class SecondInternalNodeHeight extends AbstractTreeSummaryStatistic<Doubl
             List<Double> child_list = new ArrayList<Double>();
             child_list.add(tree.getRoot().getChild(0).getLength());
             child_list.add(tree.getRoot().getChild(1).getLength());
-            second_branch_length = Collections.min(child_list) ;
-        }
-        else {
+            second_branch_length = Collections.min(child_list);
+        } else {
             List<Double> child_list = new ArrayList<Double>();
             child_list.add(tree.getRoot().getChild(0).getLength());
             child_list.add(tree.getRoot().getChild(1).getLength());
             child_list.add(tree.getRoot().getChild(2).getLength());
-            second_branch_length = Collections.min(child_list) ;
+            second_branch_length = Collections.min(child_list);
         }
-        return new Double[] { tree.getRoot().getHeight() - second_branch_length };
+        return new Double[]{tree.getRoot().getHeight() - second_branch_length};
     }
 }

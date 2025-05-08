@@ -33,18 +33,19 @@ import java.util.Set;
 /**
  * An interface and collection of tree summary statistics.
  *
- * @version $Id: TreeSummaryStatistic.java,v 1.2 2005/09/28 13:50:56 rambaut Exp $
- *
  * @author Alexei Drummond
+ * @version $Id: TreeSummaryStatistic.java,v 1.2 2005/09/28 13:50:56 rambaut Exp $
  */
 public interface TreeSummaryStatistic<T> {
 
-	String getStatisticLabel(Tree tree, int i);
+    String getStatisticLabel(Tree tree, int i);
 
     void setTaxonList(String name, Set<String> taxonList);
 
     void setInteger(int value);
+
     void setDouble(double value);
+
     void setString(String value);
 
     String getName();
@@ -52,35 +53,52 @@ public interface TreeSummaryStatistic<T> {
     /**
      * @return the name=value pairs of this summary statistic for the given tree.
      */
-    public Map<String,T> getStatistics(Tree tree);
+    Map<String, T> getStatistics(Tree tree);
 
     /**
      * Return the dimension of this statistic for the given tree
+     *
      * @param tree
      * @return
      */
     default int getDimension(Tree tree) {
-        return getStatistics(tree).keySet().size();
+        return getStatistics(tree).size();
     }
 
-    public class Utils {
+    class Utils {
         public static SummaryStatisticDescription getDescription(TreeSummaryStatistic<?> tss) {
             return tss.getClass().getAnnotation(SummaryStatisticDescription.class);
         }
     }
 
-    public abstract class Factory {
-		public TreeSummaryStatistic<?> createStatistic() {
-			throw new RuntimeException("This factory method is not implemented");
-		}
+    abstract class Factory {
+        public TreeSummaryStatistic<?> createStatistic() {
+            throw new RuntimeException("This factory method is not implemented");
+        }
 
-		public boolean allowsWholeTree() { return true; }
-		public boolean allowsTaxonList() { return false; }
-		public boolean allowsInteger() { return false; }
-		public boolean allowsDouble() { return false; }
-        public boolean allowsString() { return false; }
+        public boolean allowsWholeTree() {
+            return true;
+        }
 
-		public String getValueName() { return ""; }
+        public boolean allowsTaxonList() {
+            return false;
+        }
+
+        public boolean allowsInteger() {
+            return false;
+        }
+
+        public boolean allowsDouble() {
+            return false;
+        }
+
+        public boolean allowsString() {
+            return false;
+        }
+
+        public String getValueName() {
+            return "";
+        }
 
     }
 

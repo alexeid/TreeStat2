@@ -32,7 +32,7 @@ import beast.base.evolution.tree.Tree;
  * @author Alexei Drummond
  */
 @SummaryStatisticDescription(
-        name="Longest Branch Length",
+        name = "Longest Branch Length",
         description = "The longest branch length in the tree.",
         allowsNonultrametricTrees = true,
         allowsPolytomies = true,
@@ -40,7 +40,7 @@ import beast.base.evolution.tree.Tree;
 public class LongestBranchLength extends AbstractTreeSummaryStatistic<Double> {
 
     @Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    public Double[] getSummaryStatistic(Tree tree) {
 
         // int nodeCount = tree.getNodeCount();
         double longestBranch = 0.0;
@@ -51,6 +51,6 @@ public class LongestBranchLength extends AbstractTreeSummaryStatistic<Double> {
                 }
             }
         }
-        return new Double[] {longestBranch};
+        return new Double[]{longestBranch};
     }
 }

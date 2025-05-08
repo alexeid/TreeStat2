@@ -1,28 +1,22 @@
 package treestat2;
 
-import java.awt.Toolkit;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.EventListenerList;
+import javax.swing.*;
+import javax.swing.event.*;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
+import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 
 public class WholeNumberField extends JTextField
         implements FocusListener, DocumentListener {
 
- 	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
- 	protected static char MINUS_CHAR = '-';
+    protected static char MINUS_CHAR = '-';
     protected EventListenerList changeListeners = new EventListenerList();
     protected long min;
     protected long max;
@@ -41,24 +35,23 @@ public class WholeNumberField extends JTextField
         this.addFocusListener(this);
     }
 
-    public WholeNumberField(long min, long max) {
-        super();
-        this.min = min;
-        this.max = max;
-        range_check = true;
-        this.addFocusListener(this);
+    @Override
+    public void focusGained(FocusEvent evt) {
     }
 
     @Override
-	public void focusGained(FocusEvent evt) {
-    }
-
-    @Override
-	public void focusLost(FocusEvent evt) {
+    public void focusLost(FocusEvent evt) {
         if (range_check && !range_checked) {
             range_checked = true;
+
+            String text = getText().trim();
+            if (text.isEmpty()) {
+                setText("0"); // Set a default value if the field is empty
+                return;
+            }
+
             try {
-                long value = Long.valueOf(getText());
+                long value = Long.valueOf(text);
                 if (value < min || value > max) {
                     errorMsg();
                 }
@@ -66,10 +59,6 @@ public class WholeNumberField extends JTextField
                 errorMsg();
             }
         }
-    }
-
-    public void setText(Integer obj) {
-        setText(obj.toString());
     }
 
     protected void errorMsg() {
@@ -81,6 +70,7 @@ public class WholeNumberField extends JTextField
     public void setValue(int value) {
         if (range_check) {
             if (value < min || value > max) {
+                System.out.println("WholeNumberField.setValue");
                 errorMsg();
                 return;
             }
@@ -91,6 +81,7 @@ public class WholeNumberField extends JTextField
     public void setValue(long value) {
         if (range_check) {
             if (value < min || value > max) {
+                System.out.println("WholeNumberField.setValue");
                 errorMsg();
                 return;
             }
@@ -100,57 +91,33 @@ public class WholeNumberField extends JTextField
 
     public Integer getValue() {
         try {
-            return new Integer(getText());
+            return Integer.valueOf(getText());
         } catch (NumberFormatException e) {
             return null;
         }
-    }
-
-    public Long getLongValue() {
-        try {
-            return new Long(getText());
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
-
-    public Integer getValue(int default_value) {
-        Integer value = getValue();
-        if (value == null)
-            return default_value;
-        else
-            return value;
-    }
-
-    public Long getValue(long default_value) {
-        Long value = getLongValue();
-        if (value == null)
-            return default_value;
-        else
-            return value;
     }
 
     @Override
-	protected Document createDefaultModel() {
+    protected Document createDefaultModel() {
         Document doc = new WholeNumberFieldDocument();
         doc.addDocumentListener(this);
         return doc;
     }
 
     @Override
-	public void insertUpdate(DocumentEvent e) {
+    public void insertUpdate(DocumentEvent e) {
         range_checked = false;
         fireChanged();
     }
 
     @Override
-	public void removeUpdate(DocumentEvent e) {
+    public void removeUpdate(DocumentEvent e) {
         range_checked = false;
         fireChanged();
     }
 
     @Override
-	public void changedUpdate(DocumentEvent e) {
+    public void changedUpdate(DocumentEvent e) {
         range_checked = false;
         fireChanged();
     }
@@ -160,10 +127,10 @@ public class WholeNumberField extends JTextField
     };
 
     class WholeNumberFieldDocument extends PlainDocument {
-		private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
-		@Override
-		public void insertString(int offs, String str, AttributeSet a)
+        @Override
+        public void insertString(int offs, String str, AttributeSet a)
                 throws BadLocationException {
 
             if (str == null) return;
@@ -197,14 +164,6 @@ public class WholeNumberField extends JTextField
     //------------------------------------------------------------------------
     // Event Methods
     //------------------------------------------------------------------------
-
-    public void addChangeListener(ChangeListener x) {
-        changeListeners.add(ChangeListener.class, x);
-    }
-
-    public void removeChangeListener(ChangeListener x) {
-        changeListeners.remove(ChangeListener.class, x);
-    }
 
     protected void fireChanged() {
         ChangeEvent c = new ChangeEvent(this);

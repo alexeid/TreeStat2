@@ -34,7 +34,7 @@ import java.util.Set;
  * @author Alexei Drummond
  */
 @SummaryStatisticDescription(
-        name="Tree Topology",
+        name = "Tree Topology",
         description = "The tree topology in sorted newick format",
         allowsNonultrametricTrees = true,
         allowsPolytomies = true,
@@ -42,13 +42,13 @@ import java.util.Set;
 public class TopologyStringStatistic extends AbstractTreeSummaryStatistic<String> {
 
     @Override
-	public String[] getSummaryStatistic(Tree tree) {
+    public String[] getSummaryStatistic(Tree tree) {
 
-        return new String[] {TreeUtils.sortedNewickTopology(tree.getRoot(), true)};
+        return new String[]{TreeUtils.sortedNewickTopology(tree.getRoot(), true)};
     }
 
     @Override
-	public void setTaxonList(String name, Set<String> taxonList) {
+    public void setTaxonList(String name, Set<String> taxonList) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 }

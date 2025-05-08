@@ -47,12 +47,12 @@ public class RootToTipLengths extends AbstractTreeSummaryStatistic<Double> {
     }
 
     @Override
-	public String getStatisticLabel(Tree tree, int i) {
+    public String getStatisticLabel(Tree tree, int i) {
         return tree.getTaxaNames()[i];
     }
 
     @Override
-	public Double[] getSummaryStatistic(Tree tree) {
+    public Double[] getSummaryStatistic(Tree tree) {
 
         List<Node> leafNodes = tree.getExternalNodes();
         Double[] stats = new Double[leafNodes.size()];
@@ -69,32 +69,38 @@ public class RootToTipLengths extends AbstractTreeSummaryStatistic<Double> {
     }
 
     @Override
-	public void setTaxonList(String name, Set<String> taxonList) {
+    public void setTaxonList(String name, Set<String> taxonList) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setInteger(int value) {
+    public void setInteger(int value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setDouble(double value) {
+    public void setDouble(double value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     @Override
-	public void setString(String value) {
+    public void setString(String value) {
         throw new UnsupportedOperationException("not implemented in this statistic");
     }
 
     public static final Factory FACTORY = new Factory() {
 
-        public boolean allowsPolytomies() { return true; }
+        public boolean allowsPolytomies() {
+            return true;
+        }
 
-        public boolean allowsNonultrametricTrees() { return true; }
+        public boolean allowsNonultrametricTrees() {
+            return true;
+        }
 
-        public boolean allowsUnrootedTrees() { return false; }
+        public boolean allowsUnrootedTrees() {
+            return false;
+        }
 
     };
 }

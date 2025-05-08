@@ -29,7 +29,8 @@ import jam.framework.Exportable;
 import jam.panels.OptionsPanel;
 import jam.table.TableRenderer;
 import jam.util.IconUtils;
-import treestat2.statistics.*;
+import treestat2.statistics.SummaryStatisticDescription;
+import treestat2.statistics.TreeSummaryStatistic;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -39,7 +40,7 @@ import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -52,15 +53,17 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
      */
     private static final long serialVersionUID = -8026203872020056264L;
     TreeStatFrame frame;
-    ArrayList<Class<? extends TreeSummaryStatistic>> availableStatistics =
-            new ArrayList<Class<? extends TreeSummaryStatistic>>();
-    TreeStatData treeStatData = null;
 
-    JScrollPane scrollPane1 = null;
+    // Get available statistics from the TreeStatisticRegistry
+    private final List<Class<? extends TreeSummaryStatistic>> availableStatistics = TreeStatisticRegistry.getAvailableStatistics();
+
+    TreeStatData treeStatData;
+
+    JScrollPane scrollPane1;
     JScrollPane scrollPane2 = null;
     JTable includedStatisticsTable = null;
-    JTable availableStatisticsTable = null;
-    AvailableStatisticsTableModel availableStatisticsTableModel = null;
+    JTable availableStatisticsTable;
+    AvailableStatisticsTableModel availableStatisticsTableModel;
     IncludedStatisticsTableModel includedStatisticsTableModel = null;
     TreeSummaryStatisticLabel statisticLabel = new TreeSummaryStatisticLabel(null);
 
@@ -68,65 +71,6 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
 
         this.frame = frame;
         this.treeStatData = treeStatData;
-
-        // default
-        //treeStatDatastics.add(TreeSummaryStatistic.Utils.createTMRCAStatistic());
-
-        // add generic tree statistics here
-        availableStatistics.add(TreeLength.class);
-        availableStatistics.add(RelativeTrunkLength.class);
-        availableStatistics.add(TreeHeight.class);
-        availableStatistics.add(NodeHeights.class);
-        availableStatistics.add(SortedNodeAges.class);
-        availableStatistics.add(BranchLengths.class);
-        availableStatistics.add(BranchRates.class);
-        availableStatistics.add(InternalBranchLengths.class);
-        availableStatistics.add(InternalBranchRates.class);
-        availableStatistics.add(ExternalBranchLengths.class);
-        availableStatistics.add(ExternalBranchRates.class);
-        
-        availableStatistics.add(RootBranchTrait.class);
-        availableStatistics.add(UniqueBranchTraitValues.class);
-        availableStatistics.add(InternalNodeAttribute.class);
-        availableStatistics.add(RootToTipLengths.class);
-        availableStatistics.add(TMRCASummaryStatistic.class);
-        availableStatistics.add(MonophylyStatistic.class);
-
-        availableStatistics.add(CladeMRCAAttributeStatistic.class);
-        availableStatistics.add(CladeMeanAttributeStatistic.class);
-        availableStatistics.add(BetaTreeDiversityStatistic.class);
-        availableStatistics.add(TopologyStringStatistic.class);
-        availableStatistics.add(TimeMaximumLineages.class);
-        availableStatistics.add(SamplingTimesInterval.class);
-        availableStatistics.add(LttSlopeRatio.class);
-        availableStatistics.add(NumberOfTips.class);
-
-        availableStatistics.add(B1Statistic.class);
-        availableStatistics.add(CollessIndex.class);
-        availableStatistics.add(CherryStatistic.class);
-        availableStatistics.add(SingleChildCountStatistic.class);
-        availableStatistics.add(SAStatistic.class);
-        availableStatistics.add(SingleChildTransitionCounts.class);
-        availableStatistics.add(Nbar.class);
-        availableStatistics.add(TreenessStatistic.class);
-        availableStatistics.add(GammaStatistic.class);
-        availableStatistics.add(DeltaStatistic.class);
-        availableStatistics.add(ExternalInternalRatio.class);
-        availableStatistics.add(FuLiD.class);
-        availableStatistics.add(RankBranchLength.class);
-        availableStatistics.add(IntervalKStatistic.class);
-        availableStatistics.add(LineageCountStatistic.class);
-        availableStatistics.add(MRCAOlderThanStatistic.class);
-        availableStatistics.add(LongestBranchLength.class);
-        availableStatistics.add(SecondInternalNodeHeight.class);
-        availableStatistics.add(GetTypeChanges.class);
-        // CCD ...
-        availableStatistics.add(CCD0RFDistance.class);
-        availableStatistics.add(CCD1RFDistance.class);
-        availableStatistics.add(CCD0ExpectedRFDistance.class);
-        availableStatistics.add(CCD1ExpectedRFDistance.class);
-        availableStatistics.add(CCD0Information.class);
-        availableStatistics.add(CCD1Information.class);
 
         setOpaque(false);
 
@@ -143,7 +87,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
 
         availableStatisticsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
-			public void valueChanged(ListSelectionEvent evt) {
+            public void valueChanged(ListSelectionEvent evt) {
                 statisticsTableSelectionChanged(false);
             }
         });
@@ -167,7 +111,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
 
         includedStatisticsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
-			public void valueChanged(ListSelectionEvent evt) {
+            public void valueChanged(ListSelectionEvent evt) {
                 statisticsTableSelectionChanged(true);
             }
         });
@@ -254,7 +198,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
     }
 
     @Override
-	public JComponent getExportableComponent() {
+    public JComponent getExportableComponent() {
         return this;
     }
 
@@ -296,7 +240,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         private static final long serialVersionUID = -7179224487959650620L;
 
         @Override
-		public void actionPerformed(ActionEvent ae) {
+        public void actionPerformed(ActionEvent ae) {
             int[] indices = availableStatisticsTable.getSelectedRows();
             for (int i = indices.length - 1; i >= 0; i--) {
                 Class<? extends TreeSummaryStatistic> ssd = availableStatistics.get(indices[i]);
@@ -313,7 +257,7 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
                 }
             }
             if (frame != null) {
-            	frame.fireDataChanged();
+                frame.fireDataChanged();
             }
             dataChanged();
         }
@@ -326,14 +270,14 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         private static final long serialVersionUID = -3904236403703620633L;
 
         @Override
-		public void actionPerformed(ActionEvent ae) {
+        public void actionPerformed(ActionEvent ae) {
             int[] indices = includedStatisticsTable.getSelectedRows();
             for (int i = indices.length - 1; i >= 0; i--) {
                 treeStatData.statistics.remove(indices[i]);
             }
 
             if (frame != null) {
-            	frame.fireDataChanged();
+                frame.fireDataChanged();
             }
             dataChanged();
         }
@@ -470,49 +414,56 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         return statistic;
     }
 
-    class AvailableStatisticsTableModel extends AbstractTableModel {
+    public static class AvailableStatisticsTableModel extends AbstractTableModel {
 
         /**
          *
          */
         private static final long serialVersionUID = 86401307035717809L;
 
+        // Get available statistics from the TreeStatisticRegistry
+        private final List<Class<? extends TreeSummaryStatistic>> availableStatistics = TreeStatisticRegistry.getAvailableStatistics();
+
         public AvailableStatisticsTableModel() {
         }
 
         @Override
-		public int getColumnCount() {
+        public int getColumnCount() {
             return 2;
         }
 
         @Override
-		public int getRowCount() {
-
+        public int getRowCount() {
             return availableStatistics.size();
         }
 
         @Override
-		public Object getValueAt(int row, int col) {
-            if (col == 0) return TreeSummaryStatistic.getSummaryStatisticDescription(availableStatistics.get(row)).name();
+        public Object getValueAt(int row, int col) {
+            // Return the statistic name and category for each row
+            if (col == 0) {
+                return TreeSummaryStatistic.getSummaryStatisticDescription(availableStatistics.get(row)).name();
+            }
             return TreeSummaryStatistic.getSummaryStatisticDescription(availableStatistics.get(row)).category().getPrettyName();
         }
 
         @Override
-		public boolean isCellEditable(int row, int col) {
+        public boolean isCellEditable(int row, int col) {
             return false;
         }
 
         @Override
-		public String getColumnName(int column) {
+        public String getColumnName(int column) {
+            // Set column names
             if (column == 0) return "Statistic Name";
             return "Category";
         }
 
         @Override
-		public Class<?> getColumnClass(int c) {
+        public Class<?> getColumnClass(int c) {
             return getValueAt(0, c).getClass();
         }
     }
+
 
     class IncludedStatisticsTableModel extends AbstractTableModel {
 
@@ -525,19 +476,19 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         }
 
         @Override
-		public int getColumnCount() {
+        public int getColumnCount() {
             return 1;
         }
 
         @Override
-		public int getRowCount() {
+        public int getRowCount() {
             if (treeStatData == null || treeStatData.statistics == null) return 0;
 
             return treeStatData.statistics.size();
         }
 
         @Override
-		public Object getValueAt(int row, int col) {
+        public Object getValueAt(int row, int col) {
             if (treeStatData == null || treeStatData.statistics == null) return null;
             if (col == 0)
                 return treeStatData.statistics.get(row).getName();
@@ -545,18 +496,18 @@ public class StatisticsPanel extends OptionsPanel implements Exportable {
         }
 
         @Override
-		public boolean isCellEditable(int row, int col) {
+        public boolean isCellEditable(int row, int col) {
             return false;
         }
 
         @Override
-		public String getColumnName(int column) {
+        public String getColumnName(int column) {
             if (column == 0) return "Statistic Name";
             return "Description";
         }
 
         @Override
-		public Class<?> getColumnClass(int c) {
+        public Class<?> getColumnClass(int c) {
             return getValueAt(0, c).getClass();
         }
     }

@@ -27,10 +27,8 @@ package treestat2.statistics;
 
 import beast.base.evolution.tree.Tree;
 import ccd.algorithms.TreeDistances;
-import ccd.model.AbstractCCD;
 import ccd.model.WrappedBeastTree;
 import treestat2.TreeStatUtils;
-import treestat2.ccd.CCDHandler;
 
 /**
  * @author Walter Xie
@@ -45,7 +43,7 @@ import treestat2.ccd.CCDHandler;
 public class CCD0RFDistance extends AbstractTreeSummaryStatistic<Integer> implements CCDStats<Integer> {
 
     @Override
-	public Integer[] getSummaryStatistic(Tree tree) {
+    public Integer[] getSummaryStatistic(Tree tree) {
 
         WrappedBeastTree mapTree = TreeStatUtils.getCCDHandler().getMapTreeCCD0();
 
