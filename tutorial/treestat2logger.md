@@ -5,17 +5,24 @@ Written by John Tay 24 August 2023
 Currently, only the following tree statistics are implemented in TreeStat2Logger:
 ExternalInternalRatio, GetTypeChanges, SecondInternalNodeHeight, and TreeHeight.
 
-To access these tree statistics, you must clone the latest TreeStat2 repo and build with ant (ant
-must be installed with sudo apt-get ant).
+To access these tree statistics, you must clone the latest TreeStat2 repo and build it with Maven
+(requires Java 25 and Maven 3.9+).
 
 ```
-git clone https://github.com/Tay-j/TreeStat2
+git clone https://github.com/alexeid/TreeStat2
 cd TreeStat2
-ant
+mvn package
 ```
 
-The built package will be located in dist/TreeStat2.vX.X.X.zip, which should be unzipped in your ~
-/.beast/2.7 directory.
+The built package will be located in target/TreeStat2.vX.X.X.zip (for a development version,
+target/TreeStat2.vX.X.X-SNAPSHOT.zip). Unzip it into a `TreeStat2` folder in your BEAST 2.8 package
+directory: `~/Library/Application Support/BEAST/2.8` on macOS, or `~/.beast/2.8` on Linux. For
+example, on macOS:
+
+```
+mkdir -p ~/Library/Application\ Support/BEAST/2.8/TreeStat2
+unzip target/TreeStat2.v*.zip -d ~/Library/Application\ Support/BEAST/2.8/TreeStat2
+```
 
 ## Example with GetTypeChanges on MTBD
 
@@ -25,9 +32,14 @@ GetTypeChanges must take a discrete nominal input greater than 1.
 
 ### Requirements
 
-Ensure that the following packages are located in your ~/.beast/2.7 directory:
-BEAST2.7.x, bdmm, feast, MultiTypeTree, and TreeStat2.
-Note that the tutorial was tested for BEAST2.7.3
+Ensure that the following packages are installed in your BEAST 2.8 package directory (see above):
+BEAST v2.8, bdmm, feast, MultiTypeTree, and TreeStat2 (with its dependencies CCD and BEASTLabs).
+
+> [!Note]
+> The example analysis `tutorial/updated_aln268.xml` was written and tested for BEAST2.7.3. It
+> needs BEAST v2.8 releases of bdmm and MultiTypeTree to run on BEAST v2.8, which are not available
+> yet. A draft BEAST v2.8 conversion is in `tutorial/updated_aln268_b3_draft.xml`; see
+> [TODO.md](TODO.md) for what is blocking it and what remains to be done.
 
 ###  
 
