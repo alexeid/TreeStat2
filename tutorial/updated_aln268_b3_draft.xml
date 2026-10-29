@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beast version="2.8"
+       namespace="beast.core:beast.core.util:beast.evolution.alignment:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.tree.coalescent:beast.base.core:beast.base.evolution.alignment:beast.base.evolution.likelihood:beast.base.evolution.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.tree:beast.base.evolution.tree.coalescent:beast.base.inference:beast.base.inference.operator:beast.base.inference.util:beast.pkgmgmt"
+       beautitemplate="MultiTypeBirthDeath"
+       beautistatus=""
+       required="BEAST.base v2.7.4:BDMM v2.0.0:MultiTypeTree v8.0.0">
+    <alignment spec="feast.fileio.AlignmentFromFasta" fileName="updated_aln268.fasta" id="updated_aln268"/>
+
+    <run id="mcmc" spec="MCMC" chainLength="10000000">
+        <state id="state" spec="State" storeEvery="5000">
+            <stateNode id="Tree.t:updated_aln268" spec="multitypetree.evolution.tree.StructuredCoalescentMultiTypeTree">
+                <migrationModel id="migModel.t:updated_aln268" spec="multitypetree.evolution.tree.SCMigrationModel">
+                    <parameter id="RealParameter.0" dimension="2" estimate="false" name="rateMatrix" spec="beast.base.spec.inference.parameter.RealVectorParam" domain="Real">1.0 1.0
+                    </parameter>
+                    <parameter id="RealParameter.1" estimate="false" name="rateMatrixScaleFactor" spec="beast.base.spec.inference.parameter.RealScalarParam" domain="Real">1.0
+                    </parameter>
+                    <parameter id="RealParameter.2" dimension="2" estimate="false" name="popSizes" spec="beast.base.spec.inference.parameter.RealVectorParam" domain="Real">1.0 1.0
+                    </parameter>
+                    <parameter id="RealParameter.3" estimate="false" name="popSizesScaleFactor" spec="beast.base.spec.inference.parameter.RealScalarParam" domain="Real">1.0
+                    </parameter>
+                    <typeSet id="typeSet.t:updated_aln268" spec="multitypetree.evolution.tree.TypeSet">
+                        <typeTraitSet id="typeTraitSetInput.t:updated_aln268" spec="feast.fileio.TraitSetFromTaxonSet" traitname="type" delimiter="_" takeGroup="1">
+                            <taxa id="TaxonSet.0" spec="TaxonSet" alignment="@updated_aln268"/>
+                        </typeTraitSet>
+                    </typeSet>
+                </migrationModel>
+                <typeTrait idref="typeTraitSetInput.t:updated_aln268"/>
+                <typeSet idref="typeSet.t:updated_aln268"/>
+                <trait spec="feast.fileio.TraitSetFromTaxonSet" delimiter="_" everythingAfterLast="true" traitname="date">
+                    <taxa idref="TaxonSet.0"/>
+                </trait>
+            </stateNode>
+            <parameter id="R0.t:updated_aln268" dimension="2" name="stateNode" spec="beast.base.spec.inference.parameter.RealVectorParam" domain="PositiveReal">2.0 2.0
+            </parameter>
+            <parameter id="samplingProportion.t:updated_aln268" dimension="4" name="stateNode" spec="beast.base.spec.inference.parameter.RealVectorParam" domain="UnitInterval">0.0 0.01 0.0 0.01
+            </parameter>
+            <parameter id="rateMatrix.t:updated_aln268" dimension="2" name="stateNode" spec="beast.base.spec.inference.parameter.RealVectorParam" domain="PositiveReal">0.1 0.1
+            </parameter>
+            <parameter id="geo-frequencies.t:updated_aln268" dimension="2" name="stateNode" spec="beast.base.spec.inference.parameter.SimplexParam">0.5 0.5
+            </parameter>
+            <parameter id="clockRate.c:updated_aln268" name="stateNode" spec="beast.base.spec.inference.parameter.RealScalarParam" domain="Real">9.0E-4
+            </parameter>
+            <parameter id="gammaShape.s:updated_aln268" name="stateNode" spec="beast.base.spec.inference.parameter.RealScalarParam" domain="PositiveReal">1.0
+            </parameter>
+            <parameter id="kappa.s:updated_aln268" name="stateNode" spec="beast.base.spec.inference.parameter.RealScalarParam" domain="PositiveReal">2.0
+            </parameter>
+            <parameter id="freqParameter.s:updated_aln268" dimension="4" name="stateNode" spec="beast.base.spec.inference.parameter.SimplexParam">0.25
+            </parameter>
+        </state>
+        <distribution id="posterior" spec="CompoundDistribution">
+            <distribution id="prior" spec="CompoundDistribution">
+                <distribution id="birthDeathMigration.t:updated_aln268" spec="bdmm.evolution.speciation.BirthDeathMigrationModel" R0="@R0.t:updated_aln268" checkRho="false" frequencies="@geo-frequencies.t:updated_aln268" migrationMatrix="@rateMatrix.t:updated_aln268" samplingProportion="@samplingProportion.t:updated_aln268" stateNumber="2" tree="@Tree.t:updated_aln268">
+                    <parameter id="samplingRateChangeTimes.s:updated_aln268" dimension="2" name="samplingRateChangeTimes" spec="beast.base.spec.inference.parameter.RealVectorParam" domain="Real">0.0 2.63
+                    </parameter>
+                    <reverseTimeArrays id="BooleanParameter.0" dimension="6" spec="beast.base.spec.inference.parameter.BoolVectorParam">false false true false false false
+                    </reverseTimeArrays>
+                    <parameter id="becomeUninfectiousRate.t:updated_aln268" dimension="2" estimate="false" name="becomeUninfectiousRate" spec="beast.base.spec.inference.parameter.RealVectorParam" domain="PositiveReal">0.5 0.5
+                    </parameter>
+                </distribution>
+                <distribution id="RPrior.t:updated_aln268" spec="beast.base.spec.inference.distribution.IID" param="@R0.t:updated_aln268"><LogNormal id="LogNormalDistributionModel.1" name="distr">
+                        <parameter id="RealParameter.6" estimate="false" name="M" spec="beast.base.spec.inference.parameter.RealScalarParam" domain="Real">2.0
+                        </parameter>
+                        <parameter id="RealParameter.7" estimate="false" name="S" spec="beast.base.spec.inference.parameter.RealScalarParam" domain="Real">1.0
+                        </parameter>
+                    </LogNormal></distribution>
+                <!--prior id="ClockPrior.c:updated_aln268" name="distribution" x="@clockRate.c:updated_aln268">
+
+                            <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+
+                        </prior-->
+                <distribution id="Exponential.0" spec="beast.base.spec.inference.distribution.Exponential" param="@gammaShape.s:updated_aln268">
+                        <mean id="Function$Constant.0" spec="Function$Constant" value="1.0"/>
+                    </distribution>
+                <distribution id="rateMatrixPrior.t:updated_aln268" spec="beast.base.spec.inference.distribution.IID" param="@rateMatrix.t:updated_aln268"><Exponential id="Exponential.1" name="distr">
+                        <parameter id="RealParameter.10" estimate="false" name="mean" spec="beast.base.spec.inference.parameter.RealScalarParam" domain="Real">1.0
+                        </parameter>
+                    </Exponential></distribution>
+                <distribution id="samplingProportionPrior.t:updated_aln268" spec="multitypetree.distributions.ExcludablePrior" x="@samplingProportion.t:updated_aln268">
+                    <xInclude id="samplingProportionXInclude.t:updated_aln268" dimension="4" spec="beast.base.spec.inference.parameter.BoolVectorParam">false true false true
+                    </xInclude>
+                    <Beta id="Beta.0" name="distr">
+                        <parameter id="RealParameter.8" estimate="false" name="alpha" spec="beast.base.spec.inference.parameter.RealScalarParam" domain="Real">1.0
+                        </parameter>
+                        <parameter id="RealParameter.9" estimate="false" name="beta" spec="beast.base.spec.inference.parameter.RealScalarParam" domain="Real">1.0
+                        </parameter>
+                    </Beta>
+                </distribution>
+            </distribution>
+            <distribution id="likelihood" spec="CompoundDistribution">
+                <distribution id="treeLikelihood.updated_aln268" spec="beast.base.spec.evolution.likelihood.TreeLikelihood" data="@updated_aln268" tree="@Tree.t:updated_aln268">
+                    <siteModel id="SiteModel.s:updated_aln268" spec="beast.base.spec.evolution.sitemodel.SiteModel" gammaCategoryCount="4" shape="@gammaShape.s:updated_aln268">
+                        <parameter id="mutationRate.s:updated_aln268" estimate="false" name="mutationRate" spec="beast.base.spec.inference.parameter.RealScalarParam" domain="PositiveReal">1.0
+                        </parameter>
+                        <parameter id="proportionInvariant.s:updated_aln268" estimate="false" name="proportionInvariant" spec="beast.base.spec.inference.parameter.RealScalarParam" domain="UnitInterval">0.0
+                        </parameter>
+                        <substModel id="hky.s:updated_aln268" spec="beast.base.spec.evolution.substitutionmodel.HKY" kappa="@kappa.s:updated_aln268">
+                            <frequencies id="estimatedFreqs.s:updated_aln268" spec="beast.base.spec.evolution.substitutionmodel.Frequencies" frequencies="@freqParameter.s:updated_aln268"/>
+                        </substModel>
+                    </siteModel>
+                    <branchRateModel id="StrictClock.c:updated_aln268" spec="beast.base.spec.evolution.branchratemodel.StrictClockModel" clock.rate="@clockRate.c:updated_aln268"/>
+                </distribution>
+            </distribution>
+        </distribution>
+        <operator id="STX.t:updated_aln268" spec="multitypetree.operators.TypedSubtreeExchange" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268" weight="10.0"/>
+        <operator id="TWB.t:updated_aln268" spec="multitypetree.operators.TypedWilsonBalding" alpha="0.2" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268" weight="10.0"/>
+        <operator id="NR.t:updated_aln268" spec="multitypetree.operators.NodeRetype" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268" weight="10.0"/>
+        <operator id="NSR1.t:updated_aln268" spec="multitypetree.operators.NodeShiftRetype" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268" rootOnly="true" weight="10.0"/>
+        <operator id="NSR2.t:updated_aln268" spec="multitypetree.operators.NodeShiftRetype" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268" noRoot="true" weight="10.0"/>
+        <operator id="MTU.t:updated_aln268" spec="multitypetree.operators.MultiTypeUniform" includeRoot="true" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268" weight="10.0"/>
+        <operator id="MTTS.t:updated_aln268" spec="multitypetree.operators.MultiTypeTreeScale" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268" scaleFactor="0.98" useOldTreeScaler="true" weight="10.0"/>
+        <!--operator id="MTTUpDown.t:updated_aln268" spec="multitypetree.operators.MultiTypeTreeScale" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268" scaleFactor="0.98" useOldTreeScaler="true" weight="10.0">
+
+                <parameterInverse idref="rateMatrix.t:updated_aln268"/>
+
+                <parameterInverse idref="clockRate.c:updated_aln268"/>
+
+            </operator-->
+        <operator id="R0Scaler.t:updated_aln268" parameter="@R0.t:updated_aln268" scaleFactor="0.8" weight="3.0" spec="beast.base.spec.inference.operator.ScaleOperator"/>
+        <operator id="samplingScaler.t:updated_aln268" parameter="@samplingProportion.t:updated_aln268" scaleFactor="0.9" weight="3.0" spec="beast.base.spec.inference.operator.ScaleOperator"/>
+        <operator id="rateMatrixScaler.t:updated_aln268" parameter="@rateMatrix.t:updated_aln268" scaleFactor="0.8" weight="1.0" spec="beast.base.spec.inference.operator.ScaleOperator"/>
+        <operator id="geo-frequenciesExchange.t:updated_aln268" spec="beast.base.spec.inference.operator.DeltaExchangeOperator" delta="0.1" weight="0.1">
+            <parameter idref="geo-frequencies.t:updated_aln268"/>
+        </operator>
+        <operator id="updownBM.t:updated_aln268" spec="beast.base.spec.evolution.operator.UpDownOperator" scaleFactor="0.9" weight="3.0">
+            <up idref="R0.t:updated_aln268"/>
+            <down idref="rateMatrix.t:updated_aln268"/>
+        </operator>
+        <!--operator id="StrictClockRateScaler.c:updated_aln268" spec="ScaleOperator" parameter="@clockRate.c:updated_aln268" weight="3.0"/-->
+        <operator id="gammaShapeScaler.s:updated_aln268" parameter="@gammaShape.s:updated_aln268" scaleFactor="0.5" weight="0.1" spec="beast.base.spec.inference.operator.ScaleOperator"/>
+        <logger id="tracelog" spec="Logger" fileName="updated_aln268.log" logEvery="1000">
+            <log idref="posterior"/>
+            <log idref="likelihood"/>
+            <log idref="prior"/>
+            <log idref="treeLikelihood.updated_aln268"/>
+            <log id="treeHeight.t:updated_aln268" spec="beast.base.evolution.tree.TreeStatLogger" tree="@Tree.t:updated_aln268"/>
+            <log id="treeLength.t:updated_aln268" spec="multitypetree.util.TreeLengthLogger" tree="@Tree.t:updated_aln268"/>
+            <log id="changeCounts.t:updated_aln268" spec="multitypetree.util.TypeChangeCounts" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268"/>
+            <log id="nodeTypeCounts.t:updated_aln268" spec="multitypetree.util.NodeTypeCounts" migrationModel="@migModel.t:updated_aln268" multiTypeTree="@Tree.t:updated_aln268"/>
+            <log id="rootTypeLogger.t:updated_aln268" spec="multitypetree.util.TreeRootTypeLogger" multiTypeTree="@Tree.t:updated_aln268"/>
+            <log idref="R0.t:updated_aln268"/>
+            <log idref="samplingProportion.t:updated_aln268"/>
+            <log idref="rateMatrix.t:updated_aln268"/>
+            <log idref="geo-frequencies.t:updated_aln268"/>
+            <log idref="clockRate.c:updated_aln268"/>
+            <log idref="gammaShape.s:updated_aln268"/>
+            <log idref="kappa.s:updated_aln268"/>
+            <log idref="freqParameter.s:updated_aln268"/>
+            <log id="getTypeChanges" spec="treestat2.TreeStat2Logger" tree="@Tree.t:updated_aln268" GetTypeChanges="2"/>
+        </logger>
+        <logger id="screenlog" spec="Logger" logEvery="1000">
+            <log idref="posterior"/>
+            <log id="ESS.0" spec="beast.base.spec.inference.util.ESS" arg="@posterior"/>
+            <log idref="likelihood"/>
+            <log idref="prior"/>
+            <log idref="getTypeChanges" spec="treestat2.TreeStat2Logger" tree="@Tree.t:updated_aln268" GetTypeChanges="2"/>
+        </logger>
+        <logger id="treelog.t:updated_aln268" spec="Logger" fileName="updated_aln268.trees" logEvery="10000" mode="tree">
+            <log idref="Tree.t:updated_aln268"/>
+        </logger>
+        <logger id="maptreelog.t:updated_aln268" spec="Logger" fileName="updated_aln268.map.trees" logEvery="10000" mode="tree">
+            <log id="MAPTreeLogger.0" spec="multitypetree.util.MAPTreeLogger" multiTypeTree="@Tree.t:updated_aln268" posterior="@posterior"/>
+        </logger>
+        <logger id="typednodetreelog.t:updated_aln268" spec="Logger" fileName="updated_aln268.typedNode.trees" logEvery="10000" mode="tree">
+            <log id="TypedNodeTreeLogger.0" spec="multitypetree.util.TypedNodeTreeLogger" multiTypeTree="@Tree.t:updated_aln268"/>
+        </logger>
+    </run>
+</beast>

@@ -6,3 +6,4 @@ TreeStat2.iml
 
 # macOS Files
 **/.DS_Store
+/target/

@@ -49,7 +49,7 @@ public class CCD2ExpectedRFDistance extends AbstractTreeSummaryStatistic<Double>
 
         CCD2 ccd2 = ccdHandler.getCCD2();
 
-        double averageRF = ccd2.averageRFDistances(tree);
+        double averageRF = ccd2.expectedRFDistances(tree);
 
         return new Double[]{averageRF};
     }
